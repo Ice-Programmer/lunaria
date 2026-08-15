@@ -8,8 +8,13 @@ pub async fn init_db(app_data_dir: &Path) -> Result<Db, AppError> {
     tokio::fs::create_dir_all(app_data_dir).await?;
 
     let db_path = app_data_dir.join("lunaria.db");
-    let database_url = format!("sqlite://{}?mode=rwc", db_path.to_string_lossy());
-    let db = Database::connect(database_url).await?;
+
+    let database_url = format!(
+        "sqlite://{}?mode=rwc",
+        db_path.to_string_lossy()
+    );
+
+    let db = Database::connect(&database_url).await?;
 
     create_tables(&db).await?;
 
@@ -18,7 +23,10 @@ pub async fn init_db(app_data_dir: &Path) -> Result<Db, AppError> {
 
 async fn create_tables(db: &Db) -> Result<(), AppError> {
     let schema = Schema::new(db.get_database_backend());
-    let mut tables = [schema.create_table_from_entity(project::Entity)];
+
+    let mut tables = [
+        schema.create_table_from_entity(project::Entity),
+    ];
 
     for table in &mut tables {
         table.if_not_exists();
