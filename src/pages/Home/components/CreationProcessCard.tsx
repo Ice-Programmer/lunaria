@@ -14,9 +14,9 @@ export const CreateProcessCard: React.FC = () => {
       <Flex vertical gap={25}>
         <Space vertical align="start" size={1}>
           <Title level={4} style={{ margin: 0 }}>
-            推荐模版
+            创作流程
           </Title>
-          <Text type="secondary">四步完成你的第一步作品</Text>
+          <Text type="secondary">四步完成你的第一部作品</Text>
         </Space>
 
         <Steps current={-1} items={items} styles={stylesObject} />
