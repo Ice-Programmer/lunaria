@@ -1,19 +1,30 @@
 import React from 'react';
 
 import { Layout } from 'antd';
+import { Outlet } from 'react-router';
 
 const { Header, Footer, Sider, Content } = Layout;
 
 export const MainLayout: React.FC = () => {
   return (
-    <Layout style={layoutStyle}>
+    <Layout
+      style={{
+        width: '100vw',
+        height: '100vh',
+      }}
+    >
       <Header style={headerStyle}>Header</Header>
-      <Layout>
-        <Sider width="20%" style={siderStyle}>
+
+      <Layout style={{ flex: 1 }}>
+        <Sider width={200} style={siderStyle}>
           Sider
         </Sider>
-        <Content style={contentStyle}>Content</Content>
+
+        <Content style={contentStyle}>
+          <Outlet />
+        </Content>
       </Layout>
+
       <Footer style={footerStyle}>Footer</Footer>
     </Layout>
   );
@@ -30,15 +41,13 @@ const headerStyle: React.CSSProperties = {
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
-  minHeight: 120,
-  lineHeight: '120px',
   color: '#fff',
   backgroundColor: '#0958d9',
+  overflow: 'auto',
 };
 
 const siderStyle: React.CSSProperties = {
   textAlign: 'center',
-  lineHeight: '120px',
   color: '#fff',
   backgroundColor: '#1677ff',
 };
@@ -46,12 +55,8 @@ const siderStyle: React.CSSProperties = {
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
   color: '#fff',
+  height: 64,
+  padding: 0,
+  lineHeight: '64px',
   backgroundColor: '#4096ff',
-};
-
-const layoutStyle = {
-  borderRadius: 8,
-  overflow: 'hidden',
-  width: 'calc(50% - 8px)',
-  maxWidth: 'calc(50% - 8px)',
 };
