@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Outlet } from 'react-router';
 import { AppSidebar } from '../components/AppSidebar';
+import { CustomFooter } from '../components/Footer';
 
 const { Footer, Content } = Layout;
 
@@ -26,14 +27,9 @@ export const MainLayout: React.FC = () => {
         </Content>
       </Layout>
 
-      <Footer style={footerStyle}>Footer</Footer>
+      <Footer style={{ height: 24, backgroundColor: '#ffffff', padding: 0 }}>
+        <CustomFooter />
+      </Footer>
     </Layout>
   );
-};
-
-const footerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  height: 64,
-  padding: 0,
-  lineHeight: '64px',
 };
