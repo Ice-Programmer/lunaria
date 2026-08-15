@@ -1,0 +1,79 @@
+.sidebar {
+  position: relative;
+  border-right: 1px solid var(--app-sidebar-border-color);
+}
+
+.menu {
+  padding-top: var(--app-sidebar-menu-padding-top);
+  background: transparent !important;
+  border-inline-end: none !important;
+}
+
+.activeIndicator {
+  position: absolute;
+  z-index: 1;
+  top: var(--app-sidebar-indicator-top);
+  left: 0;
+  width: var(--app-sidebar-indicator-width);
+  height: var(--app-sidebar-indicator-height);
+  pointer-events: none;
+  content: '';
+  background: var(--app-sidebar-indicator-color);
+  border-radius: 0 var(--app-sidebar-indicator-radius) var(--app-sidebar-indicator-radius) 0;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--app-sidebar-indicator-color) 24%, transparent);
+  transform: translateY(var(--app-sidebar-active-item-offset));
+  transition:
+    transform var(--app-sidebar-motion-duration) var(--app-sidebar-motion-easing),
+    opacity var(--app-sidebar-motion-duration) ease;
+}
+
+.menu :global(.ant-menu-inline-collapsed > .ant-menu-item) {
+  padding-inline: 0 !important;
+  transition:
+    color var(--app-sidebar-motion-duration) ease,
+    background-color var(--app-sidebar-motion-duration) ease,
+    border-color var(--app-sidebar-motion-duration) ease,
+    box-shadow var(--app-sidebar-motion-duration) ease,
+    transform 120ms ease;
+}
+
+.menu :global(.ant-menu-item:active) {
+  transform: scale(var(--app-sidebar-pressed-scale));
+}
+
+.menu :global(.ant-menu-item-selected) {
+  border: 1px solid var(--app-sidebar-item-active-border);
+  box-shadow: var(--app-sidebar-item-active-shadow);
+}
+
+.menu :global(.ant-menu-item-selected .anticon) {
+  animation: sidebar-icon-selected var(--app-sidebar-motion-duration)
+    var(--app-sidebar-motion-easing);
+}
+
+.menu :global(.ant-menu-item-selected)::after {
+  display: none;
+}
+
+@keyframes sidebar-icon-selected {
+  0% {
+    transform: scale(0.86);
+  }
+
+  65% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .activeIndicator,
+  .menu :global(.ant-menu-item),
+  .menu :global(.ant-menu-item-selected .anticon) {
+    transition: none;
+    animation: none;
+  }
+}

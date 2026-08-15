@@ -1,9 +1,9 @@
 import React from 'react';
-
 import { Layout } from 'antd';
 import { Outlet } from 'react-router';
+import { AppSidebar } from '../components/AppSidebar';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer, Content } = Layout;
 
 export const MainLayout: React.FC = () => {
   return (
@@ -13,14 +13,15 @@ export const MainLayout: React.FC = () => {
         height: '100vh',
       }}
     >
-      <Header style={headerStyle}>Header</Header>
-
       <Layout style={{ flex: 1 }}>
-        <Sider width={200} style={siderStyle}>
-          Sider
-        </Sider>
+        <AppSidebar />
 
-        <Content style={contentStyle}>
+        <Content
+          style={{
+            textAlign: 'center',
+            overflow: 'auto',
+          }}
+        >
           <Outlet />
         </Content>
       </Layout>
@@ -30,33 +31,9 @@ export const MainLayout: React.FC = () => {
   );
 };
 
-const headerStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  height: 64,
-  paddingInline: 48,
-  lineHeight: '64px',
-  backgroundColor: '#4096ff',
-};
-
-const contentStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  backgroundColor: '#0958d9',
-  overflow: 'auto',
-};
-
-const siderStyle: React.CSSProperties = {
-  textAlign: 'center',
-  color: '#fff',
-  backgroundColor: '#1677ff',
-};
-
 const footerStyle: React.CSSProperties = {
   textAlign: 'center',
-  color: '#fff',
   height: 64,
   padding: 0,
   lineHeight: '64px',
-  backgroundColor: '#4096ff',
 };

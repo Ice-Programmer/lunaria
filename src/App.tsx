@@ -1,9 +1,17 @@
 import React from 'react';
-import './App.css';
+import { ConfigProvider } from 'antd';
 import { RouterProvider } from 'react-router';
-import { routers } from './router';
+
 import './App.css';
+import { routers } from './router';
+import { appThemeCssVariables, theme } from './theme/theme.ts';
 
 export const App: React.FC = () => {
-  return <RouterProvider router={routers}></RouterProvider>;
+  return (
+    <ConfigProvider theme={theme}>
+      <div className="appTheme" style={appThemeCssVariables}>
+        <RouterProvider router={routers} />
+      </div>
+    </ConfigProvider>
+  );
 };
