@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Flex, Space } from 'antd';
 import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons';
-import { useProjectStore } from '../../../store/ProjectStore.ts';
+import { useProjectStore } from '@/store/ProjectStore.ts';
 
 export const ProjectHeader: React.FC = () => {
   const projectName = useProjectStore((state) => state.projectName);

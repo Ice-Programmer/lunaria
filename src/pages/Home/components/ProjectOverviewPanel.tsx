@@ -2,7 +2,7 @@ import React from 'react';
 import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Flex, Space, Typography } from 'antd';
 
-import emptyProjectStoryBranches from '@/assets/empty-project-story-branches.png';
+import emptyProjectStoryBranches from '@/assets/home/empty-project-story-branches.png';
 import { useProjectStore } from '@/store/ProjectStore.ts';
 
 const { Title, Text } = Typography;
