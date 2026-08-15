@@ -4,6 +4,7 @@ mod entity;
 mod error;
 mod service;
 mod util;
+mod state;
 
 use command::greet::greeting;
 use command::project::create_project;
