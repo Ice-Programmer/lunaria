@@ -1,5 +1,10 @@
 import React from 'react';
+import { ProjectHeader } from './components/ProjectHeader.tsx';
 
 export const HomePage: React.FC = () => {
-  return <>Home Page</>;
+  return (
+    <>
+      <ProjectHeader recentProjectName={'Home'} />
+    </>
+  );
 };
