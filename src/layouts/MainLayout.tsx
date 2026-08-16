@@ -12,6 +12,8 @@ export const MainLayout: React.FC = () => {
       style={{
         width: '100vw',
         height: '100vh',
+        minWidth: 1100,
+        minHeight: 720,
       }}
     >
       <Layout style={{ flex: 1 }}>

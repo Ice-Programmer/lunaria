@@ -10,10 +10,10 @@ export const CreateProcessCard: React.FC = () => {
   }));
 
   return (
-    <Card style={cardStyle}>
-      <Flex vertical gap={25}>
+    <Card styles={{ body: { padding: '14px 20px' } }}>
+      <Flex vertical gap={12}>
         <Space vertical align="start" size={1}>
-          <Title level={4} style={{ margin: 0 }}>
+          <Title level={4}>
             创作流程
           </Title>
           <Text type="secondary">四步完成你的第一部作品</Text>
@@ -49,12 +49,6 @@ const ProgressContent: React.FC<ProgressItem> = ({ title, subtitle }) => {
       </Text>
     </Flex>
   );
-};
-
-const cardStyle: React.CSSProperties = {
-  margin: '0 15px',
-  overflow: 'hidden',
-  borderColor: '#ded7f8',
 };
 
 const stylesObject: StepsProps['styles'] = {

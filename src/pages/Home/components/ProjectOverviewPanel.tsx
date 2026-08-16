@@ -12,7 +12,11 @@ export const ProjectOverviewPanel: React.FC = () => {
 
   return (
     <Card styles={{ body: { padding: 0 } }} style={cardStyle}>
-      <Flex align="center" justify="space-between" style={{ minHeight: 260, padding: '0 28px' }}>
+      <Flex
+        align="center"
+        justify="space-between"
+        style={{ minHeight: 'clamp(180px, 22vh, 320px)', padding: '0 28px' }}
+      >
         {projectName == null && <EmptyProjectCardContent />}
       </Flex>
     </Card>
@@ -22,9 +26,9 @@ export const ProjectOverviewPanel: React.FC = () => {
 const EmptyProjectCardContent: React.FC = () => {
   return (
     <>
-      <Space vertical size={30} align="start">
+      <Space vertical size={22} align="start">
         <Space vertical size={4} align="start">
-          <Title level={3} style={{ margin: 0 }}>
+          <Title level={3}>
             开始创作你的第一个故事
           </Title>
 
@@ -46,15 +50,13 @@ const EmptyProjectCardContent: React.FC = () => {
 };
 
 const cardStyle: React.CSSProperties = {
-  margin: '0 15px',
-  overflow: 'hidden',
   background: 'linear-gradient(110deg, #ffffff 0%, #fbf9ff 48%, #f3efff 100%)',
-  borderColor: '#ded7f8',
 };
 
 const backgroundStyle: React.CSSProperties = {
   width: '43%',
   maxWidth: 520,
+  maxHeight: 'clamp(150px, 18vh, 240px)',
   objectFit: 'contain',
   opacity: 0.4,
 };

@@ -4,8 +4,8 @@ import type { ThemeConfig } from 'antd';
 export const appTheme = {
   colors: {
     primary: '#8067dc',
+    border: '#ded7f8',
     sidebarBackground: '#f8f7ff',
-    sidebarBorder: '#ebe8f3',
     sidebarItem: '#7c7588',
     sidebarItemActive: '#6951d8',
     sidebarItemHoverBackground: '#f1edff',
@@ -36,7 +36,7 @@ const toPx = (value: number) => `${value}px`;
 type AppThemeCssVariables = CSSProperties & Record<`--app-${string}`, string | number>;
 
 export const appThemeCssVariables: AppThemeCssVariables = {
-  '--app-sidebar-border-color': appTheme.colors.sidebarBorder,
+  '--app-sidebar-border-color': appTheme.colors.border,
   '--app-sidebar-menu-padding-top': toPx(appTheme.sidebar.menuPaddingTop),
   '--app-sidebar-item-active-border': appTheme.colors.sidebarItemActiveBorder,
   '--app-sidebar-item-active-shadow': appTheme.sidebar.selectedShadow,
@@ -61,7 +61,8 @@ export const theme: ThemeConfig = {
   token: {
     colorPrimary: appTheme.colors.primary,
     colorBgLayout: appTheme.colors.sidebarBackground,
-    colorBorderSecondary: appTheme.colors.sidebarBorder,
+    colorBorder: appTheme.colors.border,
+    colorBorderSecondary: appTheme.colors.border,
     colorTextSecondary: appTheme.colors.sidebarItem,
     colorPrimaryBg: appTheme.colors.sidebarItemActiveBackground,
     colorPrimaryBgHover: appTheme.colors.sidebarItemHoverBackground,
@@ -70,6 +71,10 @@ export const theme: ThemeConfig = {
   components: {
     Layout: {
       lightSiderBg: appTheme.colors.sidebarBackground,
+    },
+    Typography: {
+      titleMarginTop: 0,
+      titleMarginBottom: 0,
     },
     Menu: {
       itemBg: 'transparent',
