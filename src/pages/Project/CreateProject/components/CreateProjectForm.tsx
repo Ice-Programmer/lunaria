@@ -9,6 +9,29 @@ import { FileOutlined, ReadOutlined, BranchesOutlined } from '@ant-design/icons'
 const { Title, Text } = Typography;
 type ProjectType = 'empty' | 'vision' | 'branch';
 
+const options: SelectedCardOption<ProjectType>[] = [
+  {
+    value: 'empty',
+    title: '空白项目',
+    description: '只创建项目文件和空白 Story，适合从零开始',
+    icon: <FileOutlined />,
+  },
+  {
+    value: 'vision',
+    title: '基础视觉小说',
+    description: '预置章节、Dialogue 与基础玩家洁面',
+    icon: <ReadOutlined />,
+    disabled: true,
+  },
+  {
+    value: 'branch',
+    title: '多结局分支故事',
+    description: '预置变量、Condition、Choice 与两个 Ending',
+    icon: <BranchesOutlined />,
+    disabled: true,
+  },
+];
+
 export const CreateProjectForm: React.FC = () => {
   return (
     <Card>
@@ -35,28 +58,6 @@ const ProjectCreationForm = () => {
   const storedProjectName = useCreateProjectStore((state) => state.projectName);
   const setProjectName = useCreateProjectStore((state) => state.setProjectName);
 
-  const options: SelectedCardOption<ProjectType>[] = [
-    {
-      value: 'empty',
-      title: '空白项目',
-      description: '只创建项目文件和空白 Story，适合从零开始',
-      icon: <FileOutlined />,
-    },
-    {
-      value: 'vision',
-      title: '基础视觉小说',
-      description: '预置章节、Dialogue 与基础玩家洁面',
-      icon: <ReadOutlined />,
-      disabled: true,
-    },
-    {
-      value: 'branch',
-      title: '多结局分支故事',
-      description: '预置变量、Condition、Choice 与两个 Ending',
-      icon: <BranchesOutlined />,
-      disabled: true,
-    },
-  ];
   return (
     <Form<CreateProjectRequest> form={form} layout="vertical" style={{ textAlign: 'left' }}>
       <Form.Item<CreateProjectRequest>
