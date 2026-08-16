@@ -1,8 +1,8 @@
 import React from 'react';
 import { Layout } from 'antd';
 import { Outlet } from 'react-router';
-import { AppSidebar } from '../components/AppSidebar';
-import { CustomFooter } from '../components/Footer';
+import { AppSidebar } from '@/components/AppSidebar';
+import { CustomFooter } from '@/components/Footer';
 
 const { Footer, Content } = Layout;
 
@@ -30,7 +30,7 @@ export const MainLayout: React.FC = () => {
       </Layout>
 
       <Footer style={{ height: 24, backgroundColor: '#ffffff', padding: 0 }}>
-        <CustomFooter />
+        <CustomFooter content={undefined} />
       </Footer>
     </Layout>
   );

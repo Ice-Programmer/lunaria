@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Divider, Flex, Form, Input, Typography } from 'antd';
 import { ProjectPathFormItem } from '@/pages/Project/CreateProject/components/ProjectPathFormItem.tsx';
 import { CreateProjectRequest } from '@/types/project.ts';
+import { useCreateProjectStore } from '@/pages/Project/CreateProject/store/createProjectStore.ts';
 
 const { Title, Text } = Typography;
 
@@ -28,11 +29,21 @@ const TitleHeader = () => (
 const ProjectCreationForm = () => {
   const [form] = Form.useForm<CreateProjectRequest>();
   const projectName = Form.useWatch('projectName', form);
+  const storedProjectName = useCreateProjectStore((state) => state.projectName);
+  const setProjectName = useCreateProjectStore((state) => state.setProjectName);
 
   return (
     <Form<CreateProjectRequest> form={form} layout="vertical">
-      <Form.Item<CreateProjectRequest> label="项目名称" name="projectName" initialValue="">
-        <Input placeholder="请输入项目名称，例如：月下回声" />
+      <Form.Item<CreateProjectRequest>
+        label="项目名称"
+        name="projectName"
+        initialValue={storedProjectName}
+        rules={[{ required: true, whitespace: true, message: '请输入项目名称' }]}
+      >
+        <Input
+          placeholder="请输入项目名称，例如：月下回声"
+          onChange={(event) => setProjectName(event.target.value)}
+        />
       </Form.Item>
 
       <ProjectPathFormItem projectName={projectName} />

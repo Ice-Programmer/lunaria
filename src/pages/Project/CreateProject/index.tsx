@@ -5,11 +5,12 @@ import { LeftOutlined } from '@ant-design/icons';
 import { useAppNavigate } from '@/hooks/useAppNavigate.ts';
 import { CreateProjectForm } from '@/pages/Project/CreateProject/components/CreateProjectForm.tsx';
 import { ProjectOverviewCard } from '@/pages/Project/CreateProject/components/ProjectOverviewCard.tsx';
+import { SubmitProjectFooter } from '@/pages/Project/CreateProject/components/SubmitProjectFooter.tsx';
 
 export const CreateProjectPage: React.FC = () => {
   const { goBack } = useAppNavigate();
   return (
-    <Flex vertical gap="middle">
+    <Flex vertical gap="middle" style={{ height: '100%' }}>
       <PageHeader
         title="新建项目向导"
         subTitle="模版、信息、主题和确认"
@@ -24,6 +25,8 @@ export const CreateProjectPage: React.FC = () => {
           <ProjectOverviewCard />
         </Col>
       </Row>
+
+      <SubmitProjectFooter />
     </Flex>
   );
 };
