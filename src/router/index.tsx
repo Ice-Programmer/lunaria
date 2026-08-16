@@ -1,8 +1,9 @@
 import { createHashRouter } from 'react-router';
 import { MainLayout } from '../layouts/MainLayout.tsx';
-import { HomePage } from '../pages/Home';
-import { CharacterPage } from '../pages/Character';
-import { ResourcePage } from '../pages/Resource';
+import { HomePage } from '@/pages/Home';
+import { CharacterPage } from '@/pages/Character';
+import { ResourcePage } from '@/pages/Resource';
+import { ProjectRouters } from '@/router/project.tsx';
 
 export const routers = createHashRouter([
   {
@@ -21,6 +22,7 @@ export const routers = createHashRouter([
         path: 'resource',
         element: <ResourcePage />,
       },
+      ...ProjectRouters,
     ],
   },
 ]);
