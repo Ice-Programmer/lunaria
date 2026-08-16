@@ -24,3 +24,4 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 sea-orm = { version = "2.0.2", features = ["sqlx-sqlite", "runtime-tokio-rustls", "macros"] }
 tokio = { version = "1", features = ["fs", "macros", "rt"] }
+tauri-plugin-dialog = "2.7.2"
