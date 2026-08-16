@@ -4,6 +4,7 @@ import { Button, Card, Flex, Space, Typography } from 'antd';
 
 import emptyProjectStoryBranches from '@/assets/home/empty-project-story-branches.png';
 import { useProjectStore } from '@/store/ProjectStore.ts';
+import { useAppNavigate } from '@/hooks/useAppNavigate.ts';
 
 const { Title, Text } = Typography;
 
@@ -24,19 +25,19 @@ export const ProjectOverviewPanel: React.FC = () => {
 };
 
 const EmptyProjectCardContent: React.FC = () => {
+  const { goCreateProject } = useAppNavigate();
+
   return (
     <>
       <Space vertical size={22} align="start">
         <Space vertical size={4} align="start">
-          <Title level={3}>
-            开始创作你的第一个故事
-          </Title>
+          <Title level={3}>开始创作你的第一个故事</Title>
 
           <Text type="secondary">创建一个项目，搭建世界、角色与剧情分支</Text>
         </Space>
 
         <Space size={12} wrap>
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button type="primary" icon={<PlusOutlined />} onClick={goCreateProject}>
             新建项目
           </Button>
 

@@ -7,6 +7,7 @@ import { StoryTemplateSection } from '@/pages/Home/components/StoryTemplateSecti
 import { ProjectSupportCard } from '@/pages/Home/components/ProjectSupportCard.tsx';
 
 export const HomePage: React.FC = () => {
+
   return (
     <>
       <Flex vertical gap="middle">

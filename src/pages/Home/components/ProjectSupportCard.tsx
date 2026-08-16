@@ -1,14 +1,14 @@
 import React, { ReactNode } from 'react';
 import { Button, Card, Divider, Flex, Typography } from 'antd';
 import {
-  GithubOutlined,
   ExportOutlined,
+  GithubOutlined,
   MessageOutlined,
   ReadOutlined,
   RightOutlined,
   StarOutlined,
 } from '@ant-design/icons';
-import { openUrl } from '@tauri-apps/plugin-opener';
+import { useOpenExternal } from '@/hooks/useOpenExternal.ts';
 
 const { Title, Text } = Typography;
 
@@ -31,6 +31,8 @@ const ProjectSupportTitle: React.FC = () => (
 );
 
 const ProjectSupportContent: React.FC = () => {
+  const { goToGithub } = useOpenExternal();
+
   return (
     <Flex vertical style={{ width: '100%' }}>
       <SupportItemContent
@@ -41,9 +43,7 @@ const ProjectSupportContent: React.FC = () => {
           <Button
             type="text"
             icon={<ExportOutlined style={{ color: '#8067dc' }} />}
-            onClick={async () => {
-              await openUrl('https://github.com/Ice-Programmer/lunaria');
-            }}
+            onClick={goToGithub}
           />
         }
       />

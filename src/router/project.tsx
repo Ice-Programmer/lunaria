@@ -3,7 +3,7 @@ import { CreateProjectPage } from '@/pages/Project/CreateProject';
 
 export const ProjectRouters: RouteObject[] = [
   {
-    path: '/create-project',
+    path: '/project/create',
     element: <CreateProjectPage />,
   },
 ];
