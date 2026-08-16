@@ -17,12 +17,16 @@ export const ProjectHeader: React.FC = () => {
         </div>
       </Space>
 
-      <Space>
-        <Button icon={<AppstoreOutlined />}>浏览模版</Button>
-        <Button type="primary" icon={<PlusOutlined />}>
-          新建项目
-        </Button>
-      </Space>
+      {projectName == null ? undefined : (
+        <>
+          <Space>
+            <Button icon={<AppstoreOutlined />}>浏览模版</Button>
+            <Button type="primary" icon={<PlusOutlined />}>
+              新建项目
+            </Button>
+          </Space>
+        </>
+      )}
     </Flex>
   );
 };

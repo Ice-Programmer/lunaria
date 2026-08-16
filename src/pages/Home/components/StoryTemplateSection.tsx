@@ -8,7 +8,6 @@ import storyTemplateRainyMystery from '@/assets/home/template/story-template-rai
 
 const { Title, Text } = Typography;
 
-
 const storyTemplates: StoryTemplate[] = [
   {
     title: '校园心动',
@@ -32,8 +31,11 @@ const storyTemplates: StoryTemplate[] = [
 
 export const StoryTemplateSection: React.FC = () => {
   return (
-    <Card style={{ width: '100%', height: '100%' }} styles={{ body: { padding: 16 } }}>
-      <Flex vertical gap={10}>
+    <Card
+      style={{ width: '100%', height: '100%' }}
+      styles={{ body: { padding: 16, height: '100%' } }}
+    >
+      <Flex vertical justify="space-between" style={{ height: '100%' }}>
         <Flex align="start" justify="space-between" gap={16}>
           <Flex gap={2} vertical align="start">
             <Title level={5}>灵感模板</Title>
@@ -61,7 +63,6 @@ export const StoryTemplateSection: React.FC = () => {
   );
 };
 
-
 interface StoryTemplate {
   title: string;
   category: string;
@@ -86,44 +87,35 @@ const StoryTemplateCard: React.FC<StoryTemplateCardProps> = ({ template }) => {
             src={template.image}
             style={{
               display: 'block',
-              height: 'clamp(110px, 13vh, 180px)',
+              height: 'clamp(130px, 13vh, 180px)',
               width: '100%',
               objectFit: 'cover',
             }}
           />
-          <Tag
-            color="purple"
-            style={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-              border: 4,
-              marginInlineEnd: 0,
-            }}
-          >
-            {template.category}
-          </Tag>
         </div>
       }
     >
-      <Flex align="center" justify="space-between" gap={8} style={{ width: '100%' }}>
+      <Flex align="start" vertical gap={5} style={{ width: '100%' }}>
         <Text strong ellipsis style={{ minWidth: 0 }}>
           {template.title}
         </Text>
 
-        <Button
-          type="text"
-          size="small"
-          style={{
-            flexShrink: 0,
-            height: 'auto',
-            padding: 0,
-            color: '#8067dc',
-            fontSize: 12,
-          }}
-        >
-          使用模板
-        </Button>
+        <Flex align="center" justify="space-between" gap={8} style={{ width: '100%' }}>
+          <Tag color="purple">{template.category}</Tag>
+
+          <Button
+            type="text"
+            size="small"
+            style={{
+              height: 'auto',
+              padding: 0,
+              color: '#8067dc',
+              fontSize: 12,
+            }}
+          >
+            使用模板
+          </Button>
+        </Flex>
       </Flex>
     </Card>
   );
