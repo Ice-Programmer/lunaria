@@ -33,7 +33,7 @@ const ProjectCreationForm = () => {
   const setProjectName = useCreateProjectStore((state) => state.setProjectName);
 
   return (
-    <Form<CreateProjectRequest> form={form} layout="vertical">
+    <Form<CreateProjectRequest> form={form} layout="vertical" style={{ textAlign: 'left' }}>
       <Form.Item<CreateProjectRequest>
         label="项目名称"
         name="projectName"

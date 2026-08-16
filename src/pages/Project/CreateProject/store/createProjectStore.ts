@@ -18,7 +18,7 @@ export const useCreateProjectStore = create<CreateProjectState>((set) => ({
 
   reset: () =>
     set({
-      projectName: '',
+      projectName: 'untitled',
       filePath: '',
     }),
 }));
