@@ -67,6 +67,7 @@ const ProjectCreationForm = () => {
         rules={[{ required: true, whitespace: true, message: '请输入项目名称' }]}
       >
         <Input
+          maxLength={50}
           placeholder="请输入项目名称，例如：月下回声"
           onChange={(event) => setProjectName(event.target.value)}
         />
