@@ -3,7 +3,7 @@ import { Button, Col, Flex, Row } from 'antd';
 import { PageHeader } from '@/components/PageHeader.tsx';
 import { LeftOutlined } from '@ant-design/icons';
 import { useAppNavigate } from '@/hooks/useAppNavigate.ts';
-import { CreateProjectContent } from '@/pages/Project/CreateProject/components/CreateProjectContent.tsx';
+import { CreateProjectForm } from '@/pages/Project/CreateProject/components/CreateProjectForm.tsx';
 import { ProjectOverviewCard } from '@/pages/Project/CreateProject/components/ProjectOverviewCard.tsx';
 
 export const CreateProjectPage: React.FC = () => {
@@ -18,7 +18,7 @@ export const CreateProjectPage: React.FC = () => {
 
       <Row style={{ margin: '0 15px' }} gutter={[24, 8]}>
         <Col span={16}>
-          <CreateProjectContent />
+          <CreateProjectForm />
         </Col>
         <Col span={8}>
           <ProjectOverviewCard />
