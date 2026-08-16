@@ -34,7 +34,7 @@ export const ProjectPathFormItem: React.FC<ProjectPathFormItemProps> = ({ projec
         </Form.Item>
 
         <Button icon={<FolderOutlined />} onClick={selectDirectory}>
-          选择...
+          选择文件夹
         </Button>
       </Flex>
     </Form.Item>
