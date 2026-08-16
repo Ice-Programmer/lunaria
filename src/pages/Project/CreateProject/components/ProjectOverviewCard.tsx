@@ -79,7 +79,6 @@ const ProjectStructure: React.FC = () => {
   return (
     <div
       style={{
-        width: '100%',
         padding: '8px 20px 5px 20px',
         border: '1px solid #ddd9e8',
         borderRadius: 16,

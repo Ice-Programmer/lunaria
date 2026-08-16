@@ -15,8 +15,8 @@
         "title": "lunaria",
         "width": 1200,
         "height": 840,
-        "minWidth": 1100,
-        "minHeight": 720
+        "minWidth": 1200,
+        "minHeight": 840
       }
     ],
     "security": {

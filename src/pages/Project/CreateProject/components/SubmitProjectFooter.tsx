@@ -15,7 +15,7 @@ export const SubmitProjectFooter: React.FC = () => {
   return (
     <CustomFooter
       content={
-        <Flex align="center" justify="space-between" style={{ margin: 15 }}>
+        <Flex align="center" justify="space-between" style={{ margin: '10px 20px' }}>
           <Space style={{ minWidth: 0 }}>
             <FolderOutlined style={{ color: `${appTheme.colors.primary}`, fontSize: 20 }} />
             <Text type="secondary" ellipsis={{ tooltip: fullProjectPath }}>
