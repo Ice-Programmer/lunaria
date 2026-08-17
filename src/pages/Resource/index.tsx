@@ -1,5 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const ResourcePage: React.FC = () => {
-  return <>Recourse Page</>
-}
+  const { t } = useTranslation();
+
+  return <>{t('pages.resource')}</>;
+};

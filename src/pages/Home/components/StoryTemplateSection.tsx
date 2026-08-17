@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { Button, Card, Flex, Tag, Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 import storyTemplateCampusRomance from '@/assets/home/template/story-template-campus-romance.png';
 import storyTemplateFantasyJourney from '@/assets/home/template/story-template-fantasy-journey.png';
@@ -8,28 +9,32 @@ import storyTemplateRainyMystery from '@/assets/home/template/story-template-rai
 
 const { Title, Text } = Typography;
 
-const storyTemplates: StoryTemplate[] = [
-  {
-    title: '校园心动',
-    category: '恋爱',
-    image: storyTemplateCampusRomance,
-    imageAlt: '樱花盛开的校园',
-  },
-  {
-    title: '雨夜谜案',
-    category: '悬疑',
-    image: storyTemplateRainyMystery,
-    imageAlt: '雨夜中的街道',
-  },
-  {
-    title: '异世界旅途',
-    category: '奇幻',
-    image: storyTemplateFantasyJourney,
-    imageAlt: '通往幻想城堡的原野',
-  },
-];
-
 export const StoryTemplateSection: React.FC = () => {
+  const { t } = useTranslation();
+  const storyTemplates: StoryTemplate[] = [
+    {
+      id: 'campus',
+      title: t('home.templates.campus.title'),
+      category: t('home.templates.campus.category'),
+      image: storyTemplateCampusRomance,
+      imageAlt: t('home.templates.campus.imageAlt'),
+    },
+    {
+      id: 'mystery',
+      title: t('home.templates.mystery.title'),
+      category: t('home.templates.mystery.category'),
+      image: storyTemplateRainyMystery,
+      imageAlt: t('home.templates.mystery.imageAlt'),
+    },
+    {
+      id: 'fantasy',
+      title: t('home.templates.fantasy.title'),
+      category: t('home.templates.fantasy.category'),
+      image: storyTemplateFantasyJourney,
+      imageAlt: t('home.templates.fantasy.imageAlt'),
+    },
+  ];
+
   return (
     <Card
       style={{ width: '100%', height: '100%' }}
@@ -38,8 +43,8 @@ export const StoryTemplateSection: React.FC = () => {
       <Flex vertical justify="space-between" style={{ height: '100%' }}>
         <Flex align="start" justify="space-between" gap={16}>
           <Flex gap={2} vertical align="start">
-            <Title level={5}>灵感模板</Title>
-            <Text type="secondary">从一个主题开始你的故事</Text>
+            <Title level={5}>{t('home.templates.title')}</Title>
+            <Text type="secondary">{t('home.templates.subtitle')}</Text>
           </Flex>
 
           <Button
@@ -49,13 +54,13 @@ export const StoryTemplateSection: React.FC = () => {
             icon={<ArrowRightOutlined />}
             iconPlacement="end"
           >
-            查看全部
+            {t('home.templates.viewAll')}
           </Button>
         </Flex>
 
         <Flex gap={12} style={{ width: '100%' }}>
           {storyTemplates.map((template) => (
-            <StoryTemplateCard key={template.title} template={template} />
+            <StoryTemplateCard key={template.id} template={template} />
           ))}
         </Flex>
       </Flex>
@@ -64,6 +69,7 @@ export const StoryTemplateSection: React.FC = () => {
 };
 
 interface StoryTemplate {
+  id: string;
   title: string;
   category: string;
   image: string;
@@ -75,6 +81,8 @@ interface StoryTemplateCardProps {
 }
 
 const StoryTemplateCard: React.FC<StoryTemplateCardProps> = ({ template }) => {
+  const { t } = useTranslation();
+
   return (
     <Card
       hoverable
@@ -113,7 +121,7 @@ const StoryTemplateCard: React.FC<StoryTemplateCardProps> = ({ template }) => {
               fontSize: 12,
             }}
           >
-            使用模板
+            {t('home.templates.use')}
           </Button>
         </Flex>
       </Flex>

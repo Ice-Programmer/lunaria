@@ -1,5 +1,8 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 export const CharacterPage: React.FC = () => {
-  return <>Character Page</>;
+  const { t } = useTranslation();
+
+  return <>{t('pages.character')}</>;
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Flex, Space, Typography } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 import emptyProjectStoryBranches from '@/assets/home/empty-project-story-branches.png';
 import { useProjectStore } from '@/store/ProjectStore.ts';
@@ -26,22 +27,23 @@ export const ProjectOverviewPanel: React.FC = () => {
 
 const EmptyProjectCardContent: React.FC = () => {
   const { goCreateProject } = useAppNavigate();
+  const { t } = useTranslation();
 
   return (
     <>
       <Space vertical size={22} align="start">
         <Space vertical size={4} align="start">
-          <Title level={3}>开始创作你的第一个故事</Title>
+          <Title level={3}>{t('home.overview.title')}</Title>
 
-          <Text type="secondary">创建一个项目，搭建世界、角色与剧情分支</Text>
+          <Text type="secondary">{t('home.overview.subtitle')}</Text>
         </Space>
 
         <Space size={12} wrap>
           <Button type="primary" icon={<PlusOutlined />} onClick={goCreateProject}>
-            新建项目
+            {t('home.overview.create')}
           </Button>
 
-          <Button icon={<AppstoreOutlined />}>浏览模板</Button>
+          <Button icon={<AppstoreOutlined />}>{t('home.overview.browseTemplates')}</Button>
         </Space>
       </Space>
 

@@ -4,6 +4,7 @@ import { documentDir, join } from '@tauri-apps/api/path';
 import { open } from '@tauri-apps/plugin-dialog';
 import { useCreateProjectStore } from '@/pages/Project/CreateProject/store/createProjectStore.ts';
 import type { CreateProjectRequest } from '@/types/project.ts';
+import { useTranslation } from 'react-i18next';
 
 const defaultProjectFolderName = 'Lunaria Projects';
 
@@ -14,6 +15,7 @@ const getDefaultProjectPath = async () => {
 
 export const useProjectPath = () => {
   const form = Form.useFormInstance<CreateProjectRequest>();
+  const { t } = useTranslation();
   const setFilePath = useCreateProjectStore((state) => state.setFilePath);
 
   const setProjectPath = useCallback(
@@ -51,13 +53,13 @@ export const useProjectPath = () => {
     const selectedPath = await open({
       directory: true,
       multiple: false,
-      title: '选择项目保存位置',
+      title: t('createProject.form.selectFolderDialog'),
     });
 
     if (selectedPath) {
       setProjectPath(selectedPath);
     }
-  }, [setProjectPath]);
+  }, [setProjectPath, t]);
 
   return {
     restoreDefaultPath,

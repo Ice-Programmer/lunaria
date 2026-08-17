@@ -9,6 +9,19 @@
   border-inline-end: none !important;
 }
 
+.languageSwitcher {
+  position: absolute;
+  bottom: 12px;
+  left: 6px;
+  width: 48px;
+}
+
+.languageSwitcher :global(.ant-btn) {
+  width: 48px;
+  padding-inline: 0;
+  color: var(--app-sidebar-item-color, #7c7588);
+}
+
 .activeIndicator {
   position: absolute;
   z-index: 1;

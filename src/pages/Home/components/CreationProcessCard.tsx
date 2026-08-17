@@ -1,10 +1,18 @@
 import React from 'react';
 import { Card, Flex, Space, Steps, Typography } from 'antd';
 import type { StepsProps } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 const { Text, Title } = Typography;
 
 export const CreateProcessCard: React.FC = () => {
+  const { t } = useTranslation();
+  const progressItems: ProgressItem[] = [
+    { title: t('home.process.world.title'), subtitle: t('home.process.world.subtitle') },
+    { title: t('home.process.characters.title'), subtitle: t('home.process.characters.subtitle') },
+    { title: t('home.process.story.title'), subtitle: t('home.process.story.subtitle') },
+    { title: t('home.process.publish.title'), subtitle: t('home.process.publish.subtitle') },
+  ];
   const items: StepsProps['items'] = progressItems.map((item) => ({
     title: <ProgressContent {...item} />,
   }));
@@ -13,10 +21,8 @@ export const CreateProcessCard: React.FC = () => {
     <Card styles={{ body: { padding: '14px 20px' } }}>
       <Flex vertical gap={12}>
         <Space vertical align="start" size={1}>
-          <Title level={4}>
-            创作流程
-          </Title>
-          <Text type="secondary">四步完成你的第一部作品</Text>
+          <Title level={4}>{t('home.process.title')}</Title>
+          <Text type="secondary">{t('home.process.subtitle')}</Text>
         </Space>
 
         <Steps current={-1} items={items} styles={stylesObject} />
@@ -29,13 +35,6 @@ interface ProgressItem {
   title: string;
   subtitle: string;
 }
-
-const progressItems: ProgressItem[] = [
-  { title: '世界设定', subtitle: '建立故事背景' },
-  { title: '角色与资源', subtitle: '添加人物和立绘' },
-  { title: '剧情编排', subtitle: '连接对话与分支' },
-  { title: '预览发布', subtitle: '检查并导出作品' },
-];
 
 const ProgressContent: React.FC<ProgressItem> = ({ title, subtitle }) => {
   return (

@@ -7,10 +7,12 @@ import { CreateProjectForm } from '@/pages/Project/CreateProject/components/Crea
 import { ProjectOverviewCard } from '@/pages/Project/CreateProject/components/ProjectOverviewCard.tsx';
 import { SubmitProjectFooter } from '@/pages/Project/CreateProject/components/SubmitProjectFooter.tsx';
 import { useCreateProjectStore } from '@/pages/Project/CreateProject/store/createProjectStore.ts';
+import { useTranslation } from 'react-i18next';
 
 export const CreateProjectPage: React.FC = () => {
   const { goBack } = useAppNavigate();
   const reset = useCreateProjectStore((state) => state.reset);
+  const { t } = useTranslation();
 
   useEffect(() => {
     return () => {
@@ -21,8 +23,8 @@ export const CreateProjectPage: React.FC = () => {
   return (
     <Flex vertical gap="middle" style={{ height: '100%' }}>
       <PageHeader
-        title="新建项目向导"
-        subTitle="模版、信息、主题和确认"
+        title={t('createProject.header.title')}
+        subTitle={t('createProject.header.subtitle')}
         leftExtra={<Button type="text" icon={<LeftOutlined />} onClick={goBack} />}
       />
 

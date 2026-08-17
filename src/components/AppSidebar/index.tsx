@@ -2,16 +2,20 @@ import React from 'react';
 
 import { Layout, Menu } from 'antd';
 import { useLocation, useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { appTheme } from '../../theme/theme.ts';
 import styles from './index.module.css';
-import { menuItems } from './menu.tsx';
+import { getMenuItems } from './menu.tsx';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher.tsx';
 
 const { Sider } = Layout;
 
 export const AppSidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
+  const menuItems = getMenuItems(t);
   const activeItemIndex = menuItems.findIndex((item) => item?.key === location.pathname);
   const activeIndicatorStyle = {
     '--app-sidebar-active-item-offset': `${
@@ -39,6 +43,10 @@ export const AppSidebar: React.FC = () => {
         onClick={({ key }) => navigate(key)}
         className={styles.menu}
       />
+
+      <div className={styles.languageSwitcher}>
+        <LanguageSwitcher />
+      </div>
     </Sider>
   );
 };

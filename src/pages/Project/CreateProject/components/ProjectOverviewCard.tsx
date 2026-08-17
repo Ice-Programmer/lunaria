@@ -3,19 +3,27 @@ import { Card, Divider, Flex, Typography } from 'antd';
 import { ProjectIcon } from '@/components/ProjectIcon.tsx';
 import { useCreateProjectStore } from '@/pages/Project/CreateProject/store/createProjectStore.ts';
 import { getRandomProjectBackground } from '@/utils/background.ts';
+import { useTranslation } from 'react-i18next';
 
 const { Title, Text, Paragraph } = Typography;
 
 export const ProjectOverviewCard: React.FC = () => {
   const [backgroundImage] = useState(() => getRandomProjectBackground());
   const store = useCreateProjectStore((state) => state);
+  const { t } = useTranslation();
 
   return (
-    <Card cover={<img src={backgroundImage} alt="projectOverviewHeaderBackground" />}>
+    <Card cover={<img src={backgroundImage} alt={t('createProject.overview.imageAlt')} />}>
       <ProjectBasicInfoContent />
       <Flex vertical>
-        <ProjectBasicInfoItem title="项目名称" content={store.projectName} />
-        <ProjectBasicInfoItem title="项目类型" content="空白项目" />
+        <ProjectBasicInfoItem
+          title={t('createProject.overview.projectName')}
+          content={store.projectName}
+        />
+        <ProjectBasicInfoItem
+          title={t('createProject.overview.projectType')}
+          content={t('createProject.types.empty.title')}
+        />
         <ProjectStructure />
       </Flex>
     </Card>
@@ -24,6 +32,7 @@ export const ProjectOverviewCard: React.FC = () => {
 
 const ProjectBasicInfoContent: React.FC = () => {
   const projectName = useCreateProjectStore((state) => state.projectName);
+  const { t } = useTranslation();
 
   return (
     <div
@@ -43,7 +52,9 @@ const ProjectBasicInfoContent: React.FC = () => {
             {projectName}
           </Title>
 
-          <Text style={{ color: 'rgba(255, 255, 255, .62)' }}>空白项目</Text>
+          <Text style={{ color: 'rgba(255, 255, 255, .62)' }}>
+            {t('createProject.types.empty.title')}
+          </Text>
         </Flex>
       </Flex>
     </div>
