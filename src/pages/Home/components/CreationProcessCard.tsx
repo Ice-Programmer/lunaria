@@ -38,7 +38,7 @@ interface ProgressItem {
 
 const ProgressContent: React.FC<ProgressItem> = ({ title, subtitle }) => {
   return (
-    <Flex vertical gap={2}>
+    <Flex align='start' vertical gap={2}>
       <Text strong style={{ fontSize: 15 }}>
         {title}
       </Text>
