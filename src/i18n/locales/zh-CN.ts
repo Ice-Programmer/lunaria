@@ -88,6 +88,7 @@ export const zhCN = {
       },
       loadingPath: '正在获取默认保存位置…',
       create: '创建项目',
+      createFailed: '创建项目失败：{{message}}',
     },
   },
 } as const;

@@ -106,6 +106,7 @@ export const jaJP = {
       },
       loadingPath: '保存先を取得中…',
       create: '作成',
+      createFailed: 'プロジェクトの作成に失敗しました：{{message}}',
     },
   },
 } as const;

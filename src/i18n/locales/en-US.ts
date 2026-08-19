@@ -106,6 +106,7 @@ export const enUS = {
       },
       loadingPath: 'Loading save location…',
       create: 'Create Project',
+      createFailed: 'Failed to create project: {{message}}',
     },
   },
 } as const;
