@@ -7,6 +7,15 @@ export const jaJP = {
         switchToJapanese: '日本語に切り替える',
       },
     },
+    errors: {
+      projectPathAlreadyRegistered:
+        'この場所は既に別のプロジェクトで使用されています：{{projectPath}}',
+      projectDirectoryCreationFailed: 'プロジェクトフォルダーを作成できません：{{projectPath}}',
+      databaseOperationFailed: 'ローカルデータベースの操作に失敗しました。もう一度お試しください',
+      fileSystemOperationFailed: 'ローカルファイルの操作に失敗しました。権限を確認してください',
+      systemTimeUnavailable: 'システム時刻を取得できません。設定を確認してください',
+      unknown: '操作に失敗しました。もう一度お試しください',
+    },
     navigation: {
       home: 'プロジェクトホーム',
       characters: 'キャラクター',
@@ -106,7 +115,6 @@ export const jaJP = {
       },
       loadingPath: '保存先を取得中…',
       create: '作成',
-      createFailed: 'プロジェクトの作成に失敗しました：{{message}}',
     },
   },
 } as const;

@@ -7,6 +7,14 @@ export const zhCN = {
         switchToJapanese: '切换到日文',
       },
     },
+    errors: {
+      projectPathAlreadyRegistered: '该位置已经被一个项目使用：{{projectPath}}',
+      projectDirectoryCreationFailed: '无法创建项目目录：{{projectPath}}',
+      databaseOperationFailed: '本地数据库操作失败，请稍后重试',
+      fileSystemOperationFailed: '本地文件操作失败，请检查文件权限',
+      systemTimeUnavailable: '无法读取系统时间，请检查系统时间设置',
+      unknown: '操作失败，请稍后重试',
+    },
     navigation: {
       home: '项目首页',
       characters: '角色',
@@ -88,7 +96,6 @@ export const zhCN = {
       },
       loadingPath: '正在获取默认保存位置…',
       create: '创建项目',
-      createFailed: '创建项目失败：{{message}}',
     },
   },
 } as const;

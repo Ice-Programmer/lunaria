@@ -7,6 +7,14 @@ export const enUS = {
         switchToJapanese: 'Switch to Japanese',
       },
     },
+    errors: {
+      projectPathAlreadyRegistered: 'This location is already used by a project: {{projectPath}}',
+      projectDirectoryCreationFailed: 'Unable to create the project directory: {{projectPath}}',
+      databaseOperationFailed: 'The local database operation failed. Please try again',
+      fileSystemOperationFailed: 'The local file operation failed. Check the file permissions',
+      systemTimeUnavailable: 'Unable to read the system time. Check your system settings',
+      unknown: 'The operation failed. Please try again',
+    },
     navigation: {
       home: 'Home',
       characters: 'Characters',
@@ -106,7 +114,6 @@ export const enUS = {
       },
       loadingPath: 'Loading save location…',
       create: 'Create Project',
-      createFailed: 'Failed to create project: {{message}}',
     },
   },
 } as const;

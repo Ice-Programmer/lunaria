@@ -3,6 +3,7 @@ import { CustomFooter } from '@/components/Footer';
 import { Button, Flex, message, Space, Typography } from 'antd';
 import { FolderOutlined } from '@ant-design/icons';
 import { appTheme } from '@/theme/theme.ts';
+import { getCommandErrorMessage } from '@/i18n/commandErrors.ts';
 import { useCreateProject } from '@/pages/Project/CreateProject/hooks/useCreateProject.ts';
 import { useFullProjectPath } from '@/pages/Project/CreateProject/hooks/useFullProjectPath.ts';
 import { useCreateProjectStore } from '@/pages/Project/CreateProject/store/createProjectStore.ts';
@@ -30,8 +31,7 @@ export const SubmitProjectFooter: React.FC = () => {
         projectPath: fullProjectPath,
       });
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : String(error);
-      void messageApi.error(t('createProject.createFailed', { message: errorMessage }));
+      void messageApi.error(getCommandErrorMessage(error, t));
     }
   };
 

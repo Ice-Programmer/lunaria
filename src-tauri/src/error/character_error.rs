@@ -3,11 +3,9 @@ use std::time::SystemTimeError;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
-pub enum AppError {
-    #[error("database error: {0}")]
+pub enum CharacterError {
+    #[error("character database operation failed: {0}")]
     Database(#[from] DbErr),
-    #[error("system time error: {0}")]
+    #[error("system time is unavailable: {0}")]
     SystemTime(#[from] SystemTimeError),
-    #[error("I/O error: {0}")]
-    Io(#[from] std::io::Error),
 }

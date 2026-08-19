@@ -1,4 +1,9 @@
-use crate::{db::Db, entity::project, service::project_service};
+use crate::{
+    db::Db,
+    entity::project,
+    error::{CommandError, CommandResult},
+    service::project_service,
+};
 use tauri::State;
 
 #[tauri::command]
@@ -6,8 +11,8 @@ pub async fn create_project(
     db: State<'_, Db>,
     project_name: String,
     project_path: String,
-) -> Result<project::Model, String> {
+) -> CommandResult<project::Model> {
     project_service::create_project(&db, project_name, project_path)
         .await
-        .map_err(|error| error.to_string())
+        .map_err(CommandError::from)
 }
