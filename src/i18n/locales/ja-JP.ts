@@ -115,6 +115,11 @@ export const jaJP = {
       },
       loadingPath: '保存先を取得中…',
       create: '作成',
+      notifications: {
+        successTitle: 'プロジェクトを作成しました',
+        successDescription: 'プロジェクト「{{projectName}}」を作成しました',
+        errorTitle: 'プロジェクトを作成できませんでした',
+      },
     },
   },
 } as const;

@@ -96,6 +96,11 @@ export const zhCN = {
       },
       loadingPath: '正在获取默认保存位置…',
       create: '创建项目',
+      notifications: {
+        successTitle: '项目创建成功',
+        successDescription: '项目「{{projectName}}」已创建',
+        errorTitle: '项目创建失败',
+      },
     },
   },
 } as const;

@@ -114,6 +114,11 @@ export const enUS = {
       },
       loadingPath: 'Loading save location…',
       create: 'Create Project',
+      notifications: {
+        successTitle: 'Project created',
+        successDescription: 'Project "{{projectName}}" was created successfully',
+        errorTitle: 'Failed to create project',
+      },
     },
   },
 } as const;
