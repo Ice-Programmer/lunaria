@@ -1,10 +1,10 @@
 import React from 'react';
 import { ProjectHeader } from './components/ProjectHeader.tsx';
 import { Flex } from 'antd';
-import { ProjectOverviewPanel } from './components/ProjectOverviewPanel.tsx';
 import { CreateProcessCard } from '@/pages/Home/components/CreationProcessCard.tsx';
 import { StoryTemplateSection } from '@/pages/Home/components/StoryTemplateSection.tsx';
 import { ProjectSupportCard } from '@/pages/Home/components/ProjectSupportCard.tsx';
+import { ProjectOverviewPanel } from '@/pages/Home/components/ProjectOverviewPanel';
 
 export const HomePage: React.FC = () => {
 

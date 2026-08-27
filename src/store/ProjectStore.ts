@@ -8,9 +8,11 @@ interface ProjectStore {
   setProject: (id: number, name: string, path: string) => void;
 
   clearProject: () => void;
+
+  isEmpty: () => boolean;
 }
 
-export const useProjectStore = create<ProjectStore>((set) => ({
+export const useProjectStore = create<ProjectStore>((set, get) => ({
   projectId: undefined,
   projectName: undefined,
   projectPath: undefined,
@@ -29,5 +31,10 @@ export const useProjectStore = create<ProjectStore>((set) => ({
       projectName: undefined,
       projectPath: undefined,
     });
+  },
+
+  isEmpty: () => {
+    const { projectId, projectName, projectPath } = get();
+    return projectId == undefined && projectName == undefined && projectPath == undefined;
   },
 }));

@@ -1,32 +1,14 @@
 import React from 'react';
-import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Flex, Space, Typography } from 'antd';
-import { useTranslation } from 'react-i18next';
-
-import emptyProjectStoryBranches from '@/assets/home/empty-project-story-branches.png';
-import { useProjectStore } from '@/store/ProjectStore.ts';
 import { useAppNavigate } from '@/hooks/useAppNavigate.ts';
+import { useTranslation } from 'react-i18next';
 import { useAppNotification } from '@/components/AppNotification';
+import { Button, Space, Typography } from 'antd';
+import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons';
+import emptyProjectStoryBranches from '@/assets/home/empty-project-story-branches.png';
 
 const { Title, Text } = Typography;
 
-export const ProjectOverviewPanel: React.FC = () => {
-  const projectName = useProjectStore((state) => state.projectName);
-
-  return (
-    <Card styles={{ body: { padding: 0 } }} style={cardStyle}>
-      <Flex
-        align="center"
-        justify="space-between"
-        style={{ minHeight: 'clamp(180px, 22vh, 320px)', padding: '0 28px' }}
-      >
-        {projectName == null && <EmptyProjectCardContent />}
-      </Flex>
-    </Card>
-  );
-};
-
-const EmptyProjectCardContent: React.FC = () => {
+export const EmptyProjectCardContent: React.FC = () => {
   const { goCreateProject } = useAppNavigate();
   const { t } = useTranslation();
   const notification = useAppNotification();
@@ -57,10 +39,6 @@ const EmptyProjectCardContent: React.FC = () => {
       <img src={emptyProjectStoryBranches} style={backgroundStyle} alt="" aria-hidden="true" />
     </>
   );
-};
-
-const cardStyle: React.CSSProperties = {
-  background: 'linear-gradient(110deg, #ffffff 0%, #fbf9ff 48%, #f3efff 100%)',
 };
 
 const backgroundStyle: React.CSSProperties = {
