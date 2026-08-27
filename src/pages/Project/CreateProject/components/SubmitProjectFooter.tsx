@@ -40,7 +40,7 @@ export const SubmitProjectFooter: React.FC = () => {
     } catch (error) {
       notification.error({
         title: t('createProject.notifications.errorTitle'),
-        description: getCommandErrorMessage(error, t),
+        description: getCommandErrorMessage(error),
       });
     }
   };

@@ -1,5 +1,5 @@
-import type { TFunction } from 'i18next';
 import { TauriCommandError } from '@/api/tauri.ts';
+import i18n from '@/i18n/index.ts';
 
 const commandErrorKeys = {
   PROJECT_PATH_ALREADY_REGISTERED: 'errors.projectPathAlreadyRegistered',
@@ -10,14 +10,19 @@ const commandErrorKeys = {
 } as const;
 
 type CommandErrorCode = keyof typeof commandErrorKeys;
+type CommandErrorKey = (typeof commandErrorKeys)[CommandErrorCode];
 
 const isKnownCommandErrorCode = (code: string): code is CommandErrorCode =>
   Object.prototype.hasOwnProperty.call(commandErrorKeys, code);
 
-export const getCommandErrorMessage = (error: unknown, t: TFunction): string => {
+const translateCommandError = (key: CommandErrorKey, params: Record<string, unknown>): string => {
+  return i18n.t(key, params as never);
+};
+
+export const getCommandErrorMessage = (error: unknown): string => {
   if (!(error instanceof TauriCommandError) || !isKnownCommandErrorCode(error.code)) {
-    return t('errors.unknown');
+    return i18n.t('errors.unknown');
   }
 
-  return t(commandErrorKeys[error.code], error.params);
+  return translateCommandError(commandErrorKeys[error.code], error.params);
 };
