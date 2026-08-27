@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import emptyProjectStoryBranches from '@/assets/home/empty-project-story-branches.png';
 import { useProjectStore } from '@/store/ProjectStore.ts';
 import { useAppNavigate } from '@/hooks/useAppNavigate.ts';
+import { useAppNotification } from '@/components/AppNotification';
 
 const { Title, Text } = Typography;
 
@@ -28,6 +29,7 @@ export const ProjectOverviewPanel: React.FC = () => {
 const EmptyProjectCardContent: React.FC = () => {
   const { goCreateProject } = useAppNavigate();
   const { t } = useTranslation();
+  const notification = useAppNotification();
 
   return (
     <>
@@ -43,7 +45,12 @@ const EmptyProjectCardContent: React.FC = () => {
             {t('home.overview.create')}
           </Button>
 
-          <Button icon={<AppstoreOutlined />}>{t('home.overview.browseTemplates')}</Button>
+          <Button
+            icon={<AppstoreOutlined />}
+            onClick={() => notification.success({ title: 'test message' })}
+          >
+            {t('home.overview.browseTemplates')}
+          </Button>
         </Space>
       </Space>
 
