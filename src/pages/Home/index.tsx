@@ -6,9 +6,12 @@ import { useFetchProject } from '@/pages/Home/hooks/useFetchProject.ts';
 import { StoryTemplateSection } from '@/pages/Home/components/StoryTemplateSection.tsx';
 import { ProjectSupportCard } from '@/pages/Home/components/ProjectSupportCard.tsx';
 import { ProjectOverviewPanel } from '@/pages/Home/components/ProjectOverviewPanel';
+import { useProjectStore } from '@/store/ProjectStore.ts';
+import { ProjectWorkspaceCard } from '@/pages/Home/components/ProjectWorkspaceCard.tsx';
 
 export const HomePage: React.FC = () => {
   useFetchProject();
+  const isEmpty = useProjectStore((state) => state.isEmpty());
 
   return (
     <>
@@ -18,7 +21,7 @@ export const HomePage: React.FC = () => {
         <Flex gap={20} vertical style={{ margin: '0 15px' }}>
           <ProjectOverviewPanel />
 
-          <CreateProcessCard />
+          {isEmpty ? <CreateProcessCard /> : <ProjectWorkspaceCard />}
 
           <Flex gap={20} justify="space-between">
             <div style={{ display: 'flex', flex: '7 1 0', minWidth: 0 }}>
