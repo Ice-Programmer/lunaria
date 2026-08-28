@@ -1,5 +1,5 @@
 use crate::entity::project;
-use crate::error::{ProjectError, ProjectResult};
+use crate::error::{AppError, AppResult};
 use crate::util::file::ensure_dir;
 use crate::util::time::current_timestamp;
 use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set};
@@ -8,7 +8,7 @@ pub async fn create_project(
     db: &DatabaseConnection,
     project_name: String,
     project_path: String,
-) -> ProjectResult<project::Model> {
+) -> AppResult<project::Model> {
     let created_at = current_timestamp()?;
 
     let registered_project = project::Entity::find()
@@ -17,12 +17,12 @@ pub async fn create_project(
         .await?;
 
     if registered_project.is_some() {
-        return Err(ProjectError::PathAlreadyRegistered { project_path });
+        return Err(AppError::ProjectPathAlreadyRegistered { project_path });
     }
 
     ensure_dir(&project_path)
         .await
-        .map_err(|source| ProjectError::DirectoryCreationFailed {
+        .map_err(|source| AppError::ProjectDirectoryCreationFailed {
             project_path: project_path.clone(),
             source,
         })?;
@@ -41,7 +41,7 @@ pub async fn create_project(
 #[cfg(test)]
 mod tests {
     use super::create_project;
-    use crate::{db, entity::project, error::CommandError};
+    use crate::{db, entity::project};
     use sea_orm::EntityTrait;
     use std::path::PathBuf;
     use std::sync::atomic::{AtomicU64, Ordering};
@@ -140,8 +140,7 @@ mod tests {
         )
         .await
         .expect_err("duplicate project path should be rejected");
-        let frontend_payload =
-            serde_json::to_value(CommandError::from(error)).expect("error should serialize");
+        let frontend_payload = serde_json::to_value(error).expect("error should serialize");
 
         assert_eq!(frontend_payload["code"], "PROJECT_PATH_ALREADY_REGISTERED");
         assert_eq!(

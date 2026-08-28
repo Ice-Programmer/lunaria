@@ -1,5 +1,5 @@
 use crate::entity::character;
-use crate::error::CharacterError;
+use crate::error::AppResult;
 use crate::util::time::current_timestamp;
 use sea_orm::{ActiveModelTrait, DatabaseConnection, Set};
 
@@ -8,7 +8,7 @@ pub async fn create_character(
     name: &str,
     description: Option<String>,
     project_id: i64,
-) -> Result<character::Model, CharacterError> {
+) -> AppResult<character::Model> {
     let created_at = current_timestamp()?;
 
     let character = character::ActiveModel {
@@ -23,5 +23,5 @@ pub async fn create_character(
     // create character folder
     // 1. find project path
 
-    Ok(character.insert(db).await?)
+        Ok(character.insert(db).await?)
 }
