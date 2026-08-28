@@ -3,12 +3,13 @@ mod db;
 mod entity;
 mod error;
 mod service;
-mod util;
 mod state;
+mod util;
 
 use command::greet::greeting;
 use command::project::create_project;
 use command::project::fetch_latest_opened_project;
+use command::project::query_recent_opened_project;
 use tauri::Manager;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -24,7 +25,10 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             greeting,
-            create_project, fetch_latest_opened_project
+            // project
+            create_project,
+            fetch_latest_opened_project,
+            query_recent_opened_project
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

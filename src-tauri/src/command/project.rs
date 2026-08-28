@@ -14,3 +14,11 @@ pub async fn create_project(
 pub async fn fetch_latest_opened_project(db: State<'_, Db>) -> AppResult<Option<project::Model>> {
     project_service::fetch_latest_opened_project(&db).await
 }
+
+#[tauri::command]
+pub async fn query_recent_opened_project(
+    db: State<'_, Db>,
+    last_num: u64,
+) -> AppResult<Vec<project::Model>> {
+    project_service::query_recent_opened_project(&db, last_num).await
+}

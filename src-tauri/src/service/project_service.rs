@@ -3,7 +3,8 @@ use crate::error::{AppError, AppResult};
 use crate::util::file::ensure_dir;
 use crate::util::time::current_timestamp;
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder, Set,
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder,
+    QuerySelect, Set,
 };
 
 pub async fn create_project(
@@ -50,4 +51,17 @@ pub async fn fetch_latest_opened_project(
         .await?;
 
     Ok(project)
+}
+
+pub async fn query_recent_opened_project(
+    db: &DatabaseConnection,
+    num: u64,
+) -> AppResult<Vec<project::Model>> {
+    let project_list = project::Entity::find()
+        .order_by_desc(project::Column::LastOpenedAt)
+        .limit(num)
+        .all(db)
+        .await?;
+
+    Ok(project_list)
 }
