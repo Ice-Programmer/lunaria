@@ -10,3 +10,7 @@ export interface Project {
   createdAt: number;
   lastOpenedAt: number;
 }
+
+export interface QueryRecentOpenedProjectRequest {
+  lastNum: number;
+}
