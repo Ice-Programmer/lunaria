@@ -13,7 +13,7 @@ const { Text, Title } = Typography;
 export const ProjectWorkspaceCard: React.FC = () => {
   return (
     <Card styles={{ body: { padding: '25px 8px' } }}>
-      <Flex vertical gap={20}>
+      <Flex vertical gap={16}>
         <Title level={5} style={{ alignSelf: 'flex-start', paddingLeft: '1rem' }}>
           项目工作区
         </Title>

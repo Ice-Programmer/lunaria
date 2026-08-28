@@ -8,6 +8,7 @@ import { ProjectSupportCard } from '@/pages/Home/components/ProjectSupportCard.t
 import { ProjectOverviewPanel } from '@/pages/Home/components/ProjectOverviewPanel';
 import { useProjectStore } from '@/store/ProjectStore.ts';
 import { ProjectWorkspaceCard } from '@/pages/Home/components/ProjectWorkspaceCard.tsx';
+import { RecentProjectList } from '@/pages/Home/components/RecentProjectList.tsx';
 
 export const HomePage: React.FC = () => {
   useFetchProject();
@@ -25,7 +26,7 @@ export const HomePage: React.FC = () => {
 
           <Flex gap={20} justify="space-between">
             <div style={{ display: 'flex', flex: '7 1 0', minWidth: 0 }}>
-              <StoryTemplateSection />
+              {isEmpty ? <StoryTemplateSection /> : <RecentProjectList />}
             </div>
             <div style={{ display: 'flex', flex: '3 1 0', minWidth: 280 }}>
               <ProjectSupportCard />
