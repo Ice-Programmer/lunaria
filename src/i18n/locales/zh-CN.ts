@@ -65,6 +65,9 @@ export const zhCN = {
         feedbackDescription: '提交 Bug 或功能建议',
         openSource: '开源项目 · 欢迎参与贡献和反馈',
       },
+      recentProject: {
+        recentEdit: '上次编辑',
+      },
     },
     createProject: {
       header: {

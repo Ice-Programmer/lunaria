@@ -78,6 +78,9 @@ export const jaJP = {
         feedbackDescription: 'バグ報告・機能提案',
         openSource: 'オープンソース · 貢献歓迎',
       },
+      recentProject: {
+        recentEdit: '最近の編集',
+      },
     },
     createProject: {
       header: {

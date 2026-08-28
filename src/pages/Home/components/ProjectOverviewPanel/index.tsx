@@ -3,9 +3,10 @@ import { Card, Flex } from 'antd';
 
 import { useProjectStore } from '@/store/ProjectStore.ts';
 import { EmptyProjectCardContent } from '@/pages/Home/components/ProjectOverviewPanel/EmptyProjectCardContent.tsx';
+import { RecentProjectCardContent } from '@/pages/Home/components/ProjectOverviewPanel/RecentProjectCardContent.tsx';
 
 export const ProjectOverviewPanel: React.FC = () => {
-  const projectName = useProjectStore((state) => state.projectName);
+  const isEmpty = useProjectStore((state) => state.isEmpty());
 
   return (
     <Card
@@ -19,7 +20,7 @@ export const ProjectOverviewPanel: React.FC = () => {
         justify="space-between"
         style={{ minHeight: 'clamp(180px, 22vh, 320px)', padding: '0 28px' }}
       >
-        {projectName == null && <EmptyProjectCardContent />}
+        {isEmpty ? <EmptyProjectCardContent /> : <RecentProjectCardContent />}
       </Flex>
     </Card>
   );

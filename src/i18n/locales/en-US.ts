@@ -77,6 +77,9 @@ export const enUS = {
         feedbackDescription: 'Report bugs or suggest features',
         openSource: 'Open source · Contributions welcome',
       },
+      recentProject: {
+        recentEdit: 'recent edit',
+      },
     },
     createProject: {
       header: {

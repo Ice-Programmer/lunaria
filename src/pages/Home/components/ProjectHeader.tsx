@@ -4,10 +4,12 @@ import { PageHeader } from '@/components/PageHeader.tsx';
 import { Button, Space } from 'antd';
 import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import { useAppNavigate } from '@/hooks/useAppNavigate.ts';
 
 export const ProjectHeader: React.FC = () => {
   const projectName = useProjectStore((state) => state.projectName);
   const { t } = useTranslation();
+  const { goCreateProject } = useAppNavigate();
 
   return (
     <PageHeader
@@ -20,7 +22,7 @@ export const ProjectHeader: React.FC = () => {
           <>
             <Space>
               <Button icon={<AppstoreOutlined />}>{t('home.overview.browseTemplates')}</Button>
-              <Button type="primary" icon={<PlusOutlined />}>
+              <Button type="primary" icon={<PlusOutlined />} onClick={goCreateProject}>
                 {t('home.overview.create')}
               </Button>
             </Space>
