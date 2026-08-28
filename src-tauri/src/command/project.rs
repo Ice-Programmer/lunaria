@@ -9,3 +9,8 @@ pub async fn create_project(
 ) -> AppResult<project::Model> {
     project_service::create_project(&db, project_name, project_path).await
 }
+
+#[tauri::command]
+pub async fn fetch_latest_opened_project(db: State<'_, Db>) -> AppResult<Option<project::Model>> {
+    project_service::fetch_latest_opened_project(&db).await
+}

@@ -2,7 +2,9 @@ use crate::entity::project;
 use crate::error::{AppError, AppResult};
 use crate::util::file::ensure_dir;
 use crate::util::time::current_timestamp;
-use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set};
+use sea_orm::{
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder, Set,
+};
 
 pub async fn create_project(
     db: &DatabaseConnection,
@@ -36,6 +38,17 @@ pub async fn create_project(
     };
 
     Ok(project.insert(db).await?)
+}
+
+pub async fn fetch_latest_opened_project(
+    db: &DatabaseConnection,
+) -> AppResult<Option<project::Model>> {
+    let project = project::Entity::find()
+        .order_by_desc(project::Column::LastOpenedAt)
+        .one(db)
+        .await?;
+
+    Ok(project)
 }
 
 #[cfg(test)]

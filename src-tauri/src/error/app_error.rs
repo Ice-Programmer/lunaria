@@ -6,12 +6,17 @@ use thiserror::Error;
 
 #[derive(Debug, Error)]
 pub enum AppError {
+    // database error
     #[error("database error: {0}")]
     Database(#[from] DbErr),
+
+    // system error
     #[error("system time error: {0}")]
     SystemTime(#[from] SystemTimeError),
     #[error("I/O error: {0}")]
     Io(#[from] std::io::Error),
+
+    // project error
     #[error("project path is already registered: {project_path}")]
     ProjectPathAlreadyRegistered { project_path: String },
     #[error("failed to create project directory: {project_path}")]

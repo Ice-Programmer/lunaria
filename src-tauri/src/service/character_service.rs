@@ -23,5 +23,5 @@ pub async fn create_character(
     // create character folder
     // 1. find project path
 
-        Ok(character.insert(db).await?)
+    Ok(character.insert(db).await?)
 }

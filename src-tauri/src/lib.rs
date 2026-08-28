@@ -8,6 +8,7 @@ mod state;
 
 use command::greet::greeting;
 use command::project::create_project;
+use command::project::fetch_latest_opened_project;
 use tauri::Manager;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -21,7 +22,10 @@ pub fn run() {
             app.manage(db);
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![greeting, create_project])
+        .invoke_handler(tauri::generate_handler![
+            greeting,
+            create_project, fetch_latest_opened_project
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
