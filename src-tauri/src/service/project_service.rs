@@ -45,6 +45,7 @@ pub async fn fetch_latest_opened_project(
 ) -> AppResult<Option<project::Model>> {
     let project = project::Entity::find()
         .order_by_desc(project::Column::LastOpenedAt)
+        .order_by_desc(project::Column::Id)
         .one(db)
         .await?;
 

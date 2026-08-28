@@ -1,12 +1,11 @@
 import { invokeCommand } from '@/api/tauri.ts';
 import type { CreateProjectRequest, Project } from '@/types/project.ts';
 
-const projectCommands = {
-  create: 'create_project',
-} as const;
-
 export const createProject = (request: CreateProjectRequest): Promise<Project> =>
-  invokeCommand<Project>(projectCommands.create, {
+  invokeCommand<Project>('create_project', {
     projectName: request.projectName,
     projectPath: request.projectPath,
   });
+
+export const fetchLatestOpenedProject = (): Promise<Project | null> =>
+  invokeCommand<Project | null>('fetch_latest_opened_project');

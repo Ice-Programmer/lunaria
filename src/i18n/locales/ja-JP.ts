@@ -26,6 +26,9 @@ export const jaJP = {
       resource: 'リソース',
     },
     home: {
+      notifications: {
+        loadLatestProjectErrorTitle: '最近のプロジェクトを読み込めません',
+      },
       header: {
         title: 'プロジェクトホーム',
         noRecent: '最近のプロジェクトなし · 新規作成またはテンプレートを選択',

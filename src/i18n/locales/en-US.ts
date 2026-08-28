@@ -25,6 +25,9 @@ export const enUS = {
       resource: 'Resources',
     },
     home: {
+      notifications: {
+        loadLatestProjectErrorTitle: 'Failed to load the recent project',
+      },
       header: {
         title: 'Project Home',
         noRecent: 'No recent projects · Create one or use a template',

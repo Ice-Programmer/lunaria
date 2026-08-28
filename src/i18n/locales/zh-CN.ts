@@ -25,6 +25,9 @@ export const zhCN = {
       resource: '资源页面',
     },
     home: {
+      notifications: {
+        loadLatestProjectErrorTitle: '无法加载最近项目',
+      },
       header: {
         title: '项目首页',
         noRecent: '暂无最近项目 · 新建项目，或从模板开始创作',

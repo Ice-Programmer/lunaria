@@ -2,11 +2,13 @@ import React from 'react';
 import { ProjectHeader } from './components/ProjectHeader.tsx';
 import { Flex } from 'antd';
 import { CreateProcessCard } from '@/pages/Home/components/CreationProcessCard.tsx';
+import { useFetchProject } from '@/pages/Home/hooks/useFetchProject.ts';
 import { StoryTemplateSection } from '@/pages/Home/components/StoryTemplateSection.tsx';
 import { ProjectSupportCard } from '@/pages/Home/components/ProjectSupportCard.tsx';
 import { ProjectOverviewPanel } from '@/pages/Home/components/ProjectOverviewPanel';
 
 export const HomePage: React.FC = () => {
+  useFetchProject();
 
   return (
     <>
