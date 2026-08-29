@@ -35,15 +35,7 @@ const ProjectBasicInfoContent: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div
-      style={{
-        position: 'absolute',
-        top: 20,
-        left: 20,
-        right: 20,
-        height: '100%',
-      }}
-    >
+    <div style={{ position: 'absolute', top: 20, left: 20, right: 20, height: '100%' }}>
       <Flex gap={20} vertical>
         <ProjectIcon text={projectName.length > 0 ? projectName[0] : 'u'} />
 

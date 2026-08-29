@@ -1,10 +1,5 @@
 import { invokeCommand } from '@/api/tauri.ts';
-import {
-  CreateProjectRequest,
-  Project,
-  QueryRecentOpenedProject,
-  QueryRecentOpenedProjectRequest,
-} from '@/types/project.ts';
+import { CreateProjectRequest, Project, QueryRecentOpenedProjectRequest } from '@/types/project.ts';
 
 export const createProject = (request: CreateProjectRequest): Promise<Project> =>
   invokeCommand<Project>('create_project', {
@@ -17,7 +12,7 @@ export const fetchLatestOpenedProject = (): Promise<Project | null> =>
 
 export const queryRecentOpenedProject = (
   request: QueryRecentOpenedProjectRequest
-): Promise<Project[] | null> =>
+): Promise<Project[]> =>
   invokeCommand('query_recent_opened_project', {
     lastNum: request.lastNum,
   });
