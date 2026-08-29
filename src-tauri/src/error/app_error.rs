@@ -15,6 +15,8 @@ pub enum AppError {
     SystemTime(#[from] SystemTimeError),
     #[error("I/O error: {0}")]
     Io(#[from] std::io::Error),
+    #[error("file not found: {path}")]
+    FileNotFound { path: String },
 
     // project error
     #[error("project path is already registered: {project_path}")]
@@ -25,6 +27,8 @@ pub enum AppError {
         #[source]
         source: std::io::Error,
     },
+    #[error("project not found, project_id: {project_id}")]
+    ProjectNotFound { project_id: i64 },
 }
 
 impl Serialize for AppError {
@@ -36,6 +40,7 @@ impl Serialize for AppError {
             Self::Database(_) => ("DATABASE_OPERATION_FAILED", None),
             Self::SystemTime(_) => ("SYSTEM_TIME_UNAVAILABLE", None),
             Self::Io(_) => ("FILE_SYSTEM_OPERATION_FAILED", None),
+            Self::FileNotFound { path, .. } => ("FILE_NOT_FOUND", Some(json!(path))),
             Self::ProjectPathAlreadyRegistered { project_path } => (
                 "PROJECT_PATH_ALREADY_REGISTERED",
                 Some(json!({ "projectPath": project_path })),
@@ -43,6 +48,10 @@ impl Serialize for AppError {
             Self::ProjectDirectoryCreationFailed { project_path, .. } => (
                 "PROJECT_DIRECTORY_CREATION_FAILED",
                 Some(json!({ "projectPath": project_path })),
+            ),
+            Self::ProjectNotFound { project_id, .. } => (
+                "PROJECT_NOT_FOUND",
+                Some(json!({ "projectId": project_id })),
             ),
         };
 

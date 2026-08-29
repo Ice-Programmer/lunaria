@@ -65,3 +65,13 @@ pub async fn query_recent_opened_project(
 
     Ok(project_list)
 }
+
+pub async fn get_project_by_id(
+    db: &DatabaseConnection,
+    project_id: i64,
+) -> AppResult<project::Model> {
+    project::Entity::find_by_id(project_id)
+        .one(db)
+        .await?
+        .ok_or_else(|| AppError::ProjectNotFound { project_id })
+}

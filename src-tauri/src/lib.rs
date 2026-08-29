@@ -5,6 +5,7 @@ mod error;
 mod service;
 mod util;
 
+use command::character::create_character;
 use command::greet::greeting;
 use command::project::create_project;
 use command::project::fetch_latest_opened_project;
@@ -27,7 +28,9 @@ pub fn run() {
             // project
             create_project,
             fetch_latest_opened_project,
-            query_recent_opened_project
+            query_recent_opened_project,
+            // character
+            create_character,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

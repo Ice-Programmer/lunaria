@@ -2,23 +2,16 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
-#[sea_orm(table_name = "character")]
+#[sea_orm(table_name = "character_category")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i64,
 
     pub project_id: i64,
 
-    #[sea_orm(unique)]
-    pub name: String,
-
-    pub description: Option<String>,
-
-    pub avatar_path: Option<String>,
+    pub category_name: String,
 
     pub created_at: i64,
-
-    pub updated_at: i64,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
@@ -33,7 +26,7 @@ pub enum Relation {
     Project,
 }
 
-impl Related<super::project::Entity> for Entity {
+impl Related<super::project::Entity> for Relation {
     fn to() -> RelationDef {
         Relation::Project.def()
     }
