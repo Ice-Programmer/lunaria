@@ -19,7 +19,7 @@ pub async fn create_character(
     img_path: Option<String>,
 ) -> AppResult<character::Model> {
     if tags.len() >= 5 {
-        return Err(AppError::CharacterTagsMoreThanFive);
+        return Err(AppError::TooManyTags { tag_num: 5 });
     }
 
     // 1. detect img_path is existing

@@ -10,6 +10,10 @@ pub enum AppError {
     #[error("database error: {0}")]
     Database(#[from] DbErr),
 
+    // common
+    #[error("tags length can not more than: {tag_num}")]
+    TooManyTags { tag_num: i32 },
+
     // system error
     #[error("system time error: {0}")]
     SystemTime(#[from] SystemTimeError),
@@ -33,8 +37,6 @@ pub enum AppError {
     // character error
     #[error("project not registered: {character_code}")]
     CharacterCodeAlreadyRegistered { character_code: String },
-    #[error("character tags length can not more than 5")]
-    CharacterTagsMoreThanFive,
 }
 
 impl Serialize for AppError {
@@ -44,6 +46,7 @@ impl Serialize for AppError {
     {
         let (code, params): (&str, Option<Value>) = match self {
             Self::Database(_) => ("DATABASE_OPERATION_FAILED", None),
+            Self::TooManyTags { tag_num } => ("TOO_MANY_TAGS", Some(json!({ "tag_num": tag_num }))),
             Self::SystemTime(_) => ("SYSTEM_TIME_UNAVAILABLE", None),
             Self::Io(_) => ("FILE_SYSTEM_OPERATION_FAILED", None),
             Self::FileNotFound { path, .. } => ("FILE_NOT_FOUND", Some(json!(path))),
@@ -63,7 +66,6 @@ impl Serialize for AppError {
                 "CHARACTER_CODE_ALEARY_REGISTERED",
                 Some(json!({ "characterCode": character_code })),
             ),
-            Self::CharacterTagsMoreThanFive => ("CHARACTER_TAGS_MORED_THAN_FIVE", None),
         };
 
         let mut state =
