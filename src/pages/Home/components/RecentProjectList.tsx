@@ -39,7 +39,7 @@ const RecentProjectContent: React.FC = () => {
 
   return (
     <Row gutter={[16, 16]} style={{ width: '100%' }}>
-      {recentProjects.map((_, index) => (
+      {recentProjects.slice(0, 8).map((_, index) => (
         <Col span={12} key={index}>
           <RecentProjectItem
             projectName={recentProjects[index].projectName}
