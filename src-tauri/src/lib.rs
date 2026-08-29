@@ -3,7 +3,6 @@ mod db;
 mod entity;
 mod error;
 mod service;
-mod state;
 mod util;
 
 use command::greet::greeting;

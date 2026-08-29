@@ -1,4 +1,4 @@
-use crate::{entity::project, error::AppResult};
+use crate::{entity::project, entity::character, error::AppResult};
 use sea_orm::{ConnectionTrait, Database, DatabaseConnection, Schema};
 use std::path::Path;
 
@@ -21,7 +21,10 @@ pub async fn init_db(app_data_dir: &Path) -> AppResult<Db> {
 async fn create_tables(db: &Db) -> AppResult<()> {
     let schema = Schema::new(db.get_database_backend());
 
-    let mut tables = [schema.create_table_from_entity(project::Entity)];
+    let mut tables = [
+        schema.create_table_from_entity(project::Entity),
+        schema.create_table_from_entity(character::Entity),
+    ];
 
     for table in &mut tables {
         table.if_not_exists();
