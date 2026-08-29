@@ -6,6 +6,7 @@ use crate::util::time::current_timestamp;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, IntoActiveModel, Set, SqlErr, TransactionTrait,
 };
+use serde_json::json;
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -13,10 +14,14 @@ pub async fn create_character(
     db: &DatabaseConnection,
     name: &str,
     character_code: &str,
-    description: Option<String>,
+    tags: Vec<String>,
     project_id: i64,
     img_path: Option<String>,
 ) -> AppResult<character::Model> {
+    if tags.len() >= 5 {
+        return Err(AppError::CharacterTagsMoreThanFive);
+    }
+
     // 1. detect img_path is existing
     if let Some(path) = img_path.as_deref() {
         if !Path::new(path).is_file() {
@@ -39,7 +44,7 @@ pub async fn create_character(
         project_id: Set(project_id),
         name: Set(name.to_string()),
         character_code: Set(character_code.to_string()),
-        description: Set(description),
+        tags: Set(json!(tags)),
         avatar_path: Set(None),
         created_at: Set(created_at),
         updated_at: Set(created_at),

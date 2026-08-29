@@ -11,13 +11,13 @@ pub async fn create_character(
     character_name: &str,
     character_code: &str,
     img_path: Option<String>,
-    description: Option<String>,
+    tags: Vec<String>,
 ) -> AppResult<character::Model> {
     character_service::create_character(
         &db,
         character_name,
         character_code,
-        description,
+        tags,
         project_id,
         img_path,
     )

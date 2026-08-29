@@ -33,6 +33,8 @@ pub enum AppError {
     // character error
     #[error("project not registered: {character_code}")]
     CharacterCodeAlreadyRegistered { character_code: String },
+    #[error("character tags length can not more than 5")]
+    CharacterTagsMoreThanFive,
 }
 
 impl Serialize for AppError {
@@ -61,6 +63,7 @@ impl Serialize for AppError {
                 "CHARACTER_CODE_ALEARY_REGISTERED",
                 Some(json!({ "characterCode": character_code })),
             ),
+            Self::CharacterTagsMoreThanFive => ("CHARACTER_TAGS_MORED_THAN_FIVE", None),
         };
 
         let mut state =

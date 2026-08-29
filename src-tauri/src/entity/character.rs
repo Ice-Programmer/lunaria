@@ -14,7 +14,7 @@ pub struct Model {
 
     pub name: String,
 
-    pub description: Option<String>,
+    pub tags: Json,
 
     pub avatar_path: Option<String>,
 
