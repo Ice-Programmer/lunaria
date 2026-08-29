@@ -1,11 +1,12 @@
 import React from 'react';
 import { Col, Row } from 'antd';
 import { CharacterSidebar } from '@/pages/Character/components/CharacterSidebar.tsx';
+import { appTheme } from '@/theme/theme.ts';
 
 export const CharacterPage: React.FC = () => {
   return (
     <Row style={{ minHeight: '100%' }}>
-      <Col span={5} style={{ borderRight: '1px solid ${appTheme.colors.border}' }}>
+      <Col span={5} style={{ borderRight: `1px solid ${appTheme.colors.border}` }}>
         <CharacterSidebar />
       </Col>
 

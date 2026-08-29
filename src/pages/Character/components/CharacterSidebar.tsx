@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Flex, Typography } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Button, Flex, Input, Typography } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { appTheme } from '@/theme/theme.ts';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 export const CharacterSidebar: React.FC = () => {
   return (
@@ -11,11 +11,30 @@ export const CharacterSidebar: React.FC = () => {
       <Flex
         align="center"
         justify="space-between"
-        style={{ borderBottom: `1px solid ${appTheme.colors.border}`, padding: '10px' }}
+        style={{ borderBottom: `1px solid ${appTheme.colors.border}`, padding: '15px 10px' }}
       >
         <Title level={5}>角色</Title>
         <Button icon={<PlusOutlined />} style={{ padding: '0px 18px' }} />
       </Flex>
+
+      <Input
+        style={{ width: '90%', margin: '10px auto' }}
+        placeholder="搜索角色"
+        prefix={<SearchOutlined />}
+      />
+
+      <CharacterList />
+    </Flex>
+  );
+};
+
+const CharacterList: React.FC = () => {
+  return (
+    <Flex vertical align="start" style={{ width: '100%', padding: '8px 10px' }}>
+      <Text type="secondary" style={{ fontSize: 12 }}>
+        全部角色 · 3
+      </Text>
+
     </Flex>
   );
 };

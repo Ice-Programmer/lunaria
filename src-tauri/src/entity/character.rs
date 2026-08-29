@@ -10,6 +10,8 @@ pub struct Model {
     pub project_id: i64,
 
     #[sea_orm(unique)]
+    pub character_code: String,
+
     pub name: String,
 
     pub description: Option<String>,

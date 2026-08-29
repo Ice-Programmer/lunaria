@@ -3,13 +3,16 @@ use crate::error::{AppError, AppResult};
 use crate::service::project_service;
 use crate::util::time::current_timestamp;
 
-use sea_orm::{ActiveModelTrait, DatabaseConnection, IntoActiveModel, Set, TransactionTrait};
+use sea_orm::{
+    ActiveModelTrait, DatabaseConnection, IntoActiveModel, Set, SqlErr, TransactionTrait,
+};
 use std::fs;
 use std::path::{Path, PathBuf};
 
 pub async fn create_character(
     db: &DatabaseConnection,
     name: &str,
+    character_code: &str,
     description: Option<String>,
     project_id: i64,
     img_path: Option<String>,
@@ -35,6 +38,7 @@ pub async fn create_character(
     let character = character::ActiveModel {
         project_id: Set(project_id),
         name: Set(name.to_string()),
+        character_code: Set(character_code.to_string()),
         description: Set(description),
         avatar_path: Set(None),
         created_at: Set(created_at),
@@ -42,7 +46,16 @@ pub async fn create_character(
         ..Default::default()
     }
     .insert(&txn)
-    .await?;
+    .await
+    .map_err(|err| {
+        if matches!(err.sql_err(), Some(SqlErr::UniqueConstraintViolation(_))) {
+            AppError::CharacterCodeAlreadyRegistered {
+                character_code: character_code.to_string(),
+            }
+        } else {
+            AppError::from(err)
+        }
+    })?;
 
     // 4. create character folder
     let character_dir = PathBuf::from(&project.project_path)

@@ -29,6 +29,10 @@ pub enum AppError {
     },
     #[error("project not found, project_id: {project_id}")]
     ProjectNotFound { project_id: i64 },
+
+    // character error
+    #[error("project not registered: {character_code}")]
+    CharacterCodeAlreadyRegistered { character_code: String },
 }
 
 impl Serialize for AppError {
@@ -52,6 +56,10 @@ impl Serialize for AppError {
             Self::ProjectNotFound { project_id, .. } => (
                 "PROJECT_NOT_FOUND",
                 Some(json!({ "projectId": project_id })),
+            ),
+            Self::CharacterCodeAlreadyRegistered { character_code, .. } => (
+                "CHARACTER_CODE_ALEARY_REGISTERED",
+                Some(json!({ "characterCode": character_code })),
             ),
         };
 
