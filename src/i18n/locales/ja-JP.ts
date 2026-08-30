@@ -14,6 +14,11 @@ export const jaJP = {
       databaseOperationFailed: 'ローカルデータベースの操作に失敗しました。もう一度お試しください',
       fileSystemOperationFailed: 'ローカルファイルの操作に失敗しました。権限を確認してください',
       systemTimeUnavailable: 'システム時刻を取得できません。設定を確認してください',
+      tooManyTags: 'キャラクタータグは最大 {{tag_num}} 個までです',
+      projectNotFound: '現在のプロジェクトが見つかりません。ホームから開き直してください',
+      characterCodeAlreadyRegistered: 'キャラクターコード「{{characterCode}}」は既に存在します',
+      invalidAvatarData: 'アバター画像が無効です。PNG または JPG を選択してください',
+      avatarTooLarge: 'アバター画像は {{maxSizeMb}} MB 以下にしてください',
       unknown: '操作に失敗しました。もう一度お試しください',
     },
     navigation: {

@@ -19,8 +19,6 @@ pub enum AppError {
     SystemTime(#[from] SystemTimeError),
     #[error("I/O error: {0}")]
     Io(#[from] std::io::Error),
-    #[error("file not found: {path}")]
-    FileNotFound { path: String },
 
     // project error
     #[error("project path is already registered: {project_path}")]
@@ -35,8 +33,12 @@ pub enum AppError {
     ProjectNotFound { project_id: i64 },
 
     // character error
-    #[error("project not registered: {character_code}")]
+    #[error("character code already registered: {character_code}")]
     CharacterCodeAlreadyRegistered { character_code: String },
+    #[error("invalid avatar image data")]
+    InvalidAvatarData,
+    #[error("avatar image exceeds {max_size_mb} MB")]
+    AvatarTooLarge { max_size_mb: usize },
 }
 
 impl Serialize for AppError {
@@ -49,7 +51,6 @@ impl Serialize for AppError {
             Self::TooManyTags { tag_num } => ("TOO_MANY_TAGS", Some(json!({ "tag_num": tag_num }))),
             Self::SystemTime(_) => ("SYSTEM_TIME_UNAVAILABLE", None),
             Self::Io(_) => ("FILE_SYSTEM_OPERATION_FAILED", None),
-            Self::FileNotFound { path, .. } => ("FILE_NOT_FOUND", Some(json!(path))),
             Self::ProjectPathAlreadyRegistered { project_path } => (
                 "PROJECT_PATH_ALREADY_REGISTERED",
                 Some(json!({ "projectPath": project_path })),
@@ -63,8 +64,13 @@ impl Serialize for AppError {
                 Some(json!({ "projectId": project_id })),
             ),
             Self::CharacterCodeAlreadyRegistered { character_code, .. } => (
-                "CHARACTER_CODE_ALEARY_REGISTERED",
+                "CHARACTER_CODE_ALREADY_REGISTERED",
                 Some(json!({ "characterCode": character_code })),
+            ),
+            Self::InvalidAvatarData => ("INVALID_AVATAR_DATA", None),
+            Self::AvatarTooLarge { max_size_mb } => (
+                "AVATAR_TOO_LARGE",
+                Some(json!({ "maxSizeMb": max_size_mb })),
             ),
         };
 

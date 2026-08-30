@@ -13,6 +13,11 @@ export const enUS = {
       databaseOperationFailed: 'The local database operation failed. Please try again',
       fileSystemOperationFailed: 'The local file operation failed. Check the file permissions',
       systemTimeUnavailable: 'Unable to read the system time. Check your system settings',
+      tooManyTags: 'A character can have at most {{tag_num}} tags',
+      projectNotFound: 'The current project could not be found. Reopen it from Home',
+      characterCodeAlreadyRegistered: 'Character code “{{characterCode}}” already exists',
+      invalidAvatarData: 'The avatar is invalid. Select a PNG or JPG image',
+      avatarTooLarge: 'The avatar must be smaller than {{maxSizeMb}} MB',
       unknown: 'The operation failed. Please try again',
     },
     navigation: {

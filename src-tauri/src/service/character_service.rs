@@ -6,9 +6,39 @@ use crate::util::time::current_timestamp;
 use sea_orm::{
     ActiveModelTrait, DatabaseConnection, IntoActiveModel, Set, SqlErr, TransactionTrait,
 };
+use serde::Deserialize;
 use serde_json::json;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
+
+const MAX_AVATAR_SIZE: usize = 5 * 1024 * 1024;
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AvatarInput {
+    pub bytes: Vec<u8>,
+    pub mime_type: String,
+}
+
+impl AvatarInput {
+    fn extension(&self) -> AppResult<&'static str> {
+        let is_valid = match self.mime_type.as_str() {
+            "image/png" => self.bytes.starts_with(b"\x89PNG\r\n\x1a\n"),
+            "image/jpeg" => self.bytes.starts_with(&[0xff, 0xd8, 0xff]),
+            _ => false,
+        };
+
+        if !is_valid {
+            return Err(AppError::InvalidAvatarData);
+        }
+
+        match self.mime_type.as_str() {
+            "image/png" => Ok("png"),
+            "image/jpeg" => Ok("jpg"),
+            _ => Err(AppError::InvalidAvatarData),
+        }
+    }
+}
 
 pub async fn create_character(
     db: &DatabaseConnection,
@@ -16,22 +46,25 @@ pub async fn create_character(
     character_code: &str,
     tags: Vec<String>,
     project_id: i64,
-    img_path: Option<String>,
+    avatar: Option<AvatarInput>,
 ) -> AppResult<character::Model> {
-    if tags.len() >= 5 {
+    if tags.len() > 5 {
         return Err(AppError::TooManyTags { tag_num: 5 });
     }
 
-    // 1. detect img_path is existing
-    if let Some(path) = img_path.as_deref() {
-        if !Path::new(path).is_file() {
-            return Err(AppError::FileNotFound {
-                path: path.to_string(),
+    let avatar_extension = if let Some(avatar) = avatar.as_ref() {
+        if avatar.bytes.len() > MAX_AVATAR_SIZE {
+            return Err(AppError::AvatarTooLarge {
+                max_size_mb: MAX_AVATAR_SIZE / 1024 / 1024,
             });
         }
-    }
 
-    // 2. find project
+        Some(avatar.extension()?)
+    } else {
+        None
+    };
+
+    // 1. find project
     let project = project_service::get_project_by_id(db, project_id).await?;
 
     let created_at = current_timestamp()?;
@@ -39,7 +72,7 @@ pub async fn create_character(
     // begin transaction
     let txn = db.begin().await?;
 
-    // 3. create character
+    // 2. create character
     let character = character::ActiveModel {
         project_id: Set(project_id),
         name: Set(name.to_string()),
@@ -62,26 +95,20 @@ pub async fn create_character(
         }
     })?;
 
-    // 4. create character folder
+    // 3. create character folder
     let character_dir = PathBuf::from(&project.project_path)
         .join("characters")
         .join(character.id.to_string());
 
     fs::create_dir_all(&character_dir)?;
 
-    // 5. have avatar save img to character folder
-    let avatar_url = if let Some(source_path) = img_path {
-        let source = Path::new(&source_path);
-        let extension = source
-            .extension()
-            .and_then(|ext| ext.to_str())
-            .unwrap_or("png");
-
+    // 4. save the cropped avatar bytes to the character folder
+    let avatar_url = if let (Some(avatar), Some(extension)) = (avatar, avatar_extension) {
         let avatar_file_name = format!("avatar.{extension}");
 
         let target_path = character_dir.join(&avatar_file_name);
 
-        fs::copy(source, &target_path)?;
+        fs::write(&target_path, avatar.bytes)?;
 
         // Store the path relative to the project root directory
         Some(
@@ -95,7 +122,7 @@ pub async fn create_character(
         None
     };
 
-    // 6. update character avatar path
+    // 5. update character avatar path
     let mut active_model = character.into_active_model();
 
     active_model.avatar_path = Set(avatar_url);
@@ -103,7 +130,7 @@ pub async fn create_character(
 
     let character = active_model.update(&txn).await?;
 
-    // 7. submit transaction
+    // 6. submit transaction
     txn.commit().await?;
 
     Ok(character)

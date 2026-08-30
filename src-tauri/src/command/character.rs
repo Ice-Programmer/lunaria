@@ -10,7 +10,7 @@ pub async fn create_character(
     project_id: i64,
     character_name: &str,
     character_code: &str,
-    img_path: Option<String>,
+    avatar: Option<character_service::AvatarInput>,
     tags: Vec<String>,
 ) -> AppResult<character::Model> {
     character_service::create_character(
@@ -19,7 +19,7 @@ pub async fn create_character(
         character_code,
         tags,
         project_id,
-        img_path,
+        avatar,
     )
     .await
 }

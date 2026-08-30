@@ -9,10 +9,17 @@ export interface Character {
   UpdatedAt: number;
 }
 
+export interface CharacterAvatarInput {
+  bytes: number[];
+  mimeType: 'image/png' | 'image/jpeg';
+}
+
 export interface CreateCharacterRequest {
   projectId: number;
   characterName: string;
   characterCode: string;
-  imgPath?: string;
+  avatar?: CharacterAvatarInput;
   tags: string[];
 }
+
+export type CreateCharacterInput = Omit<CreateCharacterRequest, 'projectId'>;

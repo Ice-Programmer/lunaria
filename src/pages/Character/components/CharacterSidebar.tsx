@@ -3,11 +3,15 @@ import { Button, Flex, Input, Typography } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { appTheme } from '@/theme/theme.ts';
 import { CreateCharacterModal } from '@/pages/Character/components/CreateCharacter/CreateCharacterModal.tsx';
+import { useCreateCharacter } from '@/pages/Character/hooks/useCreateCharacter.ts';
 
 const { Title, Text } = Typography;
 
 export const CharacterSidebar: React.FC = () => {
   const [createCharacterOpen, setCreateCharacterOpen] = useState(false);
+  const { handleCreateCharacter } = useCreateCharacter({
+    onSuccess: () => setCreateCharacterOpen(false),
+  });
 
   return (
     <Flex vertical>
@@ -34,10 +38,8 @@ export const CharacterSidebar: React.FC = () => {
 
       <CreateCharacterModal
         open={createCharacterOpen}
-        handleCancel={() => setCreateCharacterOpen(false)}
-        handleOk={() => {
-          // 重新请求角色列表
-        }}
+        onCancel={() => setCreateCharacterOpen(false)}
+        onCreate={handleCreateCharacter}
       />
     </Flex>
   );

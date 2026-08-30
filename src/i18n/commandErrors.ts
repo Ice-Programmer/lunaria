@@ -7,6 +7,11 @@ const commandErrorKeys = {
   DATABASE_OPERATION_FAILED: 'errors.databaseOperationFailed',
   FILE_SYSTEM_OPERATION_FAILED: 'errors.fileSystemOperationFailed',
   SYSTEM_TIME_UNAVAILABLE: 'errors.systemTimeUnavailable',
+  TOO_MANY_TAGS: 'errors.tooManyTags',
+  PROJECT_NOT_FOUND: 'errors.projectNotFound',
+  CHARACTER_CODE_ALREADY_REGISTERED: 'errors.characterCodeAlreadyRegistered',
+  INVALID_AVATAR_DATA: 'errors.invalidAvatarData',
+  AVATAR_TOO_LARGE: 'errors.avatarTooLarge',
 } as const;
 
 type CommandErrorCode = keyof typeof commandErrorKeys;

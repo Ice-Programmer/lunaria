@@ -13,6 +13,11 @@ export const zhCN = {
       databaseOperationFailed: '本地数据库操作失败，请稍后重试',
       fileSystemOperationFailed: '本地文件操作失败，请检查文件权限',
       systemTimeUnavailable: '无法读取系统时间，请检查系统时间设置',
+      tooManyTags: '角色标签最多只能添加 {{tag_num}} 个',
+      projectNotFound: '找不到当前项目，请返回首页重新打开项目',
+      characterCodeAlreadyRegistered: '角色 Code “{{characterCode}}” 已经存在',
+      invalidAvatarData: '头像文件无效，请重新选择 PNG 或 JPG 图片',
+      avatarTooLarge: '头像文件不能超过 {{maxSizeMb}} MB',
       unknown: '操作失败，请稍后重试',
     },
     navigation: {
