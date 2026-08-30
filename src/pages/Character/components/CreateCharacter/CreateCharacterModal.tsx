@@ -22,6 +22,7 @@ export const CreateCharacterModal: React.FC<CreateCharacterModalProps> = ({
       width={680}
       title={<ModalHeader />}
       open={open}
+      destroyOnHidden
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[
