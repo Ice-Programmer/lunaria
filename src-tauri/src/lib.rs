@@ -6,6 +6,7 @@ mod error;
 mod repository;
 mod service;
 mod util;
+mod dto;
 
 use command::character::create_character;
 use command::character::list_character;

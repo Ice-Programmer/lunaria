@@ -1,5 +1,6 @@
 use crate::db::Db;
 use crate::domain::avatar_image::AvatarImage;
+use crate::dto::character_dto::CharacterDTO;
 use crate::entity::character;
 use crate::error::AppResult;
 use crate::service::character_service;
@@ -38,9 +39,6 @@ pub async fn create_character(
 }
 
 #[tauri::command]
-pub async fn list_character(
-    db: State<'_, Db>,
-    project_id: i64,
-) -> AppResult<Vec<character::Model>> {
+pub async fn list_character(db: State<'_, Db>, project_id: i64) -> AppResult<Vec<CharacterDTO>> {
     character_service::list_character(&db, project_id).await
 }
