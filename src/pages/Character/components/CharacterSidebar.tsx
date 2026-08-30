@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Flex, Input, Typography } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { appTheme } from '@/theme/theme.ts';
-import { CreateCharacterModal } from '@/pages/Character/components/CreateCharacterModal.tsx';
+import { CreateCharacterModal } from '@/pages/Character/components/CreateCharacter/CreateCharacterModal.tsx';
 
 const { Title, Text } = Typography;
 

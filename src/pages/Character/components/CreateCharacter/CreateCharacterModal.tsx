@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Col, Divider, Flex, Form, Input, Modal, Row, Select, Typography } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 import { CreateCharacterRequest } from '@/types/character.ts';
+import { CharacterUploader } from '@/pages/Character/components/CreateCharacter/CharacterUploader.tsx';
 
 const { Title, Text } = Typography;
 
@@ -18,7 +19,7 @@ export const CreateCharacterModal: React.FC<CreateCharacterModalProps> = ({
 }) => {
   return (
     <Modal
-      width={500}
+      width={680}
       title={<ModalHeader />}
       open={open}
       onOk={handleOk}
@@ -33,7 +34,9 @@ export const CreateCharacterModal: React.FC<CreateCharacterModalProps> = ({
       ]}
     >
       <Row gutter={24}>
-        <Col span={7}>f</Col>
+        <Col span={7}>
+          <CharacterUploader />
+        </Col>
         <Col span={17}>
           <CreateCharacterForm />
         </Col>
