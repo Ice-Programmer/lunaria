@@ -90,6 +90,7 @@ const CharacterList: React.FC<CharacterListProps> = ({ characterList, loading })
         <Listy<CharacterDTO>
           items={characterList}
           rowKey="id"
+          styles={{ item: { borderBottom: 'none' } }}
           itemRender={(item) => <CharacterContent character={item} />}
         />
       </div>
