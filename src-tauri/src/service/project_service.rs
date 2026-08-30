@@ -1,11 +1,9 @@
 use crate::entity::project;
 use crate::error::{AppError, AppResult};
+use crate::repository::project_repository::{self, NewProject};
 use crate::util::file::ensure_dir;
 use crate::util::time::current_timestamp;
-use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, QueryOrder,
-    QuerySelect, Set,
-};
+use sea_orm::DatabaseConnection;
 
 pub async fn create_project(
     db: &DatabaseConnection,
@@ -14,10 +12,7 @@ pub async fn create_project(
 ) -> AppResult<project::Model> {
     let created_at = current_timestamp()?;
 
-    let registered_project = project::Entity::find()
-        .filter(project::Column::ProjectPath.eq(&project_path))
-        .one(db)
-        .await?;
+    let registered_project = project_repository::find_by_path(db, &project_path).await?;
 
     if registered_project.is_some() {
         return Err(AppError::ProjectPathAlreadyRegistered { project_path });
@@ -30,48 +25,38 @@ pub async fn create_project(
             source,
         })?;
 
-    let project = project::ActiveModel {
-        project_name: Set(project_name),
-        project_path: Set(project_path),
-        created_at: Set(created_at),
-        last_opened_at: Set(created_at),
-        ..Default::default()
-    };
+    let project = project_repository::insert(
+        db,
+        NewProject {
+            project_name,
+            project_path,
+            created_at,
+            last_opened_at: created_at,
+        },
+    )
+    .await?;
 
-    Ok(project.insert(db).await?)
+    Ok(project)
 }
 
 pub async fn fetch_latest_opened_project(
     db: &DatabaseConnection,
 ) -> AppResult<Option<project::Model>> {
-    let project = project::Entity::find()
-        .order_by_desc(project::Column::LastOpenedAt)
-        .order_by_desc(project::Column::Id)
-        .one(db)
-        .await?;
-
-    Ok(project)
+    Ok(project_repository::find_latest_opened(db).await?)
 }
 
 pub async fn query_recent_opened_project(
     db: &DatabaseConnection,
     num: u64,
 ) -> AppResult<Vec<project::Model>> {
-    let project_list = project::Entity::find()
-        .order_by_desc(project::Column::LastOpenedAt)
-        .limit(num)
-        .all(db)
-        .await?;
-
-    Ok(project_list)
+    Ok(project_repository::find_recent_opened(db, num).await?)
 }
 
 pub async fn get_project_by_id(
     db: &DatabaseConnection,
     project_id: i64,
 ) -> AppResult<project::Model> {
-    project::Entity::find_by_id(project_id)
-        .one(db)
+    project_repository::find_by_id(db, project_id)
         .await?
-        .ok_or_else(|| AppError::ProjectNotFound { project_id })
+        .ok_or(AppError::ProjectNotFound { project_id })
 }

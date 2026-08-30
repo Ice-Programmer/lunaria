@@ -36,3 +36,11 @@ pub async fn create_character(
     )
     .await
 }
+
+#[tauri::command]
+pub async fn list_character(
+    db: State<'_, Db>,
+    project_id: i64,
+) -> AppResult<Vec<character::Model>> {
+    character_service::list_character(&db, project_id).await
+}

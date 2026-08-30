@@ -3,10 +3,12 @@ mod db;
 mod domain;
 mod entity;
 mod error;
+mod repository;
 mod service;
 mod util;
 
 use command::character::create_character;
+use command::character::list_character;
 use command::greet::greeting;
 use command::project::create_project;
 use command::project::fetch_latest_opened_project;
@@ -32,6 +34,7 @@ pub fn run() {
             query_recent_opened_project,
             // character
             create_character,
+            list_character,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
