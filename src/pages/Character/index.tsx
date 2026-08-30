@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Col, Row, Typography } from 'antd';
+import { Col, Row } from 'antd';
 import { CharacterSidebar } from '@/pages/Character/components/CharacterSidebar.tsx';
 import { appTheme } from '@/theme/theme.ts';
 import type { CharacterDTO } from '@/types/character.ts';
-
-const { Title } = Typography;
+import { CharacterContent } from '@/pages/Character/components/CharacterContent.tsx';
 
 export const CharacterPage: React.FC = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterDTO | null>(null);
@@ -21,10 +20,11 @@ export const CharacterPage: React.FC = () => {
         />
       </Col>
 
-      <Col span={13} style={{ padding: 24 }}>
-        {selectedCharacter && (
-          <Title level={4}>{selectedCharacter.characterName}</Title>
-        )}
+      <Col
+        span={13}
+        style={{ height: '100%', minHeight: 0, borderRight: `1px solid ${appTheme.colors.border}` }}
+      >
+        {selectedCharacter && <CharacterContent character={selectedCharacter} />}
       </Col>
       <Col span={6}>col-6</Col>
     </Row>
