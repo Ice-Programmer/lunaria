@@ -53,7 +53,7 @@ where
 {
     character::Entity::find()
         .filter(character::Column::ProjectId.eq(project_id))
-        .order_by_asc(character::Column::UpdatedAt)
+        .order_by_desc(character::Column::UpdatedAt)
         .all(db)
         .await
 }
