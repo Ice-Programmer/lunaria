@@ -4,6 +4,8 @@ import { CharacterSidebar } from '@/pages/Character/components/CharacterSidebar.
 import { appTheme } from '@/theme/theme.ts';
 import type { CharacterDTO } from '@/types/character.ts';
 
+const { Title } = Typography;
+
 export const CharacterPage: React.FC = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterDTO | null>(null);
 
@@ -21,7 +23,7 @@ export const CharacterPage: React.FC = () => {
 
       <Col span={13} style={{ padding: 24 }}>
         {selectedCharacter && (
-          <Typography.Title level={4}>{selectedCharacter.characterName}</Typography.Title>
+          <Title level={4}>{selectedCharacter.characterName}</Title>
         )}
       </Col>
       <Col span={6}>col-6</Col>
