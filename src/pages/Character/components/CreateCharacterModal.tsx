@@ -84,7 +84,7 @@ const CreateCharacterForm: React.FC = () => {
           <Col span={12}>
             <Form.Item<CreateCharacterRequest>
               label="角色 Code"
-              name="characterName"
+              name="characterCode"
               style={{ marginBottom: 8 }}
             >
               <Input />
