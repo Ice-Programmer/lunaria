@@ -10,7 +10,7 @@ mod util;
 
 use command::character::create_character;
 use command::character::list_character;
-use command::character_category::create_character_category;
+use command::character_sprite_set::create_character_sprite_set;
 use command::greet::greeting;
 use command::project::create_project;
 use command::project::fetch_latest_opened_project;
@@ -37,7 +37,7 @@ pub fn run() {
             // character
             create_character,
             list_character,
-            create_character_category,
+            create_character_sprite_set,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

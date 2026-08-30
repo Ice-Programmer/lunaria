@@ -7,9 +7,10 @@ pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i64,
 
+    #[sea_orm(unique_key = "character_code_unique")]
     pub project_id: i64,
 
-    #[sea_orm(unique)]
+    #[sea_orm(unique_key = "character_code_unique")]
     pub character_code: String,
 
     pub name: String,

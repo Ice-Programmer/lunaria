@@ -1,16 +1,16 @@
-use crate::entity::character_category;
+use crate::entity::character_sprite_set;
 use crate::error::{AppError, AppResult};
 use crate::repository::{character_repository, project_repository};
 use crate::util::time::current_timestamp;
-use sea_orm::{ActiveModelTrait, DatabaseConnection, EntityTrait, Set};
+use sea_orm::{ActiveModelTrait, DatabaseConnection, Set};
 
-pub async fn create_character_category(
+pub async fn create_character_sprite_set(
     db: &DatabaseConnection,
     project_id: i64,
     character_id: i64,
-    category_name: &str,
-    category_code: &str,
-) -> AppResult<character_category::Model> {
+    sprite_set_name: &str,
+    sprite_set_code: &str,
+) -> AppResult<character_sprite_set::Model> {
     project_repository::find_by_id(db, project_id)
         .await?
         .ok_or(AppError::ProjectNotFound { project_id })?;
@@ -21,11 +21,11 @@ pub async fn create_character_category(
 
     let created_at = current_timestamp()?;
 
-    let character_category = character_category::ActiveModel {
+    let character_sprite_set = character_sprite_set::ActiveModel {
         project_id: Set(project_id),
         character_id: Set(character_id),
-        category_name: Set(category_name.to_string()),
-        category_code: Set(category_code.to_string()),
+        sprite_set_name: Set(sprite_set_name.to_string()),
+        sprite_set_code: Set(sprite_set_code.to_string()),
         created_at: Set(created_at),
         updated_at: Set(created_at),
         ..Default::default()
@@ -33,5 +33,5 @@ pub async fn create_character_category(
     .insert(db)
     .await?;
 
-    Ok(character_category)
+    Ok(character_sprite_set)
 }

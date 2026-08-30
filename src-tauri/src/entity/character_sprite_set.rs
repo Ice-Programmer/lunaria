@@ -2,24 +2,24 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Serialize, Deserialize)]
-#[sea_orm(table_name = "character_category")]
+#[sea_orm(table_name = "character_sprite_set")]
 pub struct Model {
     #[sea_orm(primary_key)]
     pub id: i64,
 
-    #[sea_orm(unique_key = "character_category_unique")]
+    #[sea_orm(unique_key = "character_sprite_set_unique")]
     pub project_id: i64,
 
-    #[sea_orm(unique_key = "character_category_unique")]
+    #[sea_orm(unique_key = "character_sprite_set_unique")]
     pub character_id: i64,
 
-    #[sea_orm(unique_key = "character_category_unique")]
-    pub category_code: String,
+    #[sea_orm(unique_key = "character_sprite_set_unique")]
+    pub sprite_set_code: String,
 
-    pub category_name: String,
+    pub sprite_set_name: String,
 
     pub created_at: i64,
-    
+
     pub updated_at: i64,
 }
 
