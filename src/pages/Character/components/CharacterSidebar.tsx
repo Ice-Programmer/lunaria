@@ -8,10 +8,19 @@ import { useListCharacter } from '@/pages/Character/hooks/useListCharacter.ts';
 import { useProjectStore } from '@/store/ProjectStore.ts';
 import type { CharacterDTO } from '@/types/character.ts';
 import { convertFileSrc } from '@tauri-apps/api/core';
+import styles from './CharacterSidebar.module.css';
 
 const { Title, Text } = Typography;
 
-export const CharacterSidebar: React.FC = () => {
+interface CharacterSidebarProps {
+  selectedCharacterId: number | null;
+  onSelectCharacter: (character: CharacterDTO) => void;
+}
+
+export const CharacterSidebar: React.FC<CharacterSidebarProps> = ({
+  selectedCharacterId,
+  onSelectCharacter,
+}) => {
   const [createCharacterOpen, setCreateCharacterOpen] = useState(false);
   const projectId = useProjectStore((state) => state.projectId);
   const {
@@ -58,7 +67,12 @@ export const CharacterSidebar: React.FC = () => {
         prefix={<SearchOutlined />}
       />
 
-      <CharacterList characterList={characterList} loading={loading} />
+      <CharacterList
+        characterList={characterList}
+        loading={loading}
+        selectedCharacterId={selectedCharacterId}
+        onSelectCharacter={onSelectCharacter}
+      />
 
       <CreateCharacterModal
         open={createCharacterOpen}
@@ -72,9 +86,16 @@ export const CharacterSidebar: React.FC = () => {
 interface CharacterListProps {
   characterList: CharacterDTO[];
   loading: boolean;
+  selectedCharacterId: number | null;
+  onSelectCharacter: (character: CharacterDTO) => void;
 }
 
-const CharacterList: React.FC<CharacterListProps> = ({ characterList, loading }) => {
+const CharacterList: React.FC<CharacterListProps> = ({
+  characterList,
+  loading,
+  selectedCharacterId,
+  onSelectCharacter,
+}) => {
   return (
     <Flex
       vertical
@@ -90,8 +111,14 @@ const CharacterList: React.FC<CharacterListProps> = ({ characterList, loading })
         <Listy<CharacterDTO>
           items={characterList}
           rowKey="id"
-          styles={{ item: { borderBottom: 'none' } }}
-          itemRender={(item) => <CharacterContent character={item} />}
+          styles={{ item: { borderBottom: 'none', padding: '6px 0' } }}
+          itemRender={(item) => (
+            <CharacterContent
+              character={item}
+              selected={item.id === selectedCharacterId}
+              onSelect={onSelectCharacter}
+            />
+          )}
         />
       </div>
     </Flex>
@@ -100,27 +127,38 @@ const CharacterList: React.FC<CharacterListProps> = ({ characterList, loading })
 
 interface CharacterContentProps {
   character: CharacterDTO;
+  selected: boolean;
+  onSelect: (character: CharacterDTO) => void;
 }
 
-const CharacterContent: React.FC<CharacterContentProps> = ({ character }) => {
+const CharacterContent: React.FC<CharacterContentProps> = ({ character, selected, onSelect }) => {
   const avatarSrc = character.avatarPath ? convertFileSrc(character.avatarPath) : undefined;
 
   return (
-    <Flex align="center" gap={10}>
-      <Avatar
-        shape="square"
-        size={40}
-        src={avatarSrc}
-        icon={<UserOutlined />}
-        alt={character.characterName}
-      />
+    <button
+      type="button"
+      className={`${styles.characterItem} ${selected ? styles.characterItemSelected : ''}`}
+      aria-pressed={selected}
+      onClick={() => onSelect(character)}
+    >
+      <Flex align="center" gap={10}>
+        <Avatar
+          shape="square"
+          size={40}
+          src={avatarSrc}
+          icon={<UserOutlined />}
+          alt={character.characterName}
+        />
 
-      <Flex vertical align="start">
-        <Text>{character.characterName}</Text>
-        <Text type="secondary" style={{ fontSize: 11 }}>
-          2 种立绘 · 6 个差分
-        </Text>
+        <Flex vertical align="start">
+          <Text style={selected ? { color: appTheme.colors.sidebarItemActive } : undefined}>
+            {character.characterName}
+          </Text>
+          <Text type="secondary" style={{ fontSize: 11 }}>
+            2 种立绘 · 6 个差分
+          </Text>
+        </Flex>
       </Flex>
-    </Flex>
+    </button>
   );
 };

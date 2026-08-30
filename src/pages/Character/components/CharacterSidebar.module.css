@@ -1,0 +1,35 @@
+.characterItem {
+  width: 100%;
+  padding: 12px 10px;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.characterItem:hover {
+  background: #f1edff;
+}
+
+.characterItem:focus-visible {
+  outline: 2px solid #8067dc;
+  outline-offset: 2px;
+}
+
+.characterItemSelected {
+  background: #eee9ff;
+  border-color: #d8ceff;
+  box-shadow: inset 4px 0 0 #795fe8;
+}
+
+.characterItemSelected:hover {
+  background: #eee9ff;
+}
