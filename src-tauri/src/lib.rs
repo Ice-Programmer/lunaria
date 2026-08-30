@@ -1,5 +1,6 @@
 mod command;
 mod db;
+mod domain;
 mod entity;
 mod error;
 mod service;
