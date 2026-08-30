@@ -1,15 +1,16 @@
 mod command;
 mod db;
 mod domain;
+mod dto;
 mod entity;
 mod error;
 mod repository;
 mod service;
 mod util;
-mod dto;
 
 use command::character::create_character;
 use command::character::list_character;
+use command::character_category::create_character_category;
 use command::greet::greeting;
 use command::project::create_project;
 use command::project::fetch_latest_opened_project;
@@ -36,6 +37,7 @@ pub fn run() {
             // character
             create_character,
             list_character,
+            create_character_category,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

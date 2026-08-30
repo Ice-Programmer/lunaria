@@ -51,12 +51,3 @@ pub async fn query_recent_opened_project(
 ) -> AppResult<Vec<project::Model>> {
     Ok(project_repository::find_recent_opened(db, num).await?)
 }
-
-pub async fn get_project_by_id(
-    db: &DatabaseConnection,
-    project_id: i64,
-) -> AppResult<project::Model> {
-    project_repository::find_by_id(db, project_id)
-        .await?
-        .ok_or(AppError::ProjectNotFound { project_id })
-}

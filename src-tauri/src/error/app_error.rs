@@ -39,6 +39,8 @@ pub enum AppError {
     InvalidAvatarData,
     #[error("avatar image exceeds {max_size_mb} MB")]
     AvatarTooLarge { max_size_mb: usize },
+    #[error("character not found: {character_id}")]
+    CharacterNotFound { character_id: i64 },
 }
 
 impl Serialize for AppError {
@@ -71,6 +73,10 @@ impl Serialize for AppError {
             Self::AvatarTooLarge { max_size_mb } => (
                 "AVATAR_TOO_LARGE",
                 Some(json!({ "maxSizeMb": max_size_mb })),
+            ),
+            Self::CharacterNotFound { character_id, .. } => (
+                "CHARACTER_NOT_FOUND",
+                Some(json!({ "characterId": character_id })),
             ),
         };
 

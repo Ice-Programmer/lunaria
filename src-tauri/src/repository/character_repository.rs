@@ -57,3 +57,10 @@ where
         .all(db)
         .await
 }
+
+pub async fn find_by_id<C>(db: &C, character_id: i64) -> Result<Option<character::Model>, DbErr>
+where
+    C: ConnectionTrait,
+{
+    character::Entity::find_by_id(character_id).one(db).await
+}
