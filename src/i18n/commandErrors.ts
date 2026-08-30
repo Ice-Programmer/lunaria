@@ -12,6 +12,11 @@ const commandErrorKeys = {
   CHARACTER_CODE_ALREADY_REGISTERED: 'errors.characterCodeAlreadyRegistered',
   INVALID_AVATAR_DATA: 'errors.invalidAvatarData',
   AVATAR_TOO_LARGE: 'errors.avatarTooLarge',
+  INVALID_CHARACTER_SPRITE_IMAGE_DATA: 'errors.invalidCharacterSpriteImageData',
+  CHARACTER_SPRITE_IMAGE_TOO_LARGE: 'errors.characterSpriteImageTooLarge',
+  CHARACTER_SPRITE_SET_NOT_FOUND: 'errors.characterSpriteSetNotFound',
+  INVALID_CHARACTER_SPRITE_CODE: 'errors.invalidCharacterSpriteCode',
+  CHARACTER_SPRITE_CODE_ALREADY_REGISTERED: 'errors.characterSpriteCodeAlreadyRegistered',
 } as const;
 
 type CommandErrorCode = keyof typeof commandErrorKeys;

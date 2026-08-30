@@ -18,6 +18,11 @@ export const zhCN = {
       characterCodeAlreadyRegistered: '角色 Code “{{characterCode}}” 已经存在',
       invalidAvatarData: '头像文件无效，请重新选择 PNG 或 JPG 图片',
       avatarTooLarge: '头像文件不能超过 {{maxSizeMb}} MB',
+      invalidCharacterSpriteImageData: '立绘图片无效，请重新选择 PNG 图片',
+      characterSpriteImageTooLarge: '立绘图片不能超过 {{maxSizeMb}} MB',
+      characterSpriteSetNotFound: '找不到指定的立绘套装',
+      invalidCharacterSpriteCode: '差分 Code “{{spriteCode}}”格式不正确',
+      characterSpriteCodeAlreadyRegistered: '差分 Code “{{spriteCode}}”已存在',
       unknown: '操作失败，请稍后重试',
     },
     navigation: {

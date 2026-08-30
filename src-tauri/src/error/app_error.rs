@@ -41,6 +41,18 @@ pub enum AppError {
     AvatarTooLarge { max_size_mb: usize },
     #[error("character not found: {character_id}")]
     CharacterNotFound { character_id: i64 },
+
+    // character sprite error
+    #[error("invalid character sprite image data")]
+    InvalidCharacterSpriteImageData,
+    #[error("character sprite image exceeds {max_size_mb} MB")]
+    CharacterSpriteImageTooLarge { max_size_mb: usize },
+    #[error("character sprite set not found: {sprite_set_id}")]
+    CharacterSpriteSetNotFound { sprite_set_id: i64 },
+    #[error("invalid character sprite code: {sprite_code}")]
+    InvalidCharacterSpriteCode { sprite_code: String },
+    #[error("character sprite code already registered: {sprite_code}")]
+    CharacterSpriteCodeAlreadyRegistered { sprite_code: String },
 }
 
 impl Serialize for AppError {
@@ -77,6 +89,23 @@ impl Serialize for AppError {
             Self::CharacterNotFound { character_id, .. } => (
                 "CHARACTER_NOT_FOUND",
                 Some(json!({ "characterId": character_id })),
+            ),
+            Self::InvalidCharacterSpriteImageData => ("INVALID_CHARACTER_SPRITE_IMAGE_DATA", None),
+            Self::CharacterSpriteImageTooLarge { max_size_mb } => (
+                "CHARACTER_SPRITE_IMAGE_TOO_LARGE",
+                Some(json!({ "maxSizeMb": max_size_mb })),
+            ),
+            Self::CharacterSpriteSetNotFound { sprite_set_id } => (
+                "CHARACTER_SPRITE_SET_NOT_FOUND",
+                Some(json!({ "spriteSetId": sprite_set_id })),
+            ),
+            Self::InvalidCharacterSpriteCode { sprite_code } => (
+                "INVALID_CHARACTER_SPRITE_CODE",
+                Some(json!({ "spriteCode": sprite_code })),
+            ),
+            Self::CharacterSpriteCodeAlreadyRegistered { sprite_code } => (
+                "CHARACTER_SPRITE_CODE_ALREADY_REGISTERED",
+                Some(json!({ "spriteCode": sprite_code })),
             ),
         };
 

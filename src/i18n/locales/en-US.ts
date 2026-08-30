@@ -18,6 +18,11 @@ export const enUS = {
       characterCodeAlreadyRegistered: 'Character code “{{characterCode}}” already exists',
       invalidAvatarData: 'The avatar is invalid. Select a PNG or JPG image',
       avatarTooLarge: 'The avatar must be smaller than {{maxSizeMb}} MB',
+      invalidCharacterSpriteImageData: 'The sprite is invalid. Select a PNG image',
+      characterSpriteImageTooLarge: 'The sprite must be smaller than {{maxSizeMb}} MB',
+      characterSpriteSetNotFound: 'The sprite set could not be found',
+      invalidCharacterSpriteCode: 'Sprite code “{{spriteCode}}” is invalid',
+      characterSpriteCodeAlreadyRegistered: 'Sprite code “{{spriteCode}}” already exists',
       unknown: 'The operation failed. Please try again',
     },
     navigation: {

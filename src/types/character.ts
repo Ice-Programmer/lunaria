@@ -1,3 +1,5 @@
+import type { ImageInput } from '@/types/image.ts';
+
 export interface Character {
   id: number;
   projectId: number;
@@ -9,16 +11,11 @@ export interface Character {
   UpdatedAt: number;
 }
 
-export interface CharacterAvatarInput {
-  bytes: number[];
-  mimeType: 'image/png' | 'image/jpeg';
-}
-
 export interface CreateCharacterRequest {
   projectId: number;
   characterName: string;
   characterCode: string;
-  avatar?: CharacterAvatarInput;
+  avatar?: ImageInput;
   tags: string[];
 }
 

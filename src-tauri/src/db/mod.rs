@@ -1,10 +1,8 @@
 use crate::{
-    entity::{character, character_sprite_set, project},
+    entity::{character, character_sprite, character_sprite_set, project},
     error::AppResult,
 };
-use sea_orm::{
-    ConnectionTrait, Database, DatabaseConnection, DbBackend, Schema, Statement, TransactionTrait,
-};
+use sea_orm::{ConnectionTrait, Database, DatabaseConnection, Schema};
 use std::path::Path;
 
 pub type Db = DatabaseConnection;
@@ -30,6 +28,7 @@ async fn create_tables(db: &Db) -> AppResult<()> {
         schema.create_table_from_entity(project::Entity),
         schema.create_table_from_entity(character::Entity),
         schema.create_table_from_entity(character_sprite_set::Entity),
+        schema.create_table_from_entity(character_sprite::Entity),
     ];
 
     for table in &mut tables {

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { Col, Divider, Flex, Form, Input, Modal, Row, Select, Typography } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
-import type {
-  CharacterAvatarInput,
-  CreateCharacterInput,
-  CreateCharacterRequest,
-} from '@/types/character.ts';
+import type { CreateCharacterInput, CreateCharacterRequest } from '@/types/character.ts';
+import type { ImageInput } from '@/types/image.ts';
 import { CharacterUploader } from '@/pages/Character/components/CreateCharacter/CharacterUploader.tsx';
 
 const { Title, Text } = Typography;
@@ -21,7 +18,7 @@ interface CreateCharacterModalProps {
   onCancel: () => void;
 }
 
-const toAvatarInput = async (file?: File): Promise<CharacterAvatarInput | undefined> => {
+const toAvatarInput = async (file?: File): Promise<ImageInput | undefined> => {
   if (!file) return undefined;
 
   if (file.type !== 'image/png' && file.type !== 'image/jpeg') {

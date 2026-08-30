@@ -3,12 +3,12 @@ use crate::error::{AppError, AppResult};
 const MAX_AVATAR_SIZE: usize = 5 * 1024 * 1024;
 
 #[derive(Debug)]
-enum AvatarFormat {
+enum ImageFormat {
     Png,
     Jpeg,
 }
 
-impl AvatarFormat {
+impl ImageFormat {
     fn extension(&self) -> &'static str {
         match self {
             Self::Png => "png",
@@ -20,7 +20,7 @@ impl AvatarFormat {
 #[derive(Debug)]
 pub struct AvatarImage {
     bytes: Vec<u8>,
-    format: AvatarFormat,
+    format: ImageFormat,
 }
 
 impl AvatarImage {
@@ -32,8 +32,8 @@ impl AvatarImage {
         }
 
         let format = match mime_type.as_str() {
-            "image/png" if bytes.starts_with(b"\x89PNG\r\n\x1a\n") => AvatarFormat::Png,
-            "image/jpeg" if bytes.starts_with(&[0xff, 0xd8, 0xff]) => AvatarFormat::Jpeg,
+            "image/png" if bytes.starts_with(b"\x89PNG\r\n\x1a\n") => ImageFormat::Png,
+            "image/jpeg" if bytes.starts_with(&[0xff, 0xd8, 0xff]) => ImageFormat::Jpeg,
             _ => return Err(AppError::InvalidAvatarData),
         };
 

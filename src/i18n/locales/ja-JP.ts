@@ -19,6 +19,11 @@ export const jaJP = {
       characterCodeAlreadyRegistered: 'キャラクターコード「{{characterCode}}」は既に存在します',
       invalidAvatarData: 'アバター画像が無効です。PNG または JPG を選択してください',
       avatarTooLarge: 'アバター画像は {{maxSizeMb}} MB 以下にしてください',
+      invalidCharacterSpriteImageData: '立ち絵が無効です。PNG を選択してください',
+      characterSpriteImageTooLarge: '立ち絵は {{maxSizeMb}} MB 以下にしてください',
+      characterSpriteSetNotFound: '指定された立ち絵セットが見つかりません',
+      invalidCharacterSpriteCode: '差分コード「{{spriteCode}}」が正しくありません',
+      characterSpriteCodeAlreadyRegistered: '差分コード「{{spriteCode}}」は既に存在します',
       unknown: '操作に失敗しました。もう一度お試しください',
     },
     navigation: {
