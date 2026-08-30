@@ -1,4 +1,5 @@
 use crate::domain::avatar_image::AvatarImage;
+use crate::dto::character_dto::CharacterDTO;
 use crate::entity::character;
 use crate::error::{AppError, AppResult};
 use crate::repository::character_repository::{self, NewCharacter};
@@ -8,7 +9,6 @@ use crate::util::time::current_timestamp;
 use sea_orm::{DatabaseConnection, SqlErr, TransactionTrait};
 use std::fs;
 use std::path::PathBuf;
-use crate::dto::character_dto::CharacterDTO;
 
 pub async fn create_character(
     db: &DatabaseConnection,
@@ -44,16 +44,16 @@ pub async fn create_character(
             updated_at: created_at,
         },
     )
-        .await
-        .map_err(|err| {
-            if matches!(err.sql_err(), Some(SqlErr::UniqueConstraintViolation(_))) {
-                AppError::CharacterCodeAlreadyRegistered {
-                    character_code: character_code.to_string(),
-                }
-            } else {
-                AppError::from(err)
+    .await
+    .map_err(|err| {
+        if matches!(err.sql_err(), Some(SqlErr::UniqueConstraintViolation(_))) {
+            AppError::CharacterCodeAlreadyRegistered {
+                character_code: character_code.to_string(),
             }
-        })?;
+        } else {
+            AppError::from(err)
+        }
+    })?;
 
     // 3. create character folder
     let character_dir = PathBuf::from(&project.project_path)
@@ -74,11 +74,7 @@ pub async fn create_character(
         // Store the path relative to the project root directory
         Some(
             PathBuf::from("characters")
-                .join(format!(
-                    "{}_{}",
-                    character.character_code.to_string(),
-                    character.id.to_string()
-                ))
+                .join(character.id.to_string())
                 .join(avatar_file_name)
                 .to_string_lossy()
                 .to_string(),
@@ -108,15 +104,9 @@ pub async fn list_character(
 
     let characters = character_repository::find_by_project_id(db, project_id).await?;
 
-
     let result_list = characters
         .into_iter()
-        .map(|character| {
-            CharacterDTO::from_model(
-                character,
-                &project.project_path,
-            )
-        })
+        .map(|character| CharacterDTO::from_model(character, &project.project_path))
         .collect();
 
     Ok(result_list)

@@ -5,8 +5,11 @@ import { appTheme } from '@/theme/theme.ts';
 
 export const CharacterPage: React.FC = () => {
   return (
-    <Row style={{ minHeight: '100%' }}>
-      <Col span={5} style={{ borderRight: `1px solid ${appTheme.colors.border}` }}>
+    <Row style={{ height: '100%', minHeight: 0, overflow: 'hidden' }}>
+      <Col
+        span={5}
+        style={{ height: '100%', minHeight: 0, borderRight: `1px solid ${appTheme.colors.border}` }}
+      >
         <CharacterSidebar />
       </Col>
 

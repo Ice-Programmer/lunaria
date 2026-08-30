@@ -1,24 +1,48 @@
-import React, { useState } from 'react';
-import { Button, Flex, Input, Typography } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import { Avatar, Button, Flex, Input, Listy, Typography } from 'antd';
+import { PlusOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { appTheme } from '@/theme/theme.ts';
 import { CreateCharacterModal } from '@/pages/Character/components/CreateCharacter/CreateCharacterModal.tsx';
 import { useCreateCharacter } from '@/pages/Character/hooks/useCreateCharacter.ts';
+import { useListCharacter } from '@/pages/Character/hooks/useListCharacter.ts';
+import { useProjectStore } from '@/store/ProjectStore.ts';
+import type { CharacterDTO } from '@/types/character.ts';
+import { convertFileSrc } from '@tauri-apps/api/core';
 
 const { Title, Text } = Typography;
 
 export const CharacterSidebar: React.FC = () => {
   const [createCharacterOpen, setCreateCharacterOpen] = useState(false);
+  const projectId = useProjectStore((state) => state.projectId);
+  const {
+    characterList,
+    loading,
+    handleListCharacter: refreshCharacterList,
+  } = useListCharacter({ projectId });
+
+  useEffect(() => {
+    if (projectId != null) {
+      void refreshCharacterList();
+    }
+  }, [projectId, refreshCharacterList]);
+
   const { handleCreateCharacter } = useCreateCharacter({
-    onSuccess: () => setCreateCharacterOpen(false),
+    onSuccess: () => {
+      setCreateCharacterOpen(false);
+      void refreshCharacterList();
+    },
   });
 
   return (
-    <Flex vertical>
+    <Flex vertical style={{ height: '100%', minHeight: 0, overflow: 'hidden' }}>
       <Flex
         align="center"
         justify="space-between"
-        style={{ borderBottom: `1px solid ${appTheme.colors.border}`, padding: '15px 10px' }}
+        style={{
+          flexShrink: 0,
+          borderBottom: `1px solid ${appTheme.colors.border}`,
+          padding: '15px 10px',
+        }}
       >
         <Title level={5}>角色</Title>
         <Button
@@ -29,12 +53,12 @@ export const CharacterSidebar: React.FC = () => {
       </Flex>
 
       <Input
-        style={{ width: '90%', margin: '10px auto' }}
+        style={{ width: '90%', margin: '10px auto', flexShrink: 0 }}
         placeholder="搜索角色"
         prefix={<SearchOutlined />}
       />
 
-      <CharacterList />
+      <CharacterList characterList={characterList} loading={loading} />
 
       <CreateCharacterModal
         open={createCharacterOpen}
@@ -45,12 +69,57 @@ export const CharacterSidebar: React.FC = () => {
   );
 };
 
-const CharacterList: React.FC = () => {
+interface CharacterListProps {
+  characterList: CharacterDTO[];
+  loading: boolean;
+}
+
+const CharacterList: React.FC<CharacterListProps> = ({ characterList, loading }) => {
   return (
-    <Flex vertical align="start" style={{ width: '100%', padding: '8px 10px' }}>
+    <Flex
+      vertical
+      align="start"
+      aria-busy={loading}
+      style={{ flex: 1, minHeight: 0, width: '100%', padding: '8px 10px', overflow: 'hidden' }}
+    >
       <Text type="secondary" style={{ fontSize: 12 }}>
-        全部角色 · 3
+        全部角色 · {characterList.length}
       </Text>
+
+      <div style={{ flex: 1, minHeight: 0, width: '100%', overflowY: 'auto' }}>
+        <Listy<CharacterDTO>
+          items={characterList}
+          rowKey="id"
+          itemRender={(item) => <CharacterContent character={item} />}
+        />
+      </div>
+    </Flex>
+  );
+};
+
+interface CharacterContentProps {
+  character: CharacterDTO;
+}
+
+const CharacterContent: React.FC<CharacterContentProps> = ({ character }) => {
+  const avatarSrc = character.avatarPath ? convertFileSrc(character.avatarPath) : undefined;
+
+  return (
+    <Flex align="center" gap={10}>
+      <Avatar
+        shape="square"
+        size={40}
+        src={avatarSrc}
+        icon={<UserOutlined />}
+        alt={character.characterName}
+      />
+
+      <Flex vertical align="start">
+        <Text>{character.characterName}</Text>
+        <Text type="secondary" style={{ fontSize: 11 }}>
+          2 种立绘 · 6 个差分
+        </Text>
+      </Flex>
     </Flex>
   );
 };

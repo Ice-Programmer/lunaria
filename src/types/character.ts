@@ -22,4 +22,10 @@ export interface CreateCharacterRequest {
   tags: string[];
 }
 
+export interface CharacterDTO {
+  id: number;
+  characterName: string;
+  characterCode: string;
+  avatarPath: string | null;
+}
 export type CreateCharacterInput = Omit<CreateCharacterRequest, 'projectId'>;

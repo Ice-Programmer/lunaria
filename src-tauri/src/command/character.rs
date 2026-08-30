@@ -5,7 +5,7 @@ use crate::entity::character;
 use crate::error::AppResult;
 use crate::service::character_service;
 use serde::Deserialize;
-use tauri::State;
+use tauri::{AppHandle, Manager, State};
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -39,6 +39,21 @@ pub async fn create_character(
 }
 
 #[tauri::command]
-pub async fn list_character(db: State<'_, Db>, project_id: i64) -> AppResult<Vec<CharacterDTO>> {
-    character_service::list_character(&db, project_id).await
+pub async fn list_character(
+    app: AppHandle,
+    db: State<'_, Db>,
+    project_id: i64,
+) -> AppResult<Vec<CharacterDTO>> {
+    let characters = character_service::list_character(&db, project_id).await?;
+    let asset_scope = app.asset_protocol_scope();
+
+    for character in &characters {
+        if let Some(avatar_path) = &character.avatar_path {
+            asset_scope
+                .allow_file(avatar_path)
+                .map_err(|error| std::io::Error::other(error.to_string()))?;
+        }
+    }
+
+    Ok(characters)
 }
