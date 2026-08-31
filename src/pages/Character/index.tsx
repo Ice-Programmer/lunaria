@@ -3,7 +3,7 @@ import { Col, Row } from 'antd';
 import { CharacterSidebar } from '@/pages/Character/components/CharacterSidebar.tsx';
 import { appTheme } from '@/theme/theme.ts';
 import type { CharacterDTO } from '@/types/character.ts';
-import { CharacterContent } from '@/pages/Character/components/CharacterContent.tsx';
+import { CharacterContent } from '@/pages/Character/components/CharacterContent/CharacterContent.tsx';
 
 export const CharacterPage: React.FC = () => {
   const [selectedCharacter, setSelectedCharacter] = useState<CharacterDTO | null>(null);
