@@ -29,7 +29,7 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ tabs }: CustomTabsProps)
         styles={{
           header: { marginBottom: 0, paddingInline: 15 },
           body: {
-            padding: '16px 15px 15px',
+            padding: '16px 0 15px',
             backgroundColor: token.colorBgLayout,
           },
         }}

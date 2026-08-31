@@ -1,0 +1,15 @@
+.scrollContainer {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  text-align: start;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.segmented {
+  min-width: max-content;
+}

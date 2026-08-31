@@ -4,8 +4,11 @@ import { CustomSegmented } from '@/components/CustomSegmented';
 
 export const CharacterSpriteTab: React.FC = () => {
   return (
-    <Flex vertical>
-      <CustomSegmented options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']} />
+    <Flex vertical align="start">
+      <CustomSegmented
+        width="70%"
+        options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']}
+      />
     </Flex>
   );
 };
