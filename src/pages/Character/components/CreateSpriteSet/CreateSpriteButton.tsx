@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Col, Flex, Form, Input, Modal, Row, Typography } from 'antd';
-import { CreateCharacterSpriteSetRequest } from '@/types/character_sprite_set.ts';
-import { PlusOutlined, UserAddOutlined } from '@ant-design/icons';
+import type { CreateCharacterSpriteSetInput } from '@/types/character_sprite_set.ts';
+import { FolderOutlined, PlusOutlined } from '@ant-design/icons';
+import { useCreateSpriteSet } from '@/pages/Character/hooks/useCreateSpriteSet.ts';
 
 const { Title, Text } = Typography;
 interface CreateSpriteButtonProps {
@@ -10,6 +11,11 @@ interface CreateSpriteButtonProps {
 
 export const CreateSpriteButton: React.FC<CreateSpriteButtonProps> = ({ characterId }) => {
   const [open, setOpen] = useState(false);
+  const { handleCreateSpriteSet } = useCreateSpriteSet({
+    characterId,
+    onSuccess: () => setOpen(false),
+  });
+
   return (
     <>
       <Button
@@ -23,10 +29,9 @@ export const CreateSpriteButton: React.FC<CreateSpriteButtonProps> = ({ characte
       </Button>
 
       <CreateSpriteModal
-        characterId={characterId}
         open={open}
         onCancel={() => setOpen(false)}
-        onCreate={() => {}}
+        onCreate={handleCreateSpriteSet}
       />
     </>
   );
@@ -34,17 +39,24 @@ export const CreateSpriteButton: React.FC<CreateSpriteButtonProps> = ({ characte
 
 interface CreateSpriteModalProps {
   open: boolean;
-  characterId: number;
-  onCreate: () => void;
+  onCreate: (input: CreateCharacterSpriteSetInput) => void | Promise<void>;
   onCancel: () => void;
 }
 
-const CreateSpriteModal: React.FC<CreateSpriteModalProps> = ({
-  open,
-  characterId,
-  onCreate,
-  onCancel,
-}: CreateSpriteModalProps) => {
+const CreateSpriteModal: React.FC<CreateSpriteModalProps> = ({ open, onCreate, onCancel }) => {
+  const [form] = Form.useForm<CreateCharacterSpriteSetInput>();
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleFinish = async (values: CreateCharacterSpriteSetInput) => {
+    setSubmitting(true);
+
+    try {
+      await onCreate(values);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <Modal
       title={<ModalHeader />}
@@ -52,13 +64,20 @@ const CreateSpriteModal: React.FC<CreateSpriteModalProps> = ({
       okText="创建立绘"
       open={open}
       cancelText="取消"
+      confirmLoading={submitting}
+      onOk={() => form.submit()}
       onCancel={onCancel}
+      afterClose={() => form.resetFields()}
     >
-      <Form<CreateCharacterSpriteSetRequest> layout="vertical">
+      <Form<CreateCharacterSpriteSetInput>
+        form={form}
+        layout="vertical"
+        onFinish={(values) => void handleFinish(values)}
+      >
         <Row gutter={24}>
           <Col span={12}>
-            <Form.Item<CreateCharacterSpriteSetRequest>
-              label="角色名称"
+            <Form.Item<CreateCharacterSpriteSetInput>
+              label="立绘名称"
               name="spriteSetName"
               rules={[{ required: true, message: '请输入立绘名称' }]}
               style={{ marginBottom: 8 }}
@@ -67,11 +86,11 @@ const CreateSpriteModal: React.FC<CreateSpriteModalProps> = ({
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item<CreateCharacterSpriteSetRequest>
-              label="立绘组 Code"
-              name="spriteSetName"
+            <Form.Item<CreateCharacterSpriteSetInput>
+              label="立绘 Key"
+              name="spriteSetCode"
               rules={[
-                { required: true, message: '请输入立绘 Code' },
+                { required: true, message: '请输入立绘 Key' },
                 {
                   pattern: /^[a-z][a-z0-9_]*$/,
                   message: '请使用小写字母、数字和下划线，并以字母开头',
@@ -95,7 +114,7 @@ const CreateSpriteModal: React.FC<CreateSpriteModalProps> = ({
 const ModalHeader: React.FC = () => {
   return (
     <Flex align="center" gap={8}>
-      <UserAddOutlined />
+      <FolderOutlined />
 
       <Title level={5} style={{ margin: 0 }}>
         新建立绘

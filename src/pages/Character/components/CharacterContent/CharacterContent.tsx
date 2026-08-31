@@ -8,11 +8,11 @@ import { CustomTabs } from '@/components/CustomTabs';
 
 const { Title, Text } = Typography;
 
-const items: TabsProps['items'] = [
+const createTabItems = (characterId: number): TabsProps['items'] => [
   {
     key: '1',
     label: '立绘与差分',
-    children: <CharacterSpriteTab />,
+    children: <CharacterSpriteTab characterId={characterId} />,
   },
   {
     key: '2',
@@ -64,7 +64,7 @@ const CharacterContentHeader: React.FC<CharacterContentProps> = ({
         <Button icon={<EllipsisOutlined />} />
       </Flex>
 
-      <CustomTabs tabs={items} />
+      <CustomTabs tabs={createTabItems(character.id)} />
     </Flex>
   );
 };

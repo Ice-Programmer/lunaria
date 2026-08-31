@@ -3,7 +3,11 @@ import { Flex } from 'antd';
 import { CustomSegmented } from '@/components/CustomSegmented';
 import { CreateSpriteButton } from '@/pages/Character/components/CreateSpriteSet/CreateSpriteButton.tsx';
 
-export const CharacterSpriteTab: React.FC = () => {
+interface CharacterSpriteTabProps {
+  characterId: number;
+}
+
+export const CharacterSpriteTab: React.FC<CharacterSpriteTabProps> = ({ characterId }) => {
   return (
     <Flex vertical align="start">
       <Flex align="center" justify="space-between" style={{ width: '100%' }}>
@@ -12,7 +16,7 @@ export const CharacterSpriteTab: React.FC = () => {
           options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']}
         />
 
-        <CreateSpriteButton />
+        <CreateSpriteButton characterId={characterId} />
       </Flex>
 
       <CharacterSpriteContent />
