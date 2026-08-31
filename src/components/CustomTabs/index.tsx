@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConfigProvider, Tabs } from 'antd';
+import { ConfigProvider, Tabs, theme } from 'antd';
 import type { TabsProps } from 'antd';
 
 interface CustomTabsProps {
@@ -7,6 +7,8 @@ interface CustomTabsProps {
 }
 
 export const CustomTabs: React.FC<CustomTabsProps> = ({ tabs }: CustomTabsProps) => {
+  const { token } = theme.useToken();
+
   return (
     <ConfigProvider
       theme={{
@@ -14,7 +16,7 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ tabs }: CustomTabsProps)
           Tabs: {
             titleFontSizeSM: 12,
             itemColor: '#999999',
-            itemSelectedColor: '#333333',
+            itemSelectedColor: token.colorPrimary,
             itemHoverColor: '#666666',
           },
         },
@@ -25,8 +27,11 @@ export const CustomTabs: React.FC<CustomTabsProps> = ({ tabs }: CustomTabsProps)
         defaultActiveKey="1"
         items={tabs}
         styles={{
-          header: { paddingInline: 15 },
-          body: { padding: '0 15px 15px' },
+          header: { marginBottom: 0, paddingInline: 15 },
+          body: {
+            padding: '16px 15px 15px',
+            backgroundColor: token.colorBgLayout,
+          },
         }}
       />
     </ConfigProvider>
