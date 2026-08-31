@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Flex } from 'antd';
+import { Flex } from 'antd';
 import { CustomSegmented } from '@/components/CustomSegmented';
-import { PlusOutlined } from '@ant-design/icons';
+import { CreateSpriteButton } from '@/pages/Character/components/CreateSpriteSet/CreateSpriteButton.tsx';
 
 export const CharacterSpriteTab: React.FC = () => {
   return (
@@ -11,10 +11,15 @@ export const CharacterSpriteTab: React.FC = () => {
           width="70%"
           options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']}
         />
-        <Button type="primary" icon={<PlusOutlined />}>
-          新建套装
-        </Button>
+
+        <CreateSpriteButton />
       </Flex>
+
+      <CharacterSpriteContent />
     </Flex>
   );
+};
+
+const CharacterSpriteContent: React.FC = () => {
+  return <></>;
 };

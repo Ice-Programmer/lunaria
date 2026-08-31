@@ -7,14 +7,12 @@ use tauri::State;
 #[tauri::command]
 pub async fn create_character_sprite_set(
     db: State<'_, Db>,
-    project_id: i64,
     character_id: i64,
     sprite_set_name: &str,
     sprite_set_code: &str,
 ) -> AppResult<character_sprite_set::Model> {
     character_sprite_set_service::create_character_sprite_set(
         &db,
-        project_id,
         character_id,
         sprite_set_name,
         sprite_set_code,

@@ -6,23 +6,18 @@ use sea_orm::{ActiveModelTrait, DatabaseConnection, Set};
 
 pub async fn create_character_sprite_set(
     db: &DatabaseConnection,
-    project_id: i64,
     character_id: i64,
     sprite_set_name: &str,
     sprite_set_code: &str,
 ) -> AppResult<character_sprite_set::Model> {
-    project_repository::find_by_id(db, project_id)
-        .await?
-        .ok_or(AppError::ProjectNotFound { project_id })?;
-
-    character_repository::find_by_id(db, character_id)
+    let character = character_repository::find_by_id(db, character_id)
         .await?
         .ok_or(AppError::CharacterNotFound { character_id })?;
 
     let created_at = current_timestamp()?;
 
     let character_sprite_set = character_sprite_set::ActiveModel {
-        project_id: Set(project_id),
+        project_id: Set(character.project_id),
         character_id: Set(character_id),
         sprite_set_name: Set(sprite_set_name.to_string()),
         sprite_set_code: Set(sprite_set_code.to_string()),
