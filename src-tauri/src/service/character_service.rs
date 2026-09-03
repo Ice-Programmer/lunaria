@@ -3,7 +3,9 @@ use crate::dto::character_dto::CharacterDTO;
 use crate::entity::character;
 use crate::error::{AppError, AppResult};
 use crate::repository::character_repository::{self, NewCharacter};
-use crate::repository::project_repository;
+use crate::repository::{
+    character_sprite_repository, character_sprite_set_repository, project_repository,
+};
 use crate::util::time::current_timestamp;
 
 use sea_orm::{DatabaseConnection, SqlErr, TransactionTrait};
@@ -104,10 +106,21 @@ pub async fn list_character(
 
     let characters = character_repository::find_by_project_id(db, project_id).await?;
 
-    let result_list = characters
-        .into_iter()
-        .map(|character| CharacterDTO::from_model(character, &project.project_path))
-        .collect();
+    let mut result_list = Vec::with_capacity(characters.len());
+
+    for character in characters {
+        let (sprite_set_num, sprite_num) = tokio::try_join!(
+            character_sprite_set_repository::count_by_character_id(db, character.id),
+            character_sprite_repository::count_by_character_id(db, character.id),
+        )?;
+
+        result_list.push(CharacterDTO::from_model(
+            character,
+            &project.project_path,
+            sprite_set_num as u32,
+            sprite_num as u32,
+        ));
+    }
 
     Ok(result_list)
 }

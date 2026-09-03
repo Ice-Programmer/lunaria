@@ -1,5 +1,7 @@
 use crate::entity::character_sprite;
-use sea_orm::{ColumnTrait, ConnectionTrait, DbErr, EntityTrait, QueryFilter, QueryOrder};
+use sea_orm::{
+    ColumnTrait, ConnectionTrait, DbErr, EntityTrait, PaginatorTrait, QueryFilter, QueryOrder,
+};
 
 pub async fn find_last_by_sprite_set_id<C>(
     db: &C,
@@ -13,5 +15,15 @@ where
         .order_by_desc(character_sprite::Column::SortOrder)
         .order_by_desc(character_sprite::Column::Id)
         .one(db)
+        .await
+}
+
+pub async fn count_by_character_id<C>(db: &C, character_id: i64) -> Result<u64, DbErr>
+where
+    C: ConnectionTrait,
+{
+    character_sprite::Entity::find()
+        .filter(character_sprite::Column::CharacterId.eq(character_id))
+        .count(db)
         .await
 }
