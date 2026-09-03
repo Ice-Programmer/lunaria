@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Col, Row } from 'antd';
 import { CharacterSidebar } from '@/pages/Character/components/CharacterSidebar.tsx';
 import { appTheme } from '@/theme/theme.ts';
-import type { CharacterDTO } from '@/types/character.ts';
 import { CharacterContent } from '@/pages/Character/components/CharacterContent/CharacterContent.tsx';
+import {
+  CharacterPageViewModelProvider,
+  useCharacterPageViewModel,
+} from '@/pages/Character/view-model';
 
 export const CharacterPage: React.FC = () => {
-  const [selectedCharacter, setSelectedCharacter] = useState<CharacterDTO | null>(null);
+  return (
+    <CharacterPageViewModelProvider>
+      <CharacterPageContent />
+    </CharacterPageViewModelProvider>
+  );
+};
+
+const CharacterPageContent: React.FC = () => {
+  const { selectedCharacter } = useCharacterPageViewModel();
 
   return (
     <Row style={{ height: '100%', minHeight: 0, overflow: 'hidden' }}>
@@ -14,10 +25,7 @@ export const CharacterPage: React.FC = () => {
         span={5}
         style={{ height: '100%', minHeight: 0, borderRight: `1px solid ${appTheme.colors.border}` }}
       >
-        <CharacterSidebar
-          selectedCharacterId={selectedCharacter?.id ?? null}
-          onSelectCharacter={setSelectedCharacter}
-        />
+        <CharacterSidebar />
       </Col>
 
       <Col

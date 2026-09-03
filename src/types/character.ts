@@ -24,5 +24,7 @@ export interface CharacterDTO {
   characterName: string;
   characterCode: string;
   avatarPath: string | null;
+  spriteSetNum: number;
+  spriteNum: number;
 }
 export type CreateCharacterInput = Omit<CreateCharacterRequest, 'projectId'>;

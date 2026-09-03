@@ -7,46 +7,58 @@ interface ListCharacterProps {
   projectId?: number | null;
 }
 
+interface ListCharacterOptions {
+  preserveOnError?: boolean;
+}
+
 export const useListCharacter = ({ projectId }: ListCharacterProps) => {
   const notification = useAppNotification();
 
   const [characterList, setCharacterList] = useState<CharacterDTO[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleListCharacter = useCallback(async () => {
-    if (projectId == null) {
-      notification.error({
-        title: '无法获取角色列表',
-        description: '请先打开一个项目',
-      });
+  const handleListCharacter = useCallback(
+    async (options: ListCharacterOptions = {}) => {
+      const { preserveOnError = false } = options;
 
-      setCharacterList([]);
-      return [];
-    }
+      if (projectId == null) {
+        notification.error({
+          title: '无法获取角色列表',
+          description: '请先打开一个项目',
+        });
 
-    try {
-      setLoading(true);
+        setCharacterList([]);
 
-      const characters = await listCharacter(projectId);
+        return false;
+      }
 
-      setCharacterList(characters);
+      try {
+        setLoading(true);
 
-      return characters;
-    } catch (error) {
-      console.error('Failed to list characters:', error);
+        const characters = await listCharacter(projectId);
 
-      notification.error({
-        title: '无法获取角色列表',
-        description: '角色列表获取失败，请稍后重试',
-      });
+        setCharacterList(characters);
 
-      setCharacterList([]);
+        return true;
+      } catch (error) {
+        console.error('Failed to list characters:', error);
 
-      return [];
-    } finally {
-      setLoading(false);
-    }
-  }, [projectId, notification]);
+        notification.error({
+          title: '无法获取角色列表',
+          description: '角色列表获取失败，请稍后重试',
+        });
+
+        if (!preserveOnError) {
+          setCharacterList([]);
+        }
+
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [projectId, notification]
+  );
 
   return {
     characterList,

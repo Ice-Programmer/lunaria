@@ -1,39 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Avatar, Button, Flex, Input, Listy, Typography } from 'antd';
 import { PlusOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { appTheme } from '@/theme/theme.ts';
 import { CreateCharacterModal } from '@/pages/Character/components/CreateCharacter/CreateCharacterModal.tsx';
 import { useCreateCharacter } from '@/pages/Character/hooks/useCreateCharacter.ts';
-import { useListCharacter } from '@/pages/Character/hooks/useListCharacter.ts';
-import { useProjectStore } from '@/store/ProjectStore.ts';
 import type { CharacterDTO } from '@/types/character.ts';
+import { useCharacterPageViewModel } from '@/pages/Character/view-model';
 import { convertFileSrc } from '@tauri-apps/api/core';
 import styles from './CharacterSidebar.module.css';
 
 const { Title, Text } = Typography;
 
-interface CharacterSidebarProps {
-  selectedCharacterId: number | null;
-  onSelectCharacter: (character: CharacterDTO) => void;
-}
-
-export const CharacterSidebar: React.FC<CharacterSidebarProps> = ({
-  selectedCharacterId,
-  onSelectCharacter,
-}) => {
+export const CharacterSidebar: React.FC = () => {
   const [createCharacterOpen, setCreateCharacterOpen] = useState(false);
-  const projectId = useProjectStore((state) => state.projectId);
-  const {
-    characterList,
-    loading,
-    handleListCharacter: refreshCharacterList,
-  } = useListCharacter({ projectId });
-
-  useEffect(() => {
-    if (projectId != null) {
-      void refreshCharacterList();
-    }
-  }, [projectId, refreshCharacterList]);
+  const { characterList, loading, selectedCharacterId, selectCharacter, refreshCharacterList } =
+    useCharacterPageViewModel();
 
   const { handleCreateCharacter } = useCreateCharacter({
     onSuccess: () => {
@@ -71,7 +52,7 @@ export const CharacterSidebar: React.FC<CharacterSidebarProps> = ({
         characterList={characterList}
         loading={loading}
         selectedCharacterId={selectedCharacterId}
-        onSelectCharacter={onSelectCharacter}
+        onSelectCharacter={selectCharacter}
       />
 
       <CreateCharacterModal
@@ -87,7 +68,7 @@ interface CharacterListProps {
   characterList: CharacterDTO[];
   loading: boolean;
   selectedCharacterId: number | null;
-  onSelectCharacter: (character: CharacterDTO) => void;
+  onSelectCharacter: (characterId: number) => void;
 }
 
 const CharacterList: React.FC<CharacterListProps> = ({
@@ -128,7 +109,7 @@ const CharacterList: React.FC<CharacterListProps> = ({
 interface CharacterContentProps {
   character: CharacterDTO;
   selected: boolean;
-  onSelect: (character: CharacterDTO) => void;
+  onSelect: (characterId: number) => void;
 }
 
 const CharacterContent: React.FC<CharacterContentProps> = ({ character, selected, onSelect }) => {
@@ -139,7 +120,7 @@ const CharacterContent: React.FC<CharacterContentProps> = ({ character, selected
       type="button"
       className={`${styles.characterItem} ${selected ? styles.characterItemSelected : ''}`}
       aria-pressed={selected}
-      onClick={() => onSelect(character)}
+      onClick={() => onSelect(character.id)}
     >
       <Flex align="center" gap={10}>
         <Avatar
@@ -155,7 +136,7 @@ const CharacterContent: React.FC<CharacterContentProps> = ({ character, selected
             {character.characterName}
           </Text>
           <Text type="secondary" style={{ fontSize: 11 }}>
-            2 种立绘 · 6 个差分
+            {character.spriteSetNum} 种立绘 · {character.spriteNum} 个差分
           </Text>
         </Flex>
       </Flex>

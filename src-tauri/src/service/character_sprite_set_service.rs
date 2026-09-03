@@ -1,6 +1,6 @@
 use crate::entity::character_sprite_set;
 use crate::error::{AppError, AppResult};
-use crate::repository::{character_repository, project_repository};
+use crate::repository::{character_repository};
 use crate::util::time::current_timestamp;
 use sea_orm::{ActiveModelTrait, DatabaseConnection, Set};
 

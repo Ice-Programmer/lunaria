@@ -5,7 +5,7 @@ import type { CreateCharacterSpriteSetInput } from '@/types/character_sprite_set
 
 interface UseCreateSpriteSetOptions {
   characterId: number;
-  onSuccess?: () => void;
+  onSuccess?: () => void | Promise<void>;
 }
 
 export const useCreateSpriteSet = ({ characterId, onSuccess }: UseCreateSpriteSetOptions) => {
@@ -14,11 +14,6 @@ export const useCreateSpriteSet = ({ characterId, onSuccess }: UseCreateSpriteSe
   const handleCreateSpriteSet = async (input: CreateCharacterSpriteSetInput) => {
     try {
       await createSpriteSet({ characterId, ...input });
-      notification.success({
-        title: '立绘已创建',
-        description: `已创建立绘“${input.spriteSetName}”`,
-      });
-      onSuccess?.();
     } catch (error) {
       notification.error({
         title: '创建立绘失败',
@@ -26,6 +21,12 @@ export const useCreateSpriteSet = ({ characterId, onSuccess }: UseCreateSpriteSe
       });
       throw error;
     }
+
+    notification.success({
+      title: '立绘已创建',
+      description: `已创建立绘“${input.spriteSetName}”`,
+    });
+    await onSuccess?.();
   };
 
   return { handleCreateSpriteSet };
