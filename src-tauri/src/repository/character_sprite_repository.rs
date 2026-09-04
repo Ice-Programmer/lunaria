@@ -27,3 +27,16 @@ where
         .count(db)
         .await
 }
+
+pub async fn list_by_character_id<C>(
+    db: &C,
+    character_id: i64,
+) -> Result<Vec<character_sprite::Model>, DbErr>
+where
+    C: ConnectionTrait,
+{
+    character_sprite::Entity::find()
+        .filter(character_sprite::Column::CharacterId.eq(character_id))
+        .all(db)
+        .await
+}

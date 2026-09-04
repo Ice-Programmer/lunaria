@@ -1,4 +1,5 @@
 use crate::db::Db;
+use crate::dto::sprite_dto::SpriteSetDTO;
 use crate::entity::character_sprite_set;
 use crate::error::AppResult;
 use crate::service::character_sprite_set_service;
@@ -18,4 +19,9 @@ pub async fn create_character_sprite_set(
         sprite_set_code,
     )
     .await
+}
+
+#[tauri::command]
+pub async fn list_sprite_set(db: State<'_, Db>, character_id: i64) -> AppResult<Vec<SpriteSetDTO>> {
+    character_sprite_set_service::list_character_set(&db, character_id).await
 }
