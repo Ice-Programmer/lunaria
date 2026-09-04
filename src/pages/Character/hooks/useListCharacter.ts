@@ -20,7 +20,6 @@ export const useListCharacter = ({ projectId }: ListCharacterProps) => {
   const handleListCharacter = useCallback(
     async (options: ListCharacterOptions = {}) => {
       const { preserveOnError = false } = options;
-
       if (projectId == null) {
         notification.error({
           title: '无法获取角色列表',
@@ -28,21 +27,15 @@ export const useListCharacter = ({ projectId }: ListCharacterProps) => {
         });
 
         setCharacterList([]);
-
         return false;
       }
 
       try {
         setLoading(true);
-
         const characters = await listCharacter(projectId);
-
         setCharacterList(characters);
-
         return true;
       } catch (error) {
-        console.error('Failed to list characters:', error);
-
         notification.error({
           title: '无法获取角色列表',
           description: '角色列表获取失败，请稍后重试',
