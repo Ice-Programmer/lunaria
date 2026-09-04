@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'antd';
-import { CharacterSidebar } from '@/pages/Character/components/CharacterSidebar.tsx';
+import { CharacterSidebar } from '@/pages/Character/components/CharacterSidebar/CharacterSidebar.tsx';
 import { appTheme } from '@/theme/theme.ts';
 import { CharacterContent } from '@/pages/Character/components/CharacterContent/CharacterContent.tsx';
 import {
