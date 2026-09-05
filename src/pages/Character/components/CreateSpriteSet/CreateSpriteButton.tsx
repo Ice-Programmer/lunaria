@@ -3,7 +3,7 @@ import { Button, Col, Flex, Form, Input, Modal, Row, Typography } from 'antd';
 import type { CreateCharacterSpriteSetInput } from '@/types/character_sprite_set.ts';
 import { FolderOutlined, PlusOutlined } from '@ant-design/icons';
 import { useCreateSpriteSet } from '@/pages/Character/hooks/useCreateSpriteSet.ts';
-import { useCharacterPageViewModel } from '@/pages/Character/view-model';
+import { useRefreshCharacters } from '@/pages/Character/hooks/useRefreshCharacters.ts';
 
 const { Title, Text } = Typography;
 interface CreateSpriteButtonProps {
@@ -12,11 +12,11 @@ interface CreateSpriteButtonProps {
 
 export const CreateSpriteButton: React.FC<CreateSpriteButtonProps> = ({ characterId }) => {
   const [open, setOpen] = useState(false);
-  const { refreshCharacterList } = useCharacterPageViewModel();
+  const refreshCharacters = useRefreshCharacters();
   const { handleCreateSpriteSet } = useCreateSpriteSet({
     characterId,
     onSuccess: async () => {
-      await refreshCharacterList();
+      await refreshCharacters();
       setOpen(false);
     },
   });

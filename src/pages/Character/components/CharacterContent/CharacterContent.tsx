@@ -35,36 +35,24 @@ interface CharacterContentProps {
   character: CharacterDTO;
 }
 
-export const CharacterContent: React.FC<CharacterContentProps> = ({
-  character,
-}: CharacterContentProps) => {
+export const CharacterContent: React.FC<CharacterContentProps> = ({ character }) => {
   return (
-    <>
-      <Flex vertical style={{ height: '100%', minHeight: 0 }}>
-        <CharacterContentHeader character={character} />
-      </Flex>
-    </>
-  );
-};
+    <Flex vertical style={{ height: '100%', minHeight: 0 }}>
+      <Flex vertical style={{ backgroundColor: 'white' }}>
+        <Flex justify="space-between" align="center" style={{ padding: '15px 15px 0' }}>
+          <Flex align="start" vertical>
+            <Title level={5}>{character.characterName}</Title>
 
-const CharacterContentHeader: React.FC<CharacterContentProps> = ({
-  character,
-}: CharacterContentProps) => {
-  return (
-    <Flex vertical style={{ backgroundColor: 'white' }}>
-      <Flex justify="space-between" align="center" style={{ padding: '15px 15px 0' }}>
-        <Flex align="start" vertical>
-          <Title level={5}>{character.characterName}</Title>
+            <Text type="secondary" style={{ fontSize: 12 }}>
+              {character.characterCode}
+            </Text>
+          </Flex>
 
-          <Text type="secondary" style={{ fontSize: 12 }}>
-            {character.characterCode}
-          </Text>
+          <Button icon={<EllipsisOutlined />} />
         </Flex>
 
-        <Button icon={<EllipsisOutlined />} />
+        <CustomTabs tabs={createTabItems(character.id)} />
       </Flex>
-
-      <CustomTabs tabs={createTabItems(character.id)} />
     </Flex>
   );
 };

@@ -4,22 +4,28 @@ import { PlusOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons';
 import { appTheme } from '@/theme/theme.ts';
 import { CreateCharacterModal } from '@/pages/Character/components/CreateCharacter/CreateCharacterModal.tsx';
 import { useCreateCharacter } from '@/pages/Character/hooks/useCreateCharacter.ts';
+import { useRefreshCharacters } from '@/pages/Character/hooks/useRefreshCharacters.ts';
 import type { CharacterDTO } from '@/types/character.ts';
-import { useCharacterPageViewModel } from '@/pages/Character/view-model';
 import { convertFileSrc } from '@tauri-apps/api/core';
 import styles from './CharacterSidebar.module.css';
 
 const { Title, Text } = Typography;
 
-export const CharacterSidebar: React.FC = () => {
+type CharacterSidebarProps = CharacterListProps;
+
+export const CharacterSidebar: React.FC<CharacterSidebarProps> = ({
+  characterList,
+  loading,
+  selectedCharacterId,
+  onSelectCharacter,
+}) => {
   const [createCharacterOpen, setCreateCharacterOpen] = useState(false);
-  const { characterList, loading, selectedCharacterId, selectCharacter, refreshCharacterList } =
-    useCharacterPageViewModel();
+  const refreshCharacters = useRefreshCharacters();
 
   const { handleCreateCharacter } = useCreateCharacter({
     onSuccess: () => {
       setCreateCharacterOpen(false);
-      void refreshCharacterList();
+      void refreshCharacters();
     },
   });
 
@@ -52,7 +58,7 @@ export const CharacterSidebar: React.FC = () => {
         characterList={characterList}
         loading={loading}
         selectedCharacterId={selectedCharacterId}
-        onSelectCharacter={selectCharacter}
+        onSelectCharacter={onSelectCharacter}
       />
 
       <CreateCharacterModal
@@ -82,7 +88,13 @@ const CharacterList: React.FC<CharacterListProps> = ({
       vertical
       align="start"
       aria-busy={loading}
-      style={{ flex: 1, minHeight: 0, width: '100%', padding: '8px 10px', overflow: 'hidden' }}
+      style={{
+        flex: 1,
+        minHeight: 0,
+        width: '100%',
+        padding: '8px 10px',
+        overflow: 'hidden',
+      }}
     >
       <Text type="secondary" style={{ fontSize: 12 }}>
         全部角色 · {characterList.length}
