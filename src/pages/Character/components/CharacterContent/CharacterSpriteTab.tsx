@@ -1,26 +1,30 @@
 import React from 'react';
-import { Flex } from 'antd';
+import { Flex, Spin } from 'antd';
 import { CustomSegmented } from '@/components/CustomSegmented';
 import { CreateSpriteButton } from '@/pages/Character/components/CreateSpriteSet/CreateSpriteButton.tsx';
+import { useListCharacterSet } from '@/pages/Character/hooks/useListCharacterSet.ts';
 
 interface CharacterSpriteTabProps {
   characterId: number;
 }
 
 export const CharacterSpriteTab: React.FC<CharacterSpriteTabProps> = ({ characterId }) => {
+  const { spriteSets, isLoading } = useListCharacterSet(characterId);
+
+  const spriteSetTab = ['全部', ...spriteSets.map((spriteSet) => spriteSet.spriteSetName)];
+
   return (
-    <Flex vertical align="start">
-      <Flex align="center" justify="space-between" style={{ width: '100%' }}>
-        <CustomSegmented
-          width="70%"
-          options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']}
-        />
+    <Spin spinning={isLoading}>
+      <Flex vertical align="start">
+        <Flex align="center" justify="space-between" style={{ width: '100%' }}>
+          <CustomSegmented width="70%" options={spriteSetTab} />
 
-        <CreateSpriteButton characterId={characterId} />
+          <CreateSpriteButton characterId={characterId} />
+        </Flex>
+
+        <CharacterSpriteContent />
       </Flex>
-
-      <CharacterSpriteContent />
-    </Flex>
+    </Spin>
   );
 };
 
