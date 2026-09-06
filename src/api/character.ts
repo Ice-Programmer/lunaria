@@ -4,5 +4,5 @@ import { invokeCommand } from '@/api/tauri.ts';
 export const createCharacter = (request: CreateCharacterRequest): Promise<Character> =>
   invokeCommand<Character>('create_character', { ...request });
 
-export const listCharacter = (projectId: number): Promise<CharacterDTO[]> =>
-  invokeCommand<CharacterDTO[]>('list_character', { projectId: projectId });
+export const listCharacter = (): Promise<CharacterDTO[]> =>
+  invokeCommand<CharacterDTO[]>('list_character');

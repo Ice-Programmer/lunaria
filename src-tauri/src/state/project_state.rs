@@ -18,12 +18,11 @@ pub struct ProjectState {
 
 impl ProjectState {
     // Capture the connection once so an operation keeps its original database.
-    pub async fn project(&self, project_id: i64) -> AppResult<Arc<CurrentProject>> {
+    pub async fn project(&self) -> AppResult<Arc<CurrentProject>> {
         self.current
             .lock()
             .await
             .as_ref()
-            .filter(|current| current.info.id == project_id)
             .cloned()
             .ok_or(AppError::ProjectNotOpen)
     }

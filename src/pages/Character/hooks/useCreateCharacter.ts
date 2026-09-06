@@ -22,7 +22,7 @@ export const useCreateCharacter = ({ onSuccess }: UseCreateCharacterOptions = {}
     }
 
     try {
-      await createCharacter({ projectId, ...input });
+      await createCharacter(input);
       notification.success({
         title: '角色已创建',
         description: `已创建角色“${input.characterName}”`,

@@ -36,7 +36,7 @@ async fn number(db: &DatabaseConnection, statement: &str) -> i64 {
 }
 
 async fn create_fixture(state: &TestState, directory: &Path) -> Arc<CurrentProject> {
-    let project = create_project(
+    create_project(
         &state.app,
         &state.projects,
         "Fixture project".to_owned(),
@@ -44,7 +44,7 @@ async fn create_fixture(state: &TestState, directory: &Path) -> Arc<CurrentProje
     )
     .await
     .unwrap();
-    state.projects.project(project.id).await.unwrap()
+    state.projects.project().await.unwrap()
 }
 
 async fn populate(project: &CurrentProject) {
@@ -260,6 +260,7 @@ async fn new_project_has_its_own_schema_and_enforces_constraints() {
 async fn project_connections_isolate_identical_local_ids_and_codes() {
     let root = tempfile::tempdir().unwrap();
     let state = init_state(&root.path().join("app")).await;
+    assert!(state.projects.project().await.is_err());
     let first = create_fixture(&state, &root.path().join("first")).await;
     populate(&first).await;
     let second = create_fixture(&state, &root.path().join("second")).await;
@@ -286,9 +287,9 @@ async fn project_connections_isolate_identical_local_ids_and_codes() {
             1
         );
     }
-    assert!(state.projects.project(first.info.id).await.is_err());
-    assert!(state.projects.project(i64::MAX).await.is_err());
-    assert!(state.projects.project(second.info.id).await.is_ok());
+    let current = state.projects.project().await.unwrap();
+    assert!(Arc::ptr_eq(&current, &second));
+    assert!(!Arc::ptr_eq(&current, &first));
     first.db.clone().close().await.unwrap();
     close(state).await;
 }
@@ -322,7 +323,7 @@ async fn reopening_preserves_project_contents() {
     .unwrap();
     assert_eq!(opened.id, original_id);
     assert_eq!(opened.created_at, original_created_at);
-    let project = state.projects.project(opened.id).await.unwrap();
+    let project = state.projects.project().await.unwrap();
     assert_eq!(contents(&project.db).await, expected);
     assert_eq!(number(&state.app, "SELECT COUNT(*) FROM project").await, 1);
     close(state).await;
@@ -359,7 +360,7 @@ async fn copied_and_moved_projects_open_in_a_fresh_application() {
             Path::new(&opened.project_path),
             fs::canonicalize(&directory).unwrap()
         );
-        let project = state.projects.project(opened.id).await.unwrap();
+        let project = state.projects.project().await.unwrap();
         assert_eq!(contents(&project.db).await, expected);
         assert_eq!(
             fs::read(directory.join("characters/1/avatar.png")).unwrap(),
@@ -438,7 +439,7 @@ async fn path_aliases_reuse_the_index_and_cannot_replace_a_project() {
     )
     .await
     .is_err());
-    let reopened = state.projects.project(project_id).await.unwrap();
+    let reopened = state.projects.project().await.unwrap();
     assert_eq!(contents(&reopened.db).await, expected);
     assert_eq!(number(&state.app, "SELECT COUNT(*) FROM project").await, 1);
     project.db.clone().close().await.unwrap();
@@ -461,10 +462,9 @@ async fn path_aliases_reuse_the_index_and_cannot_replace_a_project() {
     )
     .await
     .unwrap();
-    assert_eq!(
-        contents(&fresh.projects.project(opened.id).await.unwrap().db).await,
-        expected
-    );
+    let current = fresh.projects.project().await.unwrap();
+    assert_eq!(current.info.id, opened.id);
+    assert_eq!(contents(&current.db).await, expected);
     close(fresh).await;
 }
 
@@ -489,7 +489,7 @@ async fn obsolete_database_files_do_not_populate_or_prevent_initialization() {
     for _ in 0..2 {
         let state = init_state(&app_directory).await;
         assert_eq!(number(&state.app, "SELECT COUNT(*) FROM project").await, 0);
-        assert!(state.projects.project(1).await.is_err());
+        assert!(state.projects.project().await.is_err());
         for (path, bytes) in &obsolete {
             assert_eq!(fs::read(path).unwrap(), *bytes);
         }

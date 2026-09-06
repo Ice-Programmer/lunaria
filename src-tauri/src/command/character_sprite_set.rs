@@ -8,12 +8,11 @@ use tauri::{AppHandle, Manager, State};
 #[tauri::command]
 pub async fn create_character_sprite_set(
     project_state: State<'_, ProjectState>,
-    project_id: i64,
     character_id: i64,
     sprite_set_name: &str,
     sprite_set_code: &str,
 ) -> AppResult<character_sprite_set::Model> {
-    let project = project_state.project(project_id).await?;
+    let project = project_state.project().await?;
     character_sprite_set_service::create_character_sprite_set(
         &project.db,
         character_id,
@@ -27,10 +26,9 @@ pub async fn create_character_sprite_set(
 pub async fn list_sprite_set(
     app: AppHandle,
     project_state: State<'_, ProjectState>,
-    project_id: i64,
     character_id: i64,
 ) -> AppResult<Vec<SpriteSetDTO>> {
-    let project = project_state.project(project_id).await?;
+    let project = project_state.project().await?;
     let sets = character_sprite_set_service::list_character_set(
         &project.db,
         character_id,

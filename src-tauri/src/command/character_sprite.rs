@@ -10,7 +10,6 @@ use tauri::State;
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateCharacterSpriteRequest {
-    project_id: i64,
     sprite_set_id: i64,
     sprite_name: String,
     sprite_code: String,
@@ -23,13 +22,12 @@ pub async fn create_character_sprite(
     request: CreateCharacterSpriteRequest,
 ) -> AppResult<character_sprite::Model> {
     let CreateCharacterSpriteRequest {
-        project_id,
         sprite_set_id,
         sprite_name,
         sprite_code,
         image,
     } = request;
-    let project = project_state.project(project_id).await?;
+    let project = project_state.project().await?;
     let (bytes, mime_type) = image.into_parts();
     let image = CharacterSpriteImage::try_new(bytes, mime_type)?;
 

@@ -11,7 +11,6 @@ export interface Character {
 }
 
 export interface CreateCharacterRequest {
-  projectId: number;
   characterName: string;
   characterCode: string;
   avatar?: ImageInput;
@@ -26,4 +25,4 @@ export interface CharacterDTO {
   spriteSetNum: number;
   spriteNum: number;
 }
-export type CreateCharacterInput = Omit<CreateCharacterRequest, 'projectId'>;
+export type CreateCharacterInput = CreateCharacterRequest;

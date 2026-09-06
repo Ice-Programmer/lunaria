@@ -21,7 +21,7 @@ export const useListCharacterSet = (characterId: number) => {
     setIsLoading(true);
 
     try {
-      const spriteSets = await listSpriteSet({ projectId, characterId });
+      const spriteSets = await listSpriteSet({ characterId });
       setSpriteSets(spriteSets);
     } catch {
       notification.error({

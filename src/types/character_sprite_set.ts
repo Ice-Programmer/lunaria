@@ -1,19 +1,14 @@
 import { ImageOutput } from '@/types/image.ts';
 
 export interface CreateCharacterSpriteSetRequest {
-  projectId: number;
   characterId: number;
   spriteSetName: string;
   spriteSetCode: string;
 }
 
-export type CreateCharacterSpriteSetInput = Omit<
-  CreateCharacterSpriteSetRequest,
-  'projectId' | 'characterId'
->;
+export type CreateCharacterSpriteSetInput = Omit<CreateCharacterSpriteSetRequest, 'characterId'>;
 
 export interface ListSpriteSetRequest {
-  projectId: number;
   characterId: number;
 }
 

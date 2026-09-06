@@ -20,7 +20,7 @@ export const useCharacters = () => {
     setIsLoading(true);
 
     try {
-      const characters = await listCharacter(projectId);
+      const characters = await listCharacter();
       setCharacters(characters);
     } catch {
       notification.error({

@@ -23,7 +23,7 @@ export const useCreateSpriteSet = ({ characterId, onSuccess }: UseCreateSpriteSe
     }
 
     try {
-      await createSpriteSet({ projectId, characterId, ...input });
+      await createSpriteSet({ characterId, ...input });
     } catch (error) {
       notification.error({
         title: '创建立绘失败',

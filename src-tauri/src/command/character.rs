@@ -10,13 +10,12 @@ use tauri::{AppHandle, Manager, State};
 #[tauri::command]
 pub async fn create_character(
     project_state: State<'_, ProjectState>,
-    project_id: i64,
     character_name: &str,
     character_code: &str,
     avatar: Option<ImageInput>,
     tags: Vec<String>,
 ) -> AppResult<character::Model> {
-    let project = project_state.project(project_id).await?;
+    let project = project_state.project().await?;
     let avatar = avatar
         .map(|input| {
             let (bytes, mime_type) = input.into_parts();
@@ -39,9 +38,8 @@ pub async fn create_character(
 pub async fn list_character(
     app: AppHandle,
     project_state: State<'_, ProjectState>,
-    project_id: i64,
 ) -> AppResult<Vec<CharacterDTO>> {
-    let project = project_state.project(project_id).await?;
+    let project = project_state.project().await?;
     let characters =
         character_service::list_character(&project.db, &project.info.project_path).await?;
     let asset_scope = app.asset_protocol_scope();
