@@ -7,26 +7,14 @@ use crate::state::project_state::ProjectState;
 use serde::Deserialize;
 use tauri::State;
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CreateCharacterSpriteRequest {
+#[tauri::command]
+pub async fn create_character_sprite(
+    project_state: State<'_, ProjectState>,
     sprite_set_id: i64,
     sprite_name: String,
     sprite_code: String,
     image: ImageInput,
-}
-
-#[tauri::command]
-pub async fn create_character_sprite(
-    project_state: State<'_, ProjectState>,
-    request: CreateCharacterSpriteRequest,
 ) -> AppResult<character_sprite::Model> {
-    let CreateCharacterSpriteRequest {
-        sprite_set_id,
-        sprite_name,
-        sprite_code,
-        image,
-    } = request;
     let project = project_state.project().await?;
     let (bytes, mime_type) = image.into_parts();
     let image = CharacterSpriteImage::try_new(bytes, mime_type)?;
