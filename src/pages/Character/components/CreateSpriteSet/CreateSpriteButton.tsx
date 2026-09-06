@@ -103,7 +103,13 @@ const CreateSpriteModal: React.FC<CreateSpriteModalProps> = ({ open, onCreate, o
               ]}
               style={{ marginBottom: 8 }}
             >
-              <Input placeholder="例如：daily" />
+              <Input
+                placeholder="例如：daily"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                autoComplete="off"
+              />
             </Form.Item>
           </Col>
         </Row>

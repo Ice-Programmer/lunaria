@@ -10,17 +10,14 @@ import { useProjectStore } from '@/store/ProjectStore.ts';
 export const CharacterPage: React.FC = () => {
   const projectId = useProjectStore((state) => state.projectId);
 
-  return <CharacterPageContent key={projectId ?? 'no-project'} projectId={projectId} />;
+  return <CharacterPageContent key={projectId ?? 'no-project'} />;
 };
 
-interface CharacterPageContentProps {
-  projectId: number | undefined;
-}
-
-const CharacterPageContent: React.FC<CharacterPageContentProps> = ({ projectId }) => {
+const CharacterPageContent: React.FC = () => {
   const [selectedCharacterId, setSelectedCharacterId] = useState<number | null>(null);
-  const { characters, isLoading, refresh } = useCharacters(projectId);
-  const selectedCharacter = characters.find((character) => character.id === selectedCharacterId);
+  const { characters, isLoading, refresh } = useCharacters();
+  const selectedCharacter =
+    characters.find((character) => character.id === selectedCharacterId) ?? characters[0];
 
   return (
     <CharacterRefreshContext value={refresh}>
@@ -36,7 +33,7 @@ const CharacterPageContent: React.FC<CharacterPageContentProps> = ({ projectId }
           <CharacterSidebar
             characterList={characters}
             loading={isLoading}
-            selectedCharacterId={selectedCharacterId}
+            selectedCharacterId={selectedCharacter?.id ?? null}
             onSelectCharacter={setSelectedCharacterId}
           />
         </Col>

@@ -138,7 +138,13 @@ const CreateCharacterForm: React.FC = () => (
           ]}
           style={{ marginBottom: 8 }}
         >
-          <Input placeholder="例如：lin_yue" />
+          <Input
+            placeholder="例如：lin_yue"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            autoComplete="off"
+          />
         </Form.Item>
       </Col>
     </Row>

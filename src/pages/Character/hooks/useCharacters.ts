@@ -1,45 +1,36 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppNotification } from '@/components/AppNotification';
 import { listCharacter } from '@/api/character';
+import { useProjectStore } from '@/store/ProjectStore.ts';
 import type { CharacterDTO } from '@/types/character';
 
 interface CharactersState {
-  projectId: number | null | undefined;
   characters: CharacterDTO[];
   isLoading: boolean;
 }
 
-export const useCharacters = (projectId: number | null | undefined) => {
+export const useCharacters = () => {
+  const projectId = useProjectStore((state) => state.projectId);
   const notification = useAppNotification();
-  const activeProjectId = useRef<number | null | undefined>(undefined);
-  const latestRequestId = useRef(0);
+  const isActive = useRef(false);
   const [state, setState] = useState<CharactersState>(() => ({
-    projectId,
     characters: [],
     isLoading: projectId != null,
   }));
 
   const load = useCallback((): Promise<void> => {
-    if (projectId == null || activeProjectId.current !== projectId) return Promise.resolve();
-
-    const requestId = ++latestRequestId.current;
-    const isCurrentRequest = () =>
-      activeProjectId.current === projectId && latestRequestId.current === requestId;
+    if (projectId == null || !isActive.current) return Promise.resolve();
 
     return listCharacter(projectId).then(
       (characters) => {
-        if (isCurrentRequest()) {
-          setState({ projectId, characters, isLoading: false });
+        if (isActive.current) {
+          setState({ characters, isLoading: false });
         }
       },
       () => {
-        if (!isCurrentRequest()) return;
+        if (!isActive.current) return;
 
-        setState((previous) => ({
-          projectId,
-          characters: previous.projectId === projectId ? previous.characters : [],
-          isLoading: false,
-        }));
+        setState((previous) => ({ ...previous, isLoading: false }));
         notification.error({
           title: '无法获取角色列表',
           description: '角色列表获取失败，请稍后重试',
@@ -49,32 +40,23 @@ export const useCharacters = (projectId: number | null | undefined) => {
   }, [projectId, notification]);
 
   const refresh = useCallback(async () => {
-    if (projectId == null || activeProjectId.current !== projectId) return;
+    if (projectId == null || !isActive.current) return;
 
-    setState((previous) => ({
-      projectId,
-      characters: previous.projectId === projectId ? previous.characters : [],
-      isLoading: true,
-    }));
+    setState((previous) => ({ ...previous, isLoading: true }));
     await load();
   }, [projectId, load]);
 
   useEffect(() => {
-    activeProjectId.current = projectId;
+    isActive.current = true;
     void load();
 
     return () => {
-      activeProjectId.current = undefined;
-      // Tauri requests cannot be aborted; ignore results from the previous lifecycle.
-      latestRequestId.current += 1;
+      isActive.current = false;
     };
-  }, [projectId, load]);
-
-  const isCurrentProject = state.projectId === projectId;
+  }, [load]);
 
   return {
-    characters: isCurrentProject ? state.characters : [],
-    isLoading: isCurrentProject ? state.isLoading : projectId != null,
+    ...state,
     refresh,
   };
 };
