@@ -56,7 +56,7 @@ const CharacterSpriteContent: React.FC<CharacterSpriteContentProps> = ({ spriteS
         </Flex>
       </Divider>
 
-      <CreateSpriteBtn />
+      <CreateSpriteBtn spriteSet={spriteSet} />
     </Flex>
   ));
 };

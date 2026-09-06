@@ -4,7 +4,6 @@ use crate::entity::character_sprite;
 use crate::error::AppResult;
 use crate::service::character_sprite_service;
 use crate::state::project_state::ProjectState;
-use serde::Deserialize;
 use tauri::State;
 
 #[tauri::command]

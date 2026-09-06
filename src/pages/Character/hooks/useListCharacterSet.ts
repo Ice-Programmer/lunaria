@@ -3,6 +3,7 @@ import { listSpriteSet } from '@/api/character_sprite_set.ts';
 import { useAppNotification } from '@/components/AppNotification';
 import type { SpriteSetDTO } from '@/types/character_sprite.ts';
 import { useProjectStore } from '@/store/ProjectStore.ts';
+import { useCharacterSpriteStore } from '@/pages/Character/components/CharacterContent/store/CharacterSpriteStore.ts';
 
 export const useListCharacterSet = (characterId: number) => {
   const projectId = useProjectStore((state) => state.projectId);
@@ -10,6 +11,7 @@ export const useListCharacterSet = (characterId: number) => {
 
   const [spriteSets, setSpriteSets] = useState<SpriteSetDTO[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const setCharacterSprite = useCharacterSpriteStore((state) => state.setCharacterSprite);
 
   const load = useCallback(async () => {
     if (projectId == null) {
@@ -23,6 +25,7 @@ export const useListCharacterSet = (characterId: number) => {
     try {
       const spriteSets = await listSpriteSet({ characterId });
       setSpriteSets(spriteSets);
+      setCharacterSprite(spriteSets);
     } catch {
       notification.error({
         title: '无法获取立绘组',

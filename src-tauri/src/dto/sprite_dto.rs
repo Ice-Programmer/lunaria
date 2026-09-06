@@ -1,11 +1,12 @@
 use crate::dto::image_input::ImageOutput;
 use crate::entity::{character_sprite, character_sprite_set};
-use std::path::Path;
 use serde::Serialize;
+use std::path::Path;
 
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SpriteSetDTO {
+    pub sprite_set_id: i64,
     pub sprite_set_name: String,
     pub sprite_set_code: String,
     pub sprite_list: Vec<SpriteDTO>,
@@ -17,6 +18,7 @@ impl SpriteSetDTO {
         sprite_list: Vec<SpriteDTO>,
     ) -> Self {
         Self {
+            sprite_set_id: sprite_set.id,
             sprite_set_name: sprite_set.sprite_set_name,
             sprite_set_code: sprite_set.sprite_set_code,
             sprite_list,

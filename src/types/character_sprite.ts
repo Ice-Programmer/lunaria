@@ -13,6 +13,7 @@ export interface ListSpriteSetRequest {
 }
 
 export interface SpriteSetDTO {
+  spriteSetId: number;
   spriteSetName: string;
   spriteSetCode: string;
   spriteList: SpriteDTO[];

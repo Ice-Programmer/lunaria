@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { Button, Col, Flex, Form, Input, Modal, Row, Typography } from 'antd';
+import { Button, Col, Flex, Form, Input, Modal, Row, Select, Typography } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import type { CreateCharacterSpriteRequest } from '@/types/character_sprite.ts';
+import type { CreateCharacterSpriteRequest, SpriteSetDTO } from '@/types/character_sprite.ts';
+import { useCharacterSpriteStore } from '@/pages/Character/components/CharacterContent/store/CharacterSpriteStore.ts';
 
 const { Text, Title } = Typography;
 
-export const CreateSpriteBtn: React.FC = () => {
+interface CreateSpriteBtnProps {
+  spriteSet: SpriteSetDTO;
+}
+
+export const CreateSpriteBtn: React.FC<CreateSpriteBtnProps> = ({ spriteSet }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -27,7 +32,11 @@ export const CreateSpriteBtn: React.FC = () => {
         </Flex>
       </Button>
 
-      <CreateCharacterSpriteModal open={open} onCancel={() => setOpen(false)} />
+      <CreateCharacterSpriteModal
+        open={open}
+        onCancel={() => setOpen(false)}
+        spriteSet={spriteSet}
+      />
     </>
   );
 };
@@ -35,13 +44,19 @@ export const CreateSpriteBtn: React.FC = () => {
 interface CreateSpriteSpriteModelProps {
   open: boolean;
   onCancel: () => void;
+  spriteSet: SpriteSetDTO;
 }
 
-const CreateCharacterSpriteModal: React.FC<CreateSpriteSpriteModelProps> = ({ open, onCancel }) => {
+const CreateCharacterSpriteModal: React.FC<CreateSpriteSpriteModelProps> = ({
+  open,
+  onCancel,
+  spriteSet,
+}: CreateSpriteSpriteModelProps) => {
   const [form] = Form.useForm<CreateCharacterSpriteRequest>();
-
+  const spriteSetList = useCharacterSpriteStore((state) => state.spriteSetList);
   return (
     <Modal
+      destroyOnHidden
       title={
         <Title level={5} style={{ margin: 0 }}>
           新建立绘
@@ -49,40 +64,63 @@ const CreateCharacterSpriteModal: React.FC<CreateSpriteSpriteModelProps> = ({ op
       }
       open={open}
       onCancel={onCancel}
+      afterOpenChange={(visible) => {
+        if (visible) {
+          form.setFieldsValue({ spriteSetId: spriteSet.spriteSetId });
+        }
+      }}
     >
       <Form<CreateCharacterSpriteRequest> form={form} layout="vertical">
         <Row gutter={24}>
-          <Col span={12}>
-            <Form.Item<CreateCharacterSpriteRequest>
-              label="差分名称"
-              name="spriteName"
-              rules={[{ required: true, message: '请输入差分名称' }]}
-              style={{ marginBottom: 8 }}
-            >
-              <Input placeholder="例如：微笑" />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item<CreateCharacterSpriteRequest>
-              label="差分 Key"
-              name="spriteCode"
-              rules={[
-                { required: true, message: '请输入差分 Key' },
-                {
-                  pattern: /^[a-z][a-z0-9_]*$/,
-                  message: '请使用小写字母、数字和下划线，并以字母开头',
-                },
-              ]}
-              style={{ marginBottom: 8 }}
-            >
-              <Input
-                placeholder="例如：smail"
-                autoCapitalize="none"
-                autoCorrect="off"
-                spellCheck={false}
-                autoComplete="off"
-              />
-            </Form.Item>
+          <Col span={10}></Col>
+
+          <Col span={14}>
+            <Flex vertical gap="small">
+              <Form.Item<CreateCharacterSpriteRequest>
+                label="差分名称"
+                name="spriteName"
+                rules={[{ required: true, message: '请输入差分名称' }]}
+                style={{ marginBottom: 8 }}
+              >
+                <Input placeholder="例如：微笑" />
+              </Form.Item>
+              <Form.Item<CreateCharacterSpriteRequest>
+                label="差分 Key"
+                name="spriteCode"
+                rules={[
+                  { required: true, message: '请输入差分 Key' },
+                  {
+                    pattern: /^[a-z][a-z0-9_]*$/,
+                    message: '请使用小写字母、数字和下划线，并以字母开头',
+                  },
+                ]}
+                style={{ marginBottom: 8 }}
+              >
+                <Input
+                  placeholder="例如：smail"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  autoComplete="off"
+                />
+              </Form.Item>
+
+              <Form.Item<CreateCharacterSpriteRequest>
+                label="立绘组"
+                name="spriteSetId"
+                initialValue={spriteSet.spriteSetId}
+                rules={[{ required: true, message: '请选择立绘组' }]}
+              >
+                <Select
+                  options={spriteSetList?.map((spriteSet) => {
+                    return {
+                      label: spriteSet.spriteSetName,
+                      value: spriteSet.spriteSetId,
+                    };
+                  })}
+                />
+              </Form.Item>
+            </Flex>
           </Col>
         </Row>
       </Form>
