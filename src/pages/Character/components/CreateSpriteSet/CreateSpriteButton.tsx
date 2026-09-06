@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Col, Flex, Form, Input, Modal, Row, Typography } from 'antd';
-import type { CreateCharacterSpriteSetInput } from '@/types/character_sprite_set.ts';
+import type { CreateCharacterSpriteSetInput } from '@/types/character_sprite.ts';
 import { FolderOutlined, PlusOutlined } from '@ant-design/icons';
 import { useCreateSpriteSet } from '@/pages/Character/hooks/useCreateSpriteSet.ts';
 import { useRefreshCharacters } from '@/pages/Character/hooks/useRefreshCharacters.ts';

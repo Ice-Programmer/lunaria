@@ -3,7 +3,7 @@ import { Divider, Flex, Spin, Typography } from 'antd';
 import { CustomSegmented } from '@/components/CustomSegmented';
 import { CreateSpriteButton } from '@/pages/Character/components/CreateSpriteSet/CreateSpriteButton.tsx';
 import { useListCharacterSet } from '@/pages/Character/hooks/useListCharacterSet.ts';
-import { SpriteSetDTO } from '@/types/character_sprite_set.ts';
+import { SpriteSetDTO } from '@/types/character_sprite.ts';
 import { CreateSpriteBtn } from '@/pages/Character/components/CharacterContent/CreateSpriteBtn.tsx';
 
 const { Text } = Typography;

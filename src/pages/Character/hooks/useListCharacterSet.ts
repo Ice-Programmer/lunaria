@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { listSpriteSet } from '@/api/character_sprite_set.ts';
 import { useAppNotification } from '@/components/AppNotification';
-import type { SpriteSetDTO } from '@/types/character_sprite_set.ts';
+import type { SpriteSetDTO } from '@/types/character_sprite.ts';
 import { useProjectStore } from '@/store/ProjectStore.ts';
 
 export const useListCharacterSet = (characterId: number) => {

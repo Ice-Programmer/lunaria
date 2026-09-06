@@ -1,7 +1,7 @@
 import { createSpriteSet } from '@/api/character_sprite_set.ts';
 import { useAppNotification } from '@/components/AppNotification';
 import { getCommandErrorMessage } from '@/i18n/commandErrors.ts';
-import type { CreateCharacterSpriteSetInput } from '@/types/character_sprite_set.ts';
+import type { CreateCharacterSpriteSetInput } from '@/types/character_sprite.ts';
 import { useProjectStore } from '@/store/ProjectStore.ts';
 
 interface UseCreateSpriteSetOptions {

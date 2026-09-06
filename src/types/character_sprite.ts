@@ -1,4 +1,4 @@
-import { ImageOutput } from '@/types/image.ts';
+import { ImageInput, ImageOutput } from '@/types/image.ts';
 
 export interface CreateCharacterSpriteSetRequest {
   characterId: number;
@@ -24,4 +24,11 @@ export interface SpriteDTO {
   imageOutput: ImageOutput;
   isDefault: number;
   sortOrder: number;
+}
+
+export interface CreateCharacterSpriteRequest {
+  spriteSetId: number;
+  spriteName: string;
+  spriteCode: string;
+  image: ImageInput;
 }
