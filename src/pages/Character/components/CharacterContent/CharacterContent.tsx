@@ -12,7 +12,7 @@ const createTabItems = (characterId: number): TabsProps['items'] => [
   {
     key: '1',
     label: '立绘与差分',
-    children: <CharacterSpriteTab characterId={characterId} />,
+    children: <CharacterSpriteTab key={characterId} characterId={characterId} />,
   },
   {
     key: '2',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Flex, Spin } from 'antd';
 import { CustomSegmented } from '@/components/CustomSegmented';
 import { CreateSpriteButton } from '@/pages/Character/components/CreateSpriteSet/CreateSpriteButton.tsx';
@@ -10,6 +10,7 @@ interface CharacterSpriteTabProps {
 
 export const CharacterSpriteTab: React.FC<CharacterSpriteTabProps> = ({ characterId }) => {
   const { spriteSets, isLoading } = useListCharacterSet(characterId);
+  const [selectedSpriteSet, setSelectedSpriteSet] = useState('全部');
 
   const spriteSetTab = ['全部', ...spriteSets.map((spriteSet) => spriteSet.spriteSetName)];
 
@@ -17,7 +18,12 @@ export const CharacterSpriteTab: React.FC<CharacterSpriteTabProps> = ({ characte
     <Spin spinning={isLoading}>
       <Flex vertical align="start">
         <Flex align="center" justify="space-between" style={{ width: '100%' }}>
-          <CustomSegmented width="70%" options={spriteSetTab} />
+          <CustomSegmented
+            width="70%"
+            options={spriteSetTab}
+            value={selectedSpriteSet}
+            onChange={setSelectedSpriteSet}
+          />
 
           <CreateSpriteButton characterId={characterId} />
         </Flex>

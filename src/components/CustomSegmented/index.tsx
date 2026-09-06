@@ -6,20 +6,23 @@ import styles from './CustomSegmented.module.css';
 interface CustomSegmentedProps {
   options: string[];
   width?: React.CSSProperties['width'];
+  defaultValue?: string;
+  value?: string;
+  onChange?: (value: string) => void;
 }
 
 export const CustomSegmented: React.FC<CustomSegmentedProps> = ({
   options,
   width,
-}: CustomSegmentedProps) => {
+  defaultValue,
+  value,
+  onChange,
+}) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const shouldCenterSelectedRef = useRef(false);
-  const [selectedValue, setSelectedValue] = useState<string>(options[0] ?? '');
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const selectedValue = value ?? internalValue ?? options[0];
 
   useLayoutEffect(() => {
-    if (!shouldCenterSelectedRef.current) return;
-
-    shouldCenterSelectedRef.current = false;
     const scrollContainer = scrollContainerRef.current;
     const selectedItem = scrollContainer?.querySelector<HTMLElement>(
       '.ant-segmented-item-selected'
@@ -34,11 +37,13 @@ export const CustomSegmented: React.FC<CustomSegmentedProps> = ({
       left: centeredScrollLeft,
       behavior: 'smooth',
     });
-  }, [selectedValue]);
+  }, [options, selectedValue]);
 
-  const handleChange = (value: string | number) => {
-    shouldCenterSelectedRef.current = true;
-    setSelectedValue(String(value));
+  const handleChange = (nextValue: string) => {
+    if (value === undefined) {
+      setInternalValue(nextValue);
+    }
+    onChange?.(nextValue);
   };
 
   return (
