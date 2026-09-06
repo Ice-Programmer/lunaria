@@ -15,7 +15,7 @@ const { Text } = Typography;
 export const SubmitProjectFooter: React.FC = () => {
   const fullProjectPath = useFullProjectPath();
   const projectName = useCreateProjectStore((state) => state.projectName);
-  const { isCreating, submitProject } = useCreateProject();
+  const { isCreating, isOpeningProject, submitProject } = useCreateProject();
   const notification = useAppNotification();
   const { t } = useTranslation();
   const normalizedProjectName = projectName.trim();
@@ -57,7 +57,7 @@ export const SubmitProjectFooter: React.FC = () => {
           </Space>
           <Button
             type="primary"
-            disabled={!canCreateProject}
+            disabled={!canCreateProject || isOpeningProject}
             loading={isCreating}
             onClick={() => void handleCreateProject()}
           >

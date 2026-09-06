@@ -5,6 +5,7 @@ import { useAppNotification } from '@/components/AppNotification';
 import { Button, Space, Typography } from 'antd';
 import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons';
 import emptyProjectStoryBranches from '@/assets/home/empty-project-story-branches.png';
+import { useProjectStore } from '@/store/ProjectStore.ts';
 
 const { Title, Text } = Typography;
 
@@ -12,6 +13,7 @@ export const EmptyProjectCardContent: React.FC = () => {
   const { goCreateProject } = useAppNavigate();
   const { t } = useTranslation();
   const notification = useAppNotification();
+  const isOpeningProject = useProjectStore((state) => state.isOpeningProject);
 
   return (
     <>
@@ -23,7 +25,12 @@ export const EmptyProjectCardContent: React.FC = () => {
         </Space>
 
         <Space size={12} wrap>
-          <Button type="primary" icon={<PlusOutlined />} onClick={goCreateProject}>
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            disabled={isOpeningProject}
+            onClick={goCreateProject}
+          >
             {t('home.overview.create')}
           </Button>
 

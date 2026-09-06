@@ -1,13 +1,24 @@
+use crate::state::project_state::ProjectState;
 use crate::{db::Db, entity::project, error::AppResult, service::project_service};
 use tauri::State;
 
 #[tauri::command]
 pub async fn create_project(
     db: State<'_, Db>,
+    project_state: State<'_, ProjectState>,
     project_name: String,
     project_path: String,
 ) -> AppResult<project::Model> {
-    project_service::create_project(&db, project_name, project_path).await
+    project_service::create_project(&db, &project_state, project_name, project_path).await
+}
+
+#[tauri::command]
+pub async fn open_project(
+    db: State<'_, Db>,
+    project_state: State<'_, ProjectState>,
+    project_path: String,
+) -> AppResult<project::Model> {
+    project_service::open_project(&db, &project_state, project_path).await
 }
 
 #[tauri::command]

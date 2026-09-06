@@ -4,8 +4,10 @@ interface ProjectStore {
   projectId?: number;
   projectName?: string;
   projectPath?: string;
+  isOpeningProject: boolean;
 
   setProject: (id: number, name: string, path: string) => void;
+  setIsOpeningProject: (isOpening: boolean) => void;
 
   clearProject: () => void;
 
@@ -16,6 +18,9 @@ export const useProjectStore = create<ProjectStore>((set, get) => ({
   projectId: undefined,
   projectName: undefined,
   projectPath: undefined,
+  isOpeningProject: false,
+
+  setIsOpeningProject: (isOpeningProject) => set({ isOpeningProject }),
 
   setProject: (id, name, path) => {
     set({

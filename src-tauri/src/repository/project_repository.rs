@@ -26,13 +26,6 @@ where
     .await
 }
 
-pub async fn find_by_id<C>(db: &C, project_id: i64) -> Result<Option<project::Model>, DbErr>
-where
-    C: ConnectionTrait,
-{
-    project::Entity::find_by_id(project_id).one(db).await
-}
-
 pub async fn find_by_path<C>(db: &C, project_path: &str) -> Result<Option<project::Model>, DbErr>
 where
     C: ConnectionTrait,

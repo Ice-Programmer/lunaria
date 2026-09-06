@@ -2,13 +2,12 @@ import type { ImageInput } from '@/types/image.ts';
 
 export interface Character {
   id: number;
-  projectId: number;
-  characterCode: string;
+  character_code: string;
   name: string;
-  description?: string;
-  avatarPath?: string;
-  createdAt: number;
-  UpdatedAt: number;
+  tags: string[];
+  avatar_path: string | null;
+  created_at: number;
+  updated_at: number;
 }
 
 export interface CreateCharacterRequest {

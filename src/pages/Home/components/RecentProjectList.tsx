@@ -2,6 +2,9 @@ import React from 'react';
 import { Button, Card, Col, Flex, Row, Typography } from 'antd';
 import { useFetchRecentProjects } from '@/pages/Home/hooks/useFetchProject.ts';
 import { ProjectIcon } from '@/components/ProjectIcon.tsx';
+import { useProjectStore } from '@/store/ProjectStore.ts';
+import { useOpenProject } from '@/pages/Home/hooks/useOpenProject.ts';
+import type { Project } from '@/types/project.ts';
 
 const { Title, Text } = Typography;
 
@@ -27,7 +30,9 @@ export const RecentProjectList: React.FC = () => {
 
 const RecentProjectContent: React.FC = () => {
   const { projects, loading } = useFetchRecentProjects(7);
-  const recentProjects = projects.slice(1);
+  const projectId = useProjectStore((state) => state.projectId);
+  const { isOpeningProject, openProjectPath } = useOpenProject();
+  const recentProjects = projects.filter((project) => project.id !== projectId);
 
   if (loading) {
     return <>loading...</>;
@@ -39,11 +44,12 @@ const RecentProjectContent: React.FC = () => {
 
   return (
     <Row gutter={[16, 16]} style={{ width: '100%' }}>
-      {recentProjects.slice(0, 8).map((_, index) => (
-        <Col span={12} key={index}>
+      {recentProjects.slice(0, 8).map((project) => (
+        <Col span={12} key={project.id}>
           <RecentProjectItem
-            projectName={recentProjects[index].projectName}
-            lastOpenedAt={recentProjects[index].lastOpenedAt}
+            project={project}
+            disabled={isOpeningProject}
+            onOpen={() => void openProjectPath(project.projectPath)}
           />
         </Col>
       ))}
@@ -52,23 +58,32 @@ const RecentProjectContent: React.FC = () => {
 };
 
 interface RecentProjectItemProps {
-  projectName: string;
-  lastOpenedAt: number;
+  project: Project;
+  disabled: boolean;
+  onOpen: () => void;
 }
 
-// todo 补充
-const RecentProjectItem: React.FC<RecentProjectItemProps> = ({ projectName, lastOpenedAt }) => {
+const RecentProjectItem: React.FC<RecentProjectItemProps> = ({ project, disabled, onOpen }) => {
   return (
-    <Flex align="center" justify="space-between">
-      <Flex gap={15}>
-        <ProjectIcon text={projectName.charAt(0)} />
-        <Flex vertical align="start">
-          <Text>{projectName}</Text>
-          <Text type="secondary">xxxxxx</Text>
+    <Button
+      type="text"
+      disabled={disabled}
+      onClick={onOpen}
+      style={{ width: '100%', height: 'auto', padding: 0 }}
+    >
+      <Flex align="center" justify="space-between" style={{ width: '100%', minWidth: 0 }}>
+        <Flex gap={15} style={{ minWidth: 0 }}>
+          <ProjectIcon text={project.projectName.charAt(0)} />
+          <Flex vertical align="start" style={{ minWidth: 0 }}>
+            <Text>{project.projectName}</Text>
+            <Text type="secondary" ellipsis={{ tooltip: project.projectPath }}>
+              {project.projectPath}
+            </Text>
+          </Flex>
         </Flex>
+        <Text type="secondary">{formatLastOpenedAt(project.lastOpenedAt)}</Text>
       </Flex>
-      <Text type="secondary">{formatLastOpenedAt(lastOpenedAt)}</Text>
-    </Flex>
+    </Button>
   );
 };
 

@@ -10,6 +10,9 @@ export const createProject = (request: CreateProjectRequest): Promise<Project> =
 export const fetchLatestOpenedProject = (): Promise<Project | null> =>
   invokeCommand<Project | null>('fetch_latest_opened_project');
 
+export const openProject = (projectPath: string): Promise<Project> =>
+  invokeCommand<Project>('open_project', { projectPath });
+
 export const queryRecentOpenedProject = (
   request: QueryRecentOpenedProjectRequest
 ): Promise<Project[]> =>

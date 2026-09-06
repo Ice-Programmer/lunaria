@@ -1,55 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchLatestOpenedProject, queryRecentOpenedProject } from '@/api/project.ts';
+import { queryRecentOpenedProject } from '@/api/project.ts';
 import { useAppNotification } from '@/components/AppNotification';
 import { getCommandErrorMessage } from '@/i18n/commandErrors.ts';
 import { useProjectStore } from '@/store/ProjectStore.ts';
-import { useTranslation } from 'react-i18next';
 import { Project } from '@/types/project.ts';
+import { useOpenProject } from '@/pages/Home/hooks/useOpenProject.ts';
 
 export const useFetchProject = () => {
-  const projectId = useProjectStore((state) => state.projectId);
-  const setProject = useProjectStore((state) => state.setProject);
-  const notification = useAppNotification();
-  const { t } = useTranslation();
+  const { restoreLatestProject } = useOpenProject();
 
   useEffect(() => {
-    if (projectId != null) {
-      return;
-    }
-
-    let cancelled = false;
-
-    const fetchProject = async () => {
-      try {
-        const project = await fetchLatestOpenedProject();
-
-        if (!cancelled && project != null) {
-          setProject(project.id, project.projectName, project.projectPath);
-        }
-      } catch (error) {
-        if (!cancelled) {
-          notification.error({
-            title: t('home.notifications.loadLatestProjectErrorTitle'),
-            description: getCommandErrorMessage(error),
-          });
-        }
-      }
-    };
-
-    void fetchProject();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [notification, projectId, setProject, t]);
+    void restoreLatestProject();
+  }, [restoreLatestProject]);
 };
 
 export const useFetchRecentProjects = (lastNum: number = 9) => {
+  const projectId = useProjectStore((state) => state.projectId);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
 
   const notification = useAppNotification();
-  const { t } = useTranslation();
 
   const fetchProjects = useCallback(async () => {
     setLoading(true);
@@ -66,11 +36,11 @@ export const useFetchRecentProjects = (lastNum: number = 9) => {
     } finally {
       setLoading(false);
     }
-  }, [lastNum, notification, t]);
+  }, [lastNum, notification]);
 
   useEffect(() => {
     void fetchProjects();
-  }, [fetchProjects]);
+  }, [fetchProjects, projectId]);
 
   return {
     projects,

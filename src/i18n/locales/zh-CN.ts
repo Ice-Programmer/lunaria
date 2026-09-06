@@ -14,7 +14,11 @@ export const zhCN = {
       fileSystemOperationFailed: '本地文件操作失败，请检查文件权限',
       systemTimeUnavailable: '无法读取系统时间，请检查系统时间设置',
       tooManyTags: '角色标签最多只能添加 {{tag_num}} 个',
-      projectNotFound: '找不到当前项目，请返回首页重新打开项目',
+      projectNotOpen: '当前项目尚未打开或已切换，请返回首页重新打开',
+      projectDatabaseNotFound: '该文件夹中没有项目数据库，请选择完整的 Lunaria 项目文件夹',
+      invalidProjectDatabase: '项目数据库无效或已损坏，无法打开',
+      projectDatabaseAlreadyExists: '该文件夹已包含项目数据库，请使用“打开项目”',
+      projectDatabaseVersionUnsupported: '此项目的数据库版本暂不支持，请检查应用版本',
       characterCodeAlreadyRegistered: '角色 Code “{{characterCode}}” 已经存在',
       invalidAvatarData: '头像文件无效，请重新选择 PNG 或 JPG 图片',
       avatarTooLarge: '头像文件不能超过 {{maxSizeMb}} MB',
@@ -37,6 +41,11 @@ export const zhCN = {
     home: {
       notifications: {
         loadLatestProjectErrorTitle: '无法加载最近项目',
+        openProjectErrorTitle: '无法打开项目',
+      },
+      openProject: {
+        button: '打开项目',
+        selectFolderDialog: '选择 Lunaria 项目文件夹',
       },
       header: {
         title: '项目首页',

@@ -29,8 +29,17 @@ pub enum AppError {
         #[source]
         source: std::io::Error,
     },
-    #[error("project not found, project_id: {project_id}")]
-    ProjectNotFound { project_id: i64 },
+
+    #[error("no matching project is open")]
+    ProjectNotOpen,
+    #[error("project database not found")]
+    ProjectDatabaseNotFound,
+    #[error("invalid Lunaria project database")]
+    InvalidProjectDatabase,
+    #[error("project database already exists")]
+    ProjectDatabaseAlreadyExists,
+    #[error("unsupported project database schema version")]
+    ProjectDatabaseVersionUnsupported,
 
     // character error
     #[error("character code already registered: {character_code}")]
@@ -73,10 +82,13 @@ impl Serialize for AppError {
                 "PROJECT_DIRECTORY_CREATION_FAILED",
                 Some(json!({ "projectPath": project_path })),
             ),
-            Self::ProjectNotFound { project_id, .. } => (
-                "PROJECT_NOT_FOUND",
-                Some(json!({ "projectId": project_id })),
-            ),
+            Self::ProjectNotOpen => ("PROJECT_NOT_OPEN", None),
+            Self::ProjectDatabaseNotFound => ("PROJECT_DATABASE_NOT_FOUND", None),
+            Self::InvalidProjectDatabase => ("INVALID_PROJECT_DATABASE", None),
+            Self::ProjectDatabaseAlreadyExists => ("PROJECT_DATABASE_ALREADY_EXISTS", None),
+            Self::ProjectDatabaseVersionUnsupported => {
+                ("PROJECT_DATABASE_VERSION_UNSUPPORTED", None)
+            }
             Self::CharacterCodeAlreadyRegistered { character_code, .. } => (
                 "CHARACTER_CODE_ALREADY_REGISTERED",
                 Some(json!({ "characterCode": character_code })),

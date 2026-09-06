@@ -20,13 +20,3 @@ pub struct ImageOutput {
     pub width: i32,
     pub height: i32,
 }
-
-impl ImageOutput {
-    pub fn new(image_path: String, width: i32, height: i32) -> Self {
-        Self {
-            image_path,
-            width,
-            height,
-        }
-    }
-}

@@ -1,21 +1,22 @@
-use crate::db::Db;
 use crate::domain::avatar_image::AvatarImage;
 use crate::dto::character_dto::CharacterDTO;
 use crate::dto::image_input::ImageInput;
 use crate::entity::character;
 use crate::error::AppResult;
 use crate::service::character_service;
+use crate::state::project_state::ProjectState;
 use tauri::{AppHandle, Manager, State};
 
 #[tauri::command]
 pub async fn create_character(
-    db: State<'_, Db>,
+    project_state: State<'_, ProjectState>,
     project_id: i64,
     character_name: &str,
     character_code: &str,
     avatar: Option<ImageInput>,
     tags: Vec<String>,
 ) -> AppResult<character::Model> {
+    let project = project_state.project(project_id).await?;
     let avatar = avatar
         .map(|input| {
             let (bytes, mime_type) = input.into_parts();
@@ -24,11 +25,11 @@ pub async fn create_character(
         .transpose()?;
 
     character_service::create_character(
-        &db,
+        &project.db,
         character_name,
         character_code,
         tags,
-        project_id,
+        &project.info.project_path,
         avatar,
     )
     .await
@@ -37,10 +38,12 @@ pub async fn create_character(
 #[tauri::command]
 pub async fn list_character(
     app: AppHandle,
-    db: State<'_, Db>,
+    project_state: State<'_, ProjectState>,
     project_id: i64,
 ) -> AppResult<Vec<CharacterDTO>> {
-    let characters = character_service::list_character(&db, project_id).await?;
+    let project = project_state.project(project_id).await?;
+    let characters =
+        character_service::list_character(&project.db, &project.info.project_path).await?;
     let asset_scope = app.asset_protocol_scope();
 
     for character in &characters {

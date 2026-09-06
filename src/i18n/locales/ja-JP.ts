@@ -15,7 +15,15 @@ export const jaJP = {
       fileSystemOperationFailed: 'ローカルファイルの操作に失敗しました。権限を確認してください',
       systemTimeUnavailable: 'システム時刻を取得できません。設定を確認してください',
       tooManyTags: 'キャラクタータグは最大 {{tag_num}} 個までです',
-      projectNotFound: '現在のプロジェクトが見つかりません。ホームから開き直してください',
+      projectNotOpen:
+        'プロジェクトが開かれていないか切り替わりました。ホームから開き直してください',
+      projectDatabaseNotFound:
+        'データベースが見つかりません。Lunaria のプロジェクトフォルダー全体を選択してください',
+      invalidProjectDatabase: 'プロジェクトのデータベースが無効または破損しているため開けません',
+      projectDatabaseAlreadyExists:
+        'このフォルダーにはデータベースがあります。「プロジェクトを開く」を使用してください',
+      projectDatabaseVersionUnsupported:
+        'このデータベースのバージョンには対応していません。アプリのバージョンを確認してください',
       characterCodeAlreadyRegistered: 'キャラクターコード「{{characterCode}}」は既に存在します',
       invalidAvatarData: 'アバター画像が無効です。PNG または JPG を選択してください',
       avatarTooLarge: 'アバター画像は {{maxSizeMb}} MB 以下にしてください',
@@ -38,6 +46,11 @@ export const jaJP = {
     home: {
       notifications: {
         loadLatestProjectErrorTitle: '最近のプロジェクトを読み込めません',
+        openProjectErrorTitle: 'プロジェクトを開けません',
+      },
+      openProject: {
+        button: 'プロジェクトを開く',
+        selectFolderDialog: 'Lunaria のプロジェクトフォルダーを選択',
       },
       header: {
         title: 'プロジェクトホーム',

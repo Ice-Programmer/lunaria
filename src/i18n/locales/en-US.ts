@@ -14,7 +14,14 @@ export const enUS = {
       fileSystemOperationFailed: 'The local file operation failed. Check the file permissions',
       systemTimeUnavailable: 'Unable to read the system time. Check your system settings',
       tooManyTags: 'A character can have at most {{tag_num}} tags',
-      projectNotFound: 'The current project could not be found. Reopen it from Home',
+      projectNotOpen: 'This project is not open or has changed. Reopen it from Home',
+      projectDatabaseNotFound:
+        'No project database was found. Select a complete Lunaria project folder',
+      invalidProjectDatabase: 'The project database is invalid or damaged and cannot be opened',
+      projectDatabaseAlreadyExists:
+        'This folder already contains a project database. Use Open Project',
+      projectDatabaseVersionUnsupported:
+        'This project database version is not supported. Check your app version',
       characterCodeAlreadyRegistered: 'Character code “{{characterCode}}” already exists',
       invalidAvatarData: 'The avatar is invalid. Select a PNG or JPG image',
       avatarTooLarge: 'The avatar must be smaller than {{maxSizeMb}} MB',
@@ -37,6 +44,11 @@ export const enUS = {
     home: {
       notifications: {
         loadLatestProjectErrorTitle: 'Failed to load the recent project',
+        openProjectErrorTitle: 'Failed to open project',
+      },
+      openProject: {
+        button: 'Open Project',
+        selectFolderDialog: 'Select a Lunaria project folder',
       },
       header: {
         title: 'Project Home',
