@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Col, Divider, Flex, Form, Input, Modal, Row, Select, Typography } from 'antd';
 import { TeamOutlined } from '@ant-design/icons';
 import type { CreateCharacterInput, CreateCharacterRequest } from '@/types/character.ts';
-import type { ImageInput } from '@/types/image.ts';
+import { toImageInput } from '@/types/image.ts';
 import { CharacterUploader } from '@/pages/Character/components/CreateCharacter/CharacterUploader.tsx';
 
 const { Title, Text } = Typography;
@@ -17,19 +17,6 @@ interface CreateCharacterModalProps {
   onCreate: (input: CreateCharacterInput) => void | Promise<void>;
   onCancel: () => void;
 }
-
-const toAvatarInput = async (file?: File): Promise<ImageInput | undefined> => {
-  if (!file) return undefined;
-
-  if (file.type !== 'image/png' && file.type !== 'image/jpeg') {
-    throw new Error(`Unsupported avatar type: ${file.type}`);
-  }
-
-  return {
-    bytes: Array.from(new Uint8Array(await file.arrayBuffer())),
-    mimeType: file.type,
-  };
-};
 
 export const CreateCharacterModal: React.FC<CreateCharacterModalProps> = ({
   open,
@@ -47,10 +34,8 @@ export const CreateCharacterModal: React.FC<CreateCharacterModalProps> = ({
       await onCreate({
         ...values,
         tags: values.tags ?? [],
-        avatar: await toAvatarInput(avatarFile),
+        avatar: await toImageInput(avatarFile),
       });
-    } catch {
-      // The caller displays the command error; keep the modal open for correction and retry.
     } finally {
       setSubmitting(false);
     }

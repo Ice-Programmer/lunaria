@@ -1,16 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Flex, Typography, Upload } from 'antd';
 import type { UploadProps } from 'antd';
-import { TeamOutlined } from '@ant-design/icons';
+import { Upload } from 'antd';
 import ImgCrop from 'antd-img-crop';
-
-const { Text } = Typography;
 
 interface ImageCropUploaderProps {
   onChange?: (file: File) => void;
+  content: React.ReactNode;
+  aspectRatio?: number;
+  enableCrop?: boolean;
 }
 
-export const ImageCropUploader: React.FC<ImageCropUploaderProps> = ({ onChange }) => {
+export const ImageCropUploader: React.FC<ImageCropUploaderProps> = ({
+  onChange,
+  content,
+  aspectRatio = 1,
+  enableCrop = true,
+}) => {
   const previewUrlRef = useRef<string | undefined>(undefined);
   const [previewUrl, setPreviewUrl] = useState<string>();
 
@@ -32,44 +37,47 @@ export const ImageCropUploader: React.FC<ImageCropUploaderProps> = ({ onChange }
     return false;
   };
 
+  const uploader = (
+    <Upload
+      style={{
+        width: '100%',
+        height: 'auto',
+        aspectRatio: aspectRatio,
+        backgroundColor: 'white',
+      }}
+      listType="picture-card"
+      accept=".png,.jpg,.jpeg"
+      showUploadList={false}
+      beforeUpload={handleBeforeUpload}
+    >
+      {previewUrl ? (
+        <img
+          src={previewUrl}
+          alt="avatar"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      ) : (
+        content
+      )}
+    </Upload>
+  );
+
+  if (!enableCrop) {
+    return uploader;
+  }
+
   return (
     <ImgCrop
-      aspect={1}
+      aspect={aspectRatio}
       cropShape="rect"
       showGrid
-      zoomSlider={false}
+      zoomSlider={true}
       rotationSlider={false}
       modalTitle="裁剪头像"
       modalOk="确认裁剪"
       modalCancel="取消"
     >
-      <Upload
-        style={{ width: '100%', height: 'auto', aspectRatio: '1 / 1', backgroundColor: 'white' }}
-        listType="picture-card"
-        accept=".png,.jpg,.jpeg"
-        showUploadList={false}
-        beforeUpload={handleBeforeUpload}
-      >
-        {previewUrl ? (
-          <img
-            src={previewUrl}
-            alt="avatar"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        ) : (
-          <Flex vertical align="center" gap={8}>
-            <TeamOutlined style={{ fontSize: 30 }} />
-
-            <Text strong style={{ fontSize: 12 }}>
-              添加头像
-            </Text>
-
-            <Text type="secondary" style={{ fontSize: 9 }}>
-              PNG/JPG 建议 512x512
-            </Text>
-          </Flex>
-        )}
-      </Upload>
+      {uploader}
     </ImgCrop>
   );
 };

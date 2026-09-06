@@ -31,5 +31,5 @@ export interface CreateCharacterSpriteRequest {
   spriteSetId: number;
   spriteName: string;
   spriteCode: string;
-  image: ImageInput;
+  image?: ImageInput;
 }
