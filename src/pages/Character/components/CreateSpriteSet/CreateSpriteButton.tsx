@@ -66,6 +66,7 @@ const CreateSpriteModal: React.FC<CreateSpriteModalProps> = ({ open, onCreate, o
     <Modal
       title={<ModalHeader />}
       destroyOnHidden
+      centered
       okText="创建立绘"
       open={open}
       cancelText="取消"

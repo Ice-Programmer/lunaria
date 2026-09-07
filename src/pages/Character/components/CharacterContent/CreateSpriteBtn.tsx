@@ -94,6 +94,7 @@ const CreateCharacterSpriteModal: React.FC<CreateSpriteSpriteModelProps> = ({
       }
       afterClose={reset}
       open={open}
+      centered
       onCancel={onCancel}
       okText='创建差分'
       confirmLoading={submitting}

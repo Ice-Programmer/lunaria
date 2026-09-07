@@ -52,6 +52,7 @@ export const CreateCharacterModal: React.FC<CreateCharacterModalProps> = ({
       title={<ModalHeader />}
       open={open}
       okText="创建角色"
+      centered
       cancelText="取消"
       confirmLoading={submitting}
       destroyOnHidden
